@@ -1,0 +1,16 @@
+# See https://atom.io/docs/latest/creating-a-package#menus for more details
+'context-menu':
+  '.overlayer':
+      'Enable sync-settings': 'sync-settings:toggle'
+
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'sync-settings'
+      'submenu': [
+        { 'label': 'Toggle', 'command': 'sync-settings:toggle' }
+      ]
+    ]
+  }
+]

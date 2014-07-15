@@ -1,0 +1,14 @@
+{
+  "name": "sync-settings",
+  "main": "./lib/sync-settings",
+  "version": "0.0.0",
+  "description": "A short description of your package",
+  "activationEvents": ["sync-settings:toggle"],
+  "repository": "https://github.com/atom/sync-settings",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+  }
+}
