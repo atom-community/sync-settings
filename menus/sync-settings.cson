@@ -1,7 +1,7 @@
 # See https://atom.io/docs/latest/creating-a-package#menus for more details
 'context-menu':
   '.overlayer':
-      'Enable sync-settings': 'sync-settings:toggle'
+      'Enable sync-settings': 'sync-settings:gist_it'
 
 'menu': [
   {
@@ -9,7 +9,7 @@
     'submenu': [
       'label': 'sync-settings'
       'submenu': [
-        { 'label': 'Toggle', 'command': 'sync-settings:toggle' }
+        { 'label': 'Gist It!', 'command': 'sync-settings:gist_it' }
       ]
     ]
   }
