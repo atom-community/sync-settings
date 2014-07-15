@@ -12,6 +12,9 @@ Synchronize all your settings and installed packages across [Atom](http://atom.i
 
 `$ apm install sync-settings` or using the Preferences pane.
 
+## Developer resources
+
+* [Trello](https://trello.com/b/tIgpeWr3/atom-sync)
 
 ## Contributing
 
