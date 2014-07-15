@@ -1,5 +1,7 @@
 # Sync Settings for Atom
 
+[![Build Status](https://travis-ci.org/Hackafe/atom-sync-settings.svg?branch=master)](https://travis-ci.org/Hackafe/atom-sync-settings)
+
 Synchronize all your settings and installed packages across [Atom](http://atom.io) instances.
 
 ## Usage
