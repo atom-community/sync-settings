@@ -3,7 +3,7 @@
   "main": "./lib/sync-settings",
   "version": "0.0.0",
   "description": "A short description of your package",
-  "activationEvents": ["sync-settings:toggle"],
+  "activationEvents": ["sync-settings:gist_it"],
   "repository": "https://github.com/atom/sync-settings",
   "license": "MIT",
   "engines": {

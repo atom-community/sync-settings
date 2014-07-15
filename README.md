@@ -6,7 +6,11 @@ Synchronize all your settings and installed packages across [Atom](http://atom.i
 
 ## Usage
 
-**TBA**
+- Create a github token [here](https://github.com/settings/tokens/new) and must include the
+  `gist` scope.
+
+- Paste it in: `~/.atom/sync-settings-gist.token`. You can then add this file to a `.gitignore` file to
+keep it out of public repos.
 
 ## Installation
 

@@ -11,3 +11,6 @@ module.exports =
 
   serialize: ->
     syncSettingsViewState: @syncSettingsView.serialize()
+
+  configDefaults:
+    userToken: ""
