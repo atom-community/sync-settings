@@ -50,5 +50,5 @@ class Gist
   toParams: (data) ->
     description: @description
     files:
-      "file2.txt":
+      "settings.json":
         content: JSON.stringify data
