@@ -1,15 +1,11 @@
 # See https://atom.io/docs/latest/creating-a-package#menus for more details
-'context-menu':
-  '.overlayer':
-      'Enable sync-settings': 'sync-settings:gist_it'
-
 'menu': [
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'sync-settings'
+      'label': 'Syncronize Settings'
       'submenu': [
-        { 'label': 'Gist It!', 'command': 'sync-settings:gist_it' }
+        { 'label': 'Synchronize', 'command': 'sync-settings:sync' }
       ]
     ]
   }

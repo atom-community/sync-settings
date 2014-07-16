@@ -1,16 +1,26 @@
-SyncSettingsView = require './sync-settings-view'
+Gist = require './gist'
+
 
 module.exports =
-  syncSettingsView: null
+  configDefaults:
+    createPublicGist: false
+    personalAccessToken: "<Your personal GitHub access token>"
 
-  activate: (state) ->
-    @syncSettingsView = new SyncSettingsView(state.syncSettingsViewState)
+  activate: ->
+    @askForAuthToken unless @hasValidAuthToken
+    @startWatchingForChanges if @hasValidAuthToken
+    atom.workspaceView.command "sync-settings:sync", => @sync()
 
   deactivate: ->
-    @syncSettingsView.destroy()
+    @stopWatchingForChanges
 
   serialize: ->
-    syncSettingsViewState: @syncSettingsView.serialize()
 
-  configDefaults:
-    userToken: ""
+  sync: ->
+    console.log 'Uploading test gist'
+    gist = new Gist()
+    gist.description = 'test description'
+
+    gist.post (response) =>
+      console.log 'creating test gist'
+      'Test gist'
