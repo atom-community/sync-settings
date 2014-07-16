@@ -1,10 +1,11 @@
 Gist = require './gist'
-
+SettingsHelper = require './settings-helper'
 
 module.exports =
   configDefaults:
     createPublicGist: false
     personalAccessToken: "<Your personal GitHub access token>"
+  storage: null
 
   activate: ->
     @askForAuthToken unless @hasValidAuthToken
@@ -18,9 +19,16 @@ module.exports =
 
   sync: ->
     console.log 'Uploading test gist'
-    gist = new Gist()
-    gist.description = 'test description'
 
-    gist.post (response) =>
-      console.log 'creating test gist'
-      'Test gist'
+    settingsHelper = new SettingsHelper()
+    data =
+      settings: settingsHelper.getSettings()
+      packages: settingsHelper.getActivePackages()
+
+    console.log 'uploading settings', data
+
+    gist = new Gist()
+    gist.description = 'uploaded settings'
+
+    gist.post data, (response) =>
+      console.log 'created gist', response
