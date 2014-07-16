@@ -14,7 +14,7 @@ class Gist
 
   getToken: ->
     if not @token?
-      config = atom.config.get("sync-settings-gist.userToken")
+      config = atom.config.get("sync-settings.personalAccessToken")
       @token = if config? and config.toString().length > 0
                  config
                else if fs.existsSync(@getSecretTokenPath())
