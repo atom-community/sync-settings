@@ -6,7 +6,6 @@ module.exports =
 class Gist
 
   constructor: ->
-      @files = {"file2.txt":{"content":"Demo"}}
       @description = ""
 
   getSecretTokenPath: ->
@@ -21,7 +20,7 @@ class Gist
                  fs.readFileSync(@getSecretTokenPath())
     @token
 
-  post: (callback) ->
+  post: (data, callback) ->
     options =
       hostname: 'api.github.com'
       path: '/gists'
@@ -44,10 +43,12 @@ class Gist
         console.log response
         callback(response)
 
-    request.write(JSON.stringify(@toParams()))
+    request.write(JSON.stringify(@toParams(data)))
 
     request.end()
 
-  toParams: ->
+  toParams: (data) ->
     description: @description
-    files: @files
+    files:
+      "file2.txt":
+        content: JSON.stringify data
