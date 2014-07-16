@@ -4,6 +4,9 @@ Gist = require './gist'
 
 module.exports =
 class SyncSettingsView extends View
+  @content: ->
+    @div class: 'sync-settings overlay from-top', =>
+      @div "The SyncSettings package is Alive! It's ALIVE!", class: "message"
 
   initialize: (serializeState) ->
     @gist = null
