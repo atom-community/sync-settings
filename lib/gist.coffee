@@ -1,12 +1,16 @@
 fs = require 'fs'
 https = require 'https'
 path = require 'path'
+url = require 'url'
 
 module.exports =
 class Gist
 
-  constructor: ->
-      @description = ""
+  constructor: (@server='https://api.github.com')->
+    @description = ""
+    @url = url.parse(@server)
+    @url.protocol ?= 'https'
+    @url.port ?= 443
 
   getSecretTokenPath: ->
     path.join(atom.getConfigDirPath(), "sync-settings-gist.token")
@@ -22,25 +26,27 @@ class Gist
 
   post: (data, callback) ->
     options =
-      hostname: 'api.github.com'
+      hostname: @url.hostname
+      port: @url.port
       path: '/gists'
       method: 'POST'
       headers:
-        "User-Agent": "Atom"
+        "user-agent": "Atom"
+        'content-type': 'application/json'
 
     # Use the user's token if we have one
 
     if @getToken()?
       options.headers["Authorization"] = "token #{@getToken()}"
 
-    request = https.request options, (res) ->
+    request = require(@url.protocol[0...-1]).request options, (res) ->
       res.setEncoding "utf8"
       body = ''
       res.on "data", (chunk) ->
         body += chunk
       res.on "end", ->
         response = JSON.parse(body)
-        console.log response
+        console.log 'server response = ', response
         callback(response)
 
     request.write(JSON.stringify(@toParams(data)))
