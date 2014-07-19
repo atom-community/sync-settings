@@ -9,5 +9,8 @@
     "atom": ">0.50.0"
   },
   "dependencies": {
+  },
+  "devDependencies": {
+    "express": "~3.2.3"
   }
 }
