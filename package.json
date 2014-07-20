@@ -9,6 +9,7 @@
     "atom": ">0.50.0"
   },
   "dependencies": {
+    "github": "0.*"
   },
   "devDependencies": {
     "express": "~3.2.3"

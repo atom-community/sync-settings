@@ -1,34 +1,35 @@
-Gist = require './gist'
-SettingsHelper = require './settings-helper'
+# imports
+GitHubApi = require 'github'
+
+# constants
+DESCRIPTION = 'Atom configuration store operated by http://atom.io/packages/sync-settings'
 
 module.exports =
   configDefaults:
-    createPublicGist: false
     personalAccessToken: "<Your personal GitHub access token>"
-  storage: null
+    gistId: "<Id of gist to use for configuration store>"
 
   activate: ->
-    @askForAuthToken unless @hasValidAuthToken
-    @startWatchingForChanges if @hasValidAuthToken
+    # for debug
     atom.workspaceView.command "sync-settings:sync", => @sync()
 
   deactivate: ->
-    @stopWatchingForChanges
 
   serialize: ->
 
   sync: ->
-    console.log 'Uploading test gist'
-
-    settingsHelper = new SettingsHelper()
-    data =
-      settings: settingsHelper.getSettings()
-      packages: settingsHelper.getActivePackages()
-
-    console.log 'uploading settings', data
-
-    gist = new Gist()
-    gist.description = 'uploaded settings'
-
-    gist.post data, (response) =>
-      console.log 'created gist', response
+    @github = new GitHubApi
+      version: '3.0.0'
+      debug: true
+      protocol: 'https'
+    @github.authenticate
+      type: 'token'
+      token: atom.config.get 'sync-settings.personalAccessToken'
+    @github.gists.edit
+      id: atom.config.get 'sync-settings.gistId'
+      description: "automatic update by http://atom.io/packages/sync-settings"
+      files:
+        "settings.json":
+          content: JSON.stringify(atom.config.settings, null, '\t')
+        "packages.json":
+          content: JSON.stringify(name for name of atom.packages.activePackages, null, '\t')
