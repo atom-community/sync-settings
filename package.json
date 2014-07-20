@@ -9,9 +9,12 @@
     "atom": ">0.50.0"
   },
   "dependencies": {
-    "github": "0.*"
+    "github": "0.*",
+    "emissary": "1.x",
+    "q": "~1.0.1",
+    "semver": "~2.2.1",
+    "underscore-plus": "^1.0.6"
   },
   "devDependencies": {
-    "express": "~3.2.3"
   }
 }
