@@ -39,7 +39,7 @@ module.exports =
       {name, version, theme} = info.metadata
       {name, version, theme}
 
-  download: ->
+  download: (cb=null) ->
     @createClient().gists.get
       id: atom.config.get 'sync-settings.gistId'
     , (err, res) =>
@@ -53,7 +53,7 @@ module.exports =
 
       packages = JSON.parse(res.files["packages.json"].content)
       console.debug "packages: ", packages
-      @installMissingPackages packages
+      @installMissingPackages packages, cb
 
 
   createClient: ->
@@ -77,12 +77,17 @@ module.exports =
         console.debug "config.set #{keyPath[1...]}=#{value}"
         atom.config.set keyPath[1...], value
 
-  installMissingPackages: (packages) ->
+  installMissingPackages: (packages, cb) ->
+    pending=0
     for pkg in packages
-      console.debug "checking ", pkg
-      @installPackage pkg unless atom.packages.isPackageLoaded(pkg.name)
+      continue if atom.packages.isPackageLoaded(pkg.name)
+      pending++
+      @installPackage pkg, ->
+        pending--
+        cb?() if pending is 0
+    cb?() if pending is 0
 
-  installPackage: (pack) ->
+  installPackage: (pack, cb) ->
     type = if pack.theme then 'theme' else 'package'
     console.info("Installing #{type} #{pack.name}...")
     packageManager = new PackageManager()
@@ -91,3 +96,4 @@ module.exports =
         console.error("Installing #{type} #{pack.name} failed", error.stack ? error, error.stderr)
       else
         console.info("Installed #{type} #{pack.name}")
+      cb?(error)

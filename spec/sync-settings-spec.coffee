@@ -54,3 +54,15 @@ describe "SyncSettings", ->
           expect(res).not.toBeNull()
           expect(res.files['settings.json']).toBeDefined()
           expect(res.files['packages.json']).toBeDefined()
+
+  describe "::download", ->
+    it "updates settings", ->
+      atom.config.set "some-dummy", true
+      run (cb) ->
+        SyncSettings.upload cb
+      , ->
+        atom.config.set "some-dummy", false
+        run (cb) ->
+          SyncSettings.download cb
+        , ->
+          expect(atom.config.get "some-dummy").toBeTruthy()

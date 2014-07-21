@@ -9,7 +9,10 @@ module.exports =
       for keyPath, value of @originalConfigs
         atom.config.set keyPath, value
 
-  callAsync: (async, next) ->
+  callAsync: (timeout, async, next) ->
+    if typeof timeout is 'function'
+      [async, next] = [timeout, async]
+      timeout = 5000
     done = false
     nextArgs = null
 
@@ -20,9 +23,11 @@ module.exports =
         done = true
         nextArgs = args
 
+
     waitsFor ->
       console.debug "SH:callAsync:waits: ", done
       done
+    , null, timeout
 
     if next?
       runs ->
