@@ -21,7 +21,7 @@ module.exports =
 
   serialize: ->
 
-  upload: ->
+  upload: (cb=null) ->
     @createClient().gists.edit
       id: atom.config.get 'sync-settings.gistId'
       description: "automatic update by http://atom.io/packages/sync-settings"
@@ -32,6 +32,7 @@ module.exports =
           content: JSON.stringify(@getPackages(), null, '\t')
     , (err, res) =>
       console.error "error uploading data: "+err.message, err if err
+      cb?(err, res)
 
   getPackages: ->
     for name,info of atom.packages.getLoadedPackages()
@@ -56,13 +57,15 @@ module.exports =
 
 
   createClient: ->
+    token = atom.config.get 'sync-settings.personalAccessToken'
+    console.debug "Creating GitHubApi client with token = #{token}"
     github = new GitHubApi
       version: '3.0.0'
       debug: true
       protocol: 'https'
     github.authenticate
       type: 'oauth'
-      token: atom.config.get 'sync-settings.personalAccessToken'
+      token: token
     github
 
   applySettings: (pref, settings) ->

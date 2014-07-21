@@ -1,5 +1,9 @@
 language: objective-c
 
+env:
+  global:
+    secure: KjBCSePfCKrxkj0/2EHxYdBfB5VF/o12ebWCMMWLGI1IfFvzqm6q6+G8qjVKrrcl1FrUQNzS31odXttLFZ1/huyXKLOXtCf8eY7q6ztlphCIqiWozBY08UqkGJF0V7Gmbg2UymSdh/DiAK4GNoLCK6+UY3q5Uh69WMtTTm7Jrjk=
+
 notifications:
   email:
     on_success: never
