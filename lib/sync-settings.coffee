@@ -61,7 +61,7 @@ module.exports =
       debug: true
       protocol: 'https'
     github.authenticate
-      type: 'token'
+      type: 'oauth'
       token: atom.config.get 'sync-settings.personalAccessToken'
     github
 
