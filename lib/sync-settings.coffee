@@ -106,4 +106,4 @@ module.exports =
       return fs.readFileSync(filePath, {encoding: 'utf8'})
     catch e
       console.error "Error while reading file #{filePath}. Probably doesn't exists.", e
-      ""
+      null
