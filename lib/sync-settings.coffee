@@ -108,8 +108,9 @@ module.exports =
       cb?(error)
 
   fileContent: (filePath) ->
+    DEFAULT_CONTENT = '# keymap file'
     try
-      return fs.readFileSync(filePath, {encoding: 'utf8'}) || " "
+      return fs.readFileSync(filePath, {encoding: 'utf8'}) || DEFAULT_CONTENT
     catch e
-      console.error "Error while reading file #{filePath}. Probably doesn't exists.", e
-      " "
+      console.error "Error reading file #{filePath}. Probably doesn't exists.", e
+      DEFAULT_CONTENT
