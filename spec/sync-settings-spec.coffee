@@ -1,6 +1,7 @@
 SyncSettings = require '../lib/sync-settings'
 SpecHelper = require './spec-helpers'
 run = SpecHelper.callAsync
+fs = require 'fs'
 # Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
 #
 # To run a specific `it` or `describe` block add an `f` to the front (e.g. `fit`
@@ -40,20 +41,47 @@ describe "SyncSettings", ->
     , (err, res) ->
       expect(err).toBeNull()
 
+  describe "::fileContent", ->
+    it "returns empty string for not existing file", ->
+      expect(SyncSettings.fileContent("/tmp/atom-sync-settings.tmp")).toEqual ""
+
+    it "returns content of existing file", ->
+      text = "alabala portocala"
+      fs.writeFileSync "/tmp/atom-sync-settings.tmp", text, {encoding: 'utf8'}
+      try
+        expect(SyncSettings.fileContent("/tmp/atom-sync-settings.tmp")).toEqual text
+      finally
+        fs.unlinkSync "/tmp/atom-sync-settings.tmp"
+
   describe "::upload", ->
     it "uploads the settings", ->
       run (cb) ->
-        console.debug "Triggering upload"
         SyncSettings.upload cb
 
       , ->
         run (cb) =>
           SyncSettings.createClient().gists.get({id: @gistId}, cb)
         , (err, res) ->
-          expect(err).toBeNull()
-          expect(res).not.toBeNull()
           expect(res.files['settings.json']).toBeDefined()
+
+    it "uploads the installed packages list", ->
+      run (cb) ->
+        SyncSettings.upload cb
+
+      , ->
+        run (cb) =>
+          SyncSettings.createClient().gists.get({id: @gistId}, cb)
+        , (err, res) ->
           expect(res.files['packages.json']).toBeDefined()
+
+    it "uploads the user keymap.cson file", ->
+      run (cb) ->
+        SyncSettings.upload cb
+      , ->
+        run (cb) =>
+          SyncSettings.createClient().gists.get({id: @gistId}, cb)
+        , (err, res) ->
+          expect(res.files['keymap.cson']).toBeDefined()
 
   describe "::download", ->
     it "updates settings", ->

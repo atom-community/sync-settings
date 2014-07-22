@@ -3,6 +3,7 @@
 GitHubApi = require 'github'
 _ = require 'underscore-plus'
 PackageManager = require './package-manager'
+fs = require 'fs'
 
 # constants
 DESCRIPTION = 'Atom configuration store operated by http://atom.io/packages/sync-settings'
@@ -30,6 +31,8 @@ module.exports =
           content: JSON.stringify(atom.config.settings, null, '\t')
         "packages.json":
           content: JSON.stringify(@getPackages(), null, '\t')
+        "keymap.cson":
+          content: @fileContent atom.keymap.getUserKeymapPath()
     , (err, res) =>
       console.error "error uploading data: "+err.message, err if err
       cb?(err, res)
@@ -97,3 +100,10 @@ module.exports =
       else
         console.info("Installed #{type} #{pack.name}")
       cb?(error)
+
+  fileContent: (filePath) ->
+    try
+      return fs.readFileSync(filePath, {encoding: 'utf8'})
+    catch e
+      console.error "Error while reading file #{filePath}. Probably doesn't exists.", e
+      ""
