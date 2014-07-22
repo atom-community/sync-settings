@@ -58,6 +58,10 @@ module.exports =
       console.debug "packages: ", packages
       @installMissingPackages packages, cb
 
+      keymap = res.files['keymap.cson']?.content
+      console.debug "keymap.cson = ", res.files['keymap.cson']?.content
+      fs.writeFileSync(atom.keymap.getUserKeymapPath(), res.files['keymap.cson'].content) if keymap
+
 
   createClient: ->
     token = atom.config.get 'sync-settings.personalAccessToken'

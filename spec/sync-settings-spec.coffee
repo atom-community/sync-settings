@@ -47,7 +47,7 @@ describe "SyncSettings", ->
 
     it "returns content of existing file", ->
       text = "alabala portocala"
-      fs.writeFileSync "/tmp/atom-sync-settings.tmp", text, {encoding: 'utf8'}
+      fs.writeFileSync "/tmp/atom-sync-settings.tmp", text
       try
         expect(SyncSettings.fileContent("/tmp/atom-sync-settings.tmp")).toEqual text
       finally
@@ -94,3 +94,14 @@ describe "SyncSettings", ->
           SyncSettings.download cb
         , ->
           expect(atom.config.get "some-dummy").toBeTruthy()
+
+  it "overrides keymap.cson", ->
+    original = SyncSettings.fileContent atom.keymap.getUserKeymapPath()
+    run (cb) ->
+      SyncSettings.upload cb
+    , ->
+      fs.writeFileSync atom.keymap.getUserKeymapPath(), "#{original}\n# modified by sync setting spec"
+      run (cb) ->
+        SyncSettings.download cb
+      , ->
+        expect(SyncSettings.fileContent(atom.keymap.getUserKeymapPath())).toEqual original
