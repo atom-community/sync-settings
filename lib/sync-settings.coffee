@@ -23,16 +23,18 @@ module.exports =
   serialize: ->
 
   upload: (cb=null) ->
+    files =
+      "settings.json":
+        content: JSON.stringify(atom.config.settings, null, '\t')
+      "packages.json":
+        content: JSON.stringify(@getPackages(), null, '\t')
+      "keymap.cson":
+        content: @fileContent atom.keymap.getUserKeymapPath()
+
     @createClient().gists.edit
       id: atom.config.get 'sync-settings.gistId'
       description: "automatic update by http://atom.io/packages/sync-settings"
-      files:
-        "settings.json":
-          content: JSON.stringify(atom.config.settings, null, '\t')
-        "packages.json":
-          content: JSON.stringify(@getPackages(), null, '\t')
-        "keymap.cson":
-          content: @fileContent atom.keymap.getUserKeymapPath()
+      files: files
     , (err, res) =>
       console.error "error uploading data: "+err.message, err if err
       cb?(err, res)
@@ -107,7 +109,7 @@ module.exports =
 
   fileContent: (filePath) ->
     try
-      return fs.readFileSync(filePath, {encoding: 'utf8'})
+      return fs.readFileSync(filePath, {encoding: 'utf8'}) || " "
     catch e
       console.error "Error while reading file #{filePath}. Probably doesn't exists.", e
-      null
+      " "

@@ -43,7 +43,7 @@ describe "SyncSettings", ->
 
   describe "::fileContent", ->
     it "returns empty string for not existing file", ->
-      expect(SyncSettings.fileContent("/tmp/atom-sync-settings.tmp")).toBeNull()
+      expect(SyncSettings.fileContent("/tmp/atom-sync-settings.tmp")).toEqual " "
 
     it "returns content of existing file", ->
       text = "alabala portocala"
