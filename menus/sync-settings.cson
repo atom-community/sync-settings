@@ -5,7 +5,8 @@
     'submenu': [
       'label': 'Syncronize Settings'
       'submenu': [
-        { 'label': 'Synchronize', 'command': 'sync-settings:sync' }
+        { 'label': 'Upload', 'command': 'sync-settings:upload' }
+        { 'label': 'Download', 'command': 'sync-settings:download' }
       ]
     ]
   }
