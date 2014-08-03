@@ -4,17 +4,27 @@
 
 Synchronize all your settings and installed packages across [Atom](http://atom.io) instances.
 
-## Usage
-
-- Create a github token [here](https://github.com/settings/tokens/new) and must include the
-  `gist` scope.
-
-- Paste it in: `~/.atom/sync-settings-gist.token`. You can then add this file to a `.gitignore` file to
-keep it out of public repos.
-
 ## Installation
 
-`$ apm install sync-settings` or using the Preferences pane.
+`$ apm install sync-settings` or using the [Preferences pane](atom://config).
+
+## Usage
+
+2. Open **Sync Settings** configuration in [Atom Settings](atom://config)
+1. Create a [new personal access token](https://github.com/settings/tokens/new) which has the `gist` scope.
+3. Copy the access token to **Sync Settings** configuration
+4. Create a [new gist](https://gist.github.com/) and save it.
+5. Copy the gist id (last part of url after the username) to **Sync Settings** configuration
+
+### Upload local configuration
+Sync Settings: Upload
+
+    Ctrl+Alt+U
+
+### Download remote configuration
+Sync Settings: Download
+
+    Ctrl+Alt+D
 
 ## Developer resources
 
@@ -25,7 +35,7 @@ keep it out of public repos.
 If you're going to submit a pull request, please try to follow
 [the official contribution guidelines of Atom](https://atom.io/docs/latest/contributing).
 
-1. Fork it
+1. [Fork it](http://github.com/Hackafe/atom-sync-settings/)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
