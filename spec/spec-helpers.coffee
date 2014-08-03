@@ -17,19 +17,15 @@ module.exports =
     nextArgs = null
 
     runs ->
-      console.debug "SH:callAsync:runs"
       async (args...) ->
-        console.debug "SH:callAsync:callback: ", args
         done = true
         nextArgs = args
 
 
     waitsFor ->
-      console.debug "SH:callAsync:waits: ", done
       done
     , null, timeout
 
     if next?
       runs ->
-        console.debug "SH:callAsync:runs2: ", nextArgs
         next.apply(this, nextArgs)

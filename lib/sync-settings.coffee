@@ -3,6 +3,7 @@
 GitHubApi = require 'github'
 _ = require 'underscore-plus'
 PackageManager = require './package-manager'
+fs = require 'fs'
 
 # constants
 DESCRIPTION = 'Atom configuration store operated by http://atom.io/packages/sync-settings'
@@ -22,14 +23,18 @@ module.exports =
   serialize: ->
 
   upload: (cb=null) ->
+    files =
+      "settings.json":
+        content: JSON.stringify(atom.config.settings, null, '\t')
+      "packages.json":
+        content: JSON.stringify(@getPackages(), null, '\t')
+      "keymap.cson":
+        content: @fileContent atom.keymap.getUserKeymapPath()
+
     @createClient().gists.edit
       id: atom.config.get 'sync-settings.gistId'
       description: "automatic update by http://atom.io/packages/sync-settings"
-      files:
-        "settings.json":
-          content: JSON.stringify(atom.config.settings, null, '\t')
-        "packages.json":
-          content: JSON.stringify(@getPackages(), null, '\t')
+      files: files
     , (err, res) =>
       console.error "error uploading data: "+err.message, err if err
       cb?(err, res)
@@ -54,6 +59,10 @@ module.exports =
       packages = JSON.parse(res.files["packages.json"].content)
       console.debug "packages: ", packages
       @installMissingPackages packages, cb
+
+      keymap = res.files['keymap.cson']?.content
+      console.debug "keymap.cson = ", res.files['keymap.cson']?.content
+      fs.writeFileSync(atom.keymap.getUserKeymapPath(), res.files['keymap.cson'].content) if keymap
 
 
   createClient: ->
@@ -97,3 +106,11 @@ module.exports =
       else
         console.info("Installed #{type} #{pack.name}")
       cb?(error)
+
+  fileContent: (filePath) ->
+    DEFAULT_CONTENT = '# keymap file'
+    try
+      return fs.readFileSync(filePath, {encoding: 'utf8'}) || DEFAULT_CONTENT
+    catch e
+      console.error "Error reading file #{filePath}. Probably doesn't exists.", e
+      DEFAULT_CONTENT
