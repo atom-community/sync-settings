@@ -1,7 +1,7 @@
 {
   "name": "sync-settings",
   "main": "./lib/sync-settings",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Synchronize package settings, keymap and installed packages",
   "repository": "https://github.com/Hackafe/atom-sync-settings",
   "license": "MIT",
@@ -15,6 +15,5 @@
     "semver": "~2.2.1",
     "underscore-plus": "^1.0.6"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }
