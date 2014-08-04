@@ -2,7 +2,13 @@
 
 [![Build Status](https://travis-ci.org/Hackafe/atom-sync-settings.svg?branch=master)](https://travis-ci.org/Hackafe/atom-sync-settings)
 
-Synchronize all your settings and installed packages across [Atom](http://atom.io) instances.
+Synchronize package settings, keymap and installed packages across [Atom](http://atom.io) instances.
+
+## Features
+* sync package configuration
+* sync installed packages
+* sync user keymap file
+* manual upload/download to a gist (automatic on the roadmap)
 
 ## Installation
 
@@ -26,16 +32,12 @@ Sync Settings: Download
 
     Ctrl+Alt+D
 
-## Developer resources
-
-* [Trello](https://trello.com/b/tIgpeWr3/atom-sync)
-
 ## Contributing
 
 If you're going to submit a pull request, please try to follow
 [the official contribution guidelines of Atom](https://atom.io/docs/latest/contributing).
 
-1. [Fork it](http://github.com/Hackafe/atom-sync-settings/)
+1. [Fork it](https://github.com/Hackafe/atom-sync-settings/)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
