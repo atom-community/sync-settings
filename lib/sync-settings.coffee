@@ -30,6 +30,8 @@ module.exports =
         content: JSON.stringify(@getPackages(), null, '\t')
       "keymap.cson":
         content: @fileContent atom.keymap.getUserKeymapPath()
+      "styles.less":
+        content: @fileContent atom.themes.getUserStylesheetPath()
 
     @createClient().gists.edit
       id: atom.config.get 'sync-settings.gistId'
@@ -64,6 +66,9 @@ module.exports =
       console.debug "keymap.cson = ", res.files['keymap.cson']?.content
       fs.writeFileSync(atom.keymap.getUserKeymapPath(), res.files['keymap.cson'].content) if keymap
 
+      styles = res.files['styles.less']?.content
+      console.debug "styles.less = ", res.files['styles.less']?.content
+      fs.writeFileSync(atom.themes.getUserStylesheetPath(), res.files['styles.less'].content) if styles
 
   createClient: ->
     token = atom.config.get 'sync-settings.personalAccessToken'
