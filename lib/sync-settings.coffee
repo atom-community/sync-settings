@@ -32,6 +32,10 @@ module.exports =
         content: @fileContent atom.keymap.getUserKeymapPath()
       "styles.less":
         content: @fileContent atom.themes.getUserStylesheetPath()
+      "init.coffee":
+        content: @fileContent atom.config.configDirPath + "/init.coffee"
+      "snippets.cson":
+        content: @fileContent atom.config.configDirPath + "/snippets.cson"
 
     @createClient().gists.edit
       id: atom.config.get 'sync-settings.gistId'
@@ -69,6 +73,14 @@ module.exports =
       styles = res.files['styles.less']?.content
       console.debug "styles.less = ", res.files['styles.less']?.content
       fs.writeFileSync(atom.themes.getUserStylesheetPath(), res.files['styles.less'].content) if styles
+
+      initCoffee = res.files['init.coffee']?.content
+      console.debug "init.coffee = ", initCoffee
+      fs.writeFileSync(atom.config.configDirPath + "/init.coffee", initCoffee) if initCoffee
+
+      snippetsCson = res.files['snippets.cson']?.content
+      console.debug "snippets.cson = ", snippetsCson
+      fs.writeFileSync(atom.config.configDirPath + "/snippets.cson", snippetsCson) if snippetsCson
 
   createClient: ->
     token = atom.config.get 'sync-settings.personalAccessToken'
