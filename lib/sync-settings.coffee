@@ -7,6 +7,7 @@ fs = require 'fs'
 
 # constants
 DESCRIPTION = 'Atom configuration store operated by http://atom.io/packages/sync-settings'
+REMOVE_KEYS = ["sync-settings"]
 
 module.exports =
   configDefaults:
@@ -25,7 +26,7 @@ module.exports =
   upload: (cb=null) ->
     files =
       "settings.json":
-        content: JSON.stringify(atom.config.settings, null, '\t')
+        content: JSON.stringify(atom.config.settings, @filterSettings, '\t')
       "packages.json":
         content: JSON.stringify(@getPackages(), null, '\t')
       "keymap.cson":
@@ -93,6 +94,11 @@ module.exports =
       type: 'oauth'
       token: token
     github
+
+  filterSettings: (key, value) ->
+    return value if key == ""
+    return undefined if ~REMOVE_KEYS.indexOf(key)
+    value
 
   applySettings: (pref, settings) ->
     for key, value of settings
