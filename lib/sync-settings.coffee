@@ -49,7 +49,7 @@ module.exports =
           message = 'Gist ID Not Found' if message == 'Not Found'
           atom.notifications.addError "sync-settings: Error uploading your settings. ("+message+")"
       else
-          atom.notifications.addSuccess "sync-settings: Your settings was successfully uploaded."
+          atom.notifications.addSuccess "sync-settings: Your settings were successfully uploaded."
       cb?(err, res)
 
   getPackages: ->
@@ -92,7 +92,7 @@ module.exports =
       console.debug "snippets.cson = ", snippetsCson
       fs.writeFileSync(atom.config.configDirPath + "/snippets.cson", snippetsCson) if snippetsCson
 
-      atom.notifications.addSuccess "sync-settings: Your settings was successfully synced."
+      atom.notifications.addSuccess "sync-settings: Your settings were successfully synchronized."
 
   createClient: ->
     token = atom.config.get 'sync-settings.personalAccessToken'
