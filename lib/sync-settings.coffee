@@ -43,7 +43,11 @@ module.exports =
       description: "automatic update by http://atom.io/packages/sync-settings"
       files: files
     , (err, res) =>
-      console.error "error uploading data: "+err.message, err if err
+      if err
+          console.error "error uploading data: "+err.message, err
+          atom.notifications.addError "sync-settings: Error uploading data. ("+JSON.parse(err.message).message+")"
+      else
+          atom.notifications.addSuccess "sync-settings: Your settings was successfully uploaded."
       cb?(err, res)
 
   getPackages: ->
@@ -56,7 +60,8 @@ module.exports =
       id: atom.config.get 'sync-settings.gistId'
     , (err, res) =>
       if err
-        console.error("error while retrieving the gist. does it exists?", err)
+        console.error "error while retrieving the gist. does it exists?", err
+        atom.notifications.addError "sync-settings: Error while retrieving the gist. Does it exists? ("+JSON.parse(err.message).message+")"
         return
 
       settings = JSON.parse(res.files["settings.json"].content)
@@ -82,6 +87,8 @@ module.exports =
       snippetsCson = res.files['snippets.cson']?.content
       console.debug "snippets.cson = ", snippetsCson
       fs.writeFileSync(atom.config.configDirPath + "/snippets.cson", snippetsCson) if snippetsCson
+
+      atom.notifications.addSuccess "sync-settings: Your settings was successfully synced from the Gist."
 
   createClient: ->
     token = atom.config.get 'sync-settings.personalAccessToken'
