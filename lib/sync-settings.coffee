@@ -45,7 +45,9 @@ module.exports =
     , (err, res) =>
       if err
           console.error "error uploading data: "+err.message, err
-          atom.notifications.addError "sync-settings: Error uploading data. ("+JSON.parse(err.message).message+")"
+          message = JSON.parse(err.message).message
+          message = 'Gist ID Not Found' if message == 'Not Found'
+          atom.notifications.addError "sync-settings: Error uploading your settings. ("+message+")"
       else
           atom.notifications.addSuccess "sync-settings: Your settings was successfully uploaded."
       cb?(err, res)
@@ -61,7 +63,9 @@ module.exports =
     , (err, res) =>
       if err
         console.error "error while retrieving the gist. does it exists?", err
-        atom.notifications.addError "sync-settings: Error while retrieving the gist. Does it exists? ("+JSON.parse(err.message).message+")"
+        message = JSON.parse(err.message).message
+        message = 'Gist ID Not Found' if message == 'Not Found'
+        atom.notifications.addError "sync-settings: Error retrieving your settings. ("+message+")"
         return
 
       settings = JSON.parse(res.files["settings.json"].content)
@@ -88,7 +92,7 @@ module.exports =
       console.debug "snippets.cson = ", snippetsCson
       fs.writeFileSync(atom.config.configDirPath + "/snippets.cson", snippetsCson) if snippetsCson
 
-      atom.notifications.addSuccess "sync-settings: Your settings was successfully synced from the Gist."
+      atom.notifications.addSuccess "sync-settings: Your settings was successfully synced."
 
   createClient: ->
     token = atom.config.get 'sync-settings.personalAccessToken'
