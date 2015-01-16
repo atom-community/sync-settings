@@ -16,8 +16,8 @@ module.exports =
 
   activate: ->
     # for debug
-    atom.workspaceView.command "sync-settings:upload", => @upload()
-    atom.workspaceView.command "sync-settings:download", => @download()
+    atom.commands.add 'atom-text-editor', "sync-settings:upload", => @upload()
+    atom.commands.add 'atom-text-editor', "sync-settings:download", => @download()
 
   deactivate: ->
 
