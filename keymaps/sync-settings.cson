@@ -7,6 +7,6 @@
 
 # For more detailed documentation see
 # https://atom.io/docs/latest/advanced/keymaps
-'.workspace':
+'.atom-workspace':
   'ctrl-alt-u': 'sync-settings:upload'
   'ctrl-alt-d': 'sync-settings:download'
