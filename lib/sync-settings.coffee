@@ -32,7 +32,7 @@ module.exports =
       "keymap.cson":
         content: @fileContent atom.keymap.getUserKeymapPath()
       "styles.less":
-        content: @fileContent atom.themes.getUserStylesheetPath()
+        content: @fileContent atom.themes.getUserStyleSheetPath()
       "init.coffee":
         content: @fileContent atom.config.configDirPath + "/init.coffee"
       "snippets.cson":
