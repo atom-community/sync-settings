@@ -53,7 +53,9 @@ module.exports =
       cb?(err, res)
 
   getPackages: ->
-    for name,info of atom.packages.getLoadedPackages()
+    packages = atom.packages.getLoadedPackages()
+    for name,info of packages
+      continue unless packages.hasOwnProperty(name)
       {name, version, theme} = info.metadata
       {name, version, theme}
 
