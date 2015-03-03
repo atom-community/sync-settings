@@ -10,9 +10,15 @@ DESCRIPTION = 'Atom configuration store operated by http://atom.io/packages/sync
 REMOVE_KEYS = ["sync-settings"]
 
 module.exports =
-  configDefaults:
-    personalAccessToken: "<Your personal GitHub access token>"
-    gistId: "<Id of gist to use for configuration store>"
+  config:
+    personalAccessToken:
+      description: 'Your personal GitHub access token'
+      type: 'string'
+      default: ''
+    gistId:
+      description: 'Id of gist to use for configutation store'
+      type: 'string'
+      default: ''
 
   activate: ->
     # for debug
