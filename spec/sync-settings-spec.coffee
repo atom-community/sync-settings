@@ -125,7 +125,7 @@ describe "SyncSettings", ->
             expect(SyncSettings.fileContent(atom.keymap.getUserKeymapPath())).toEqual original
             fs.writeFileSync atom.keymap.getUserKeymapPath(), original
 
-      it "downloads the files defined in config.extraFiles", ->
+      it "downloads all other files in the gist as well", ->
         atom.config.set 'sync-settings.extraFiles', ['test.tmp', 'test2.tmp']
         run (cb) ->
           SyncSettings.upload cb
