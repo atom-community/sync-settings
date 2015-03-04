@@ -19,6 +19,12 @@ module.exports =
       description: 'Id of gist to use for configutation store'
       type: 'string'
       default: ''
+    extraFiles:
+      description: 'Comnma seperated list of files other than Atom\'s default config files in ~/.atom'
+      type: 'array'
+      default: []
+      items:
+        type: 'string'
 
   activate: ->
     # for debug
@@ -43,6 +49,10 @@ module.exports =
         content: @fileContent atom.config.configDirPath + "/init.coffee"
       "snippets.cson":
         content: @fileContent atom.config.configDirPath + "/snippets.cson"
+
+    for file in atom.config.get('sync-settings.extraFiles') ? []
+      files[file] =
+        content: @fileContent atom.config.configDirPath + "/#{file}"
 
     @createClient().gists.edit
       id: atom.config.get 'sync-settings.gistId'
@@ -74,29 +84,27 @@ module.exports =
         atom.notifications.addError "sync-settings: Error retrieving your settings. ("+message+")"
         return
 
-      settings = JSON.parse(res.files["settings.json"].content)
-      console.debug "settings: ", settings
-      @applySettings "", settings
+      for own filename, file of res.files
+        switch filename
+          when 'settings.json'
+            @applySettings '', JSON.parse(file.content)
 
-      packages = JSON.parse(res.files["packages.json"].content)
-      console.debug "packages: ", packages
-      @installMissingPackages packages, cb
+          when 'packages.json'
+            @installMissingPackages JSON.parse(file.content), cb
 
-      keymap = res.files['keymap.cson']?.content
-      console.debug "keymap.cson = ", res.files['keymap.cson']?.content
-      fs.writeFileSync(atom.keymap.getUserKeymapPath(), res.files['keymap.cson'].content) if keymap
+          when 'keymap.cson'
+            fs.writeFileSync atom.keymap.getUserKeymapPath(), file.content
 
-      styles = res.files['styles.less']?.content
-      console.debug "styles.less = ", res.files['styles.less']?.content
-      fs.writeFileSync(atom.themes.getUserStylesheetPath(), res.files['styles.less'].content) if styles
+          when 'styles.less'
+            fs.writeFileSync atom.styles.getUserStyleSheetPath(), file.content
 
-      initCoffee = res.files['init.coffee']?.content
-      console.debug "init.coffee = ", initCoffee
-      fs.writeFileSync(atom.config.configDirPath + "/init.coffee", initCoffee) if initCoffee
+          when 'init.coffee'
+            fs.writeFileSync atom.config.configDirPath + "/init.coffee", file.content
 
-      snippetsCson = res.files['snippets.cson']?.content
-      console.debug "snippets.cson = ", snippetsCson
-      fs.writeFileSync(atom.config.configDirPath + "/snippets.cson", snippetsCson) if snippetsCson
+          when 'snippets.cson'
+            fs.writeFileSync atom.config.configDirPath + "/snippets.coffee", file.content
+
+          else fs.writeFileSync "#{atom.config.configDirPath}/#{filename}"
 
       atom.notifications.addSuccess "sync-settings: Your settings were successfully synchronized."
 
@@ -105,7 +113,7 @@ module.exports =
     console.debug "Creating GitHubApi client with token = #{token}"
     github = new GitHubApi
       version: '3.0.0'
-      debug: true
+      # debug: true
       protocol: 'https'
     github.authenticate
       type: 'oauth'

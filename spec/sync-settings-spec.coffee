@@ -66,7 +66,6 @@ describe "SyncSettings", ->
       it "uploads the settings", ->
         run (cb) ->
           SyncSettings.upload cb
-
         , ->
           run (cb) =>
             SyncSettings.createClient().gists.get({id: @gistId}, cb)
@@ -76,7 +75,6 @@ describe "SyncSettings", ->
       it "uploads the installed packages list", ->
         run (cb) ->
           SyncSettings.upload cb
-
         , ->
           run (cb) =>
             SyncSettings.createClient().gists.get({id: @gistId}, cb)
@@ -91,6 +89,17 @@ describe "SyncSettings", ->
             SyncSettings.createClient().gists.get({id: @gistId}, cb)
           , (err, res) ->
             expect(res.files['keymap.cson']).toBeDefined()
+
+      it "uploads the files defined in config.extraFiles", ->
+        atom.config.set 'sync-settings.extraFiles', ['test.tmp', 'test2.tmp']
+        run (cb) ->
+          SyncSettings.upload cb
+        , ->
+          run (cb) =>
+            SyncSettings.createClient().gists.get({id: @gistId}, cb)
+          , (err, res) ->
+            for file in atom.config.get 'sync-settings.extraFiles'
+              expect(res.files[file]).toBeDefined()
 
     describe "::download", ->
       it "updates settings", ->
@@ -115,3 +124,15 @@ describe "SyncSettings", ->
           , ->
             expect(SyncSettings.fileContent(atom.keymap.getUserKeymapPath())).toEqual original
             fs.writeFileSync atom.keymap.getUserKeymapPath(), original
+
+      it "downloads all other files in the gist as well", ->
+        atom.config.set 'sync-settings.extraFiles', ['test.tmp', 'test2.tmp']
+        run (cb) ->
+          SyncSettings.upload cb
+        , ->
+          run (cb) =>
+            SyncSettings.download cb
+          , ->
+            for file in atom.config.get 'sync-settings.extraFiles'
+              expect(fs.existsSync("#{atom.config.configDirPath}/#{file}")).toBe(true)
+              fs.unlink "#{atom.config.configDirPath}/#{file}"
