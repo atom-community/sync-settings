@@ -50,7 +50,7 @@ module.exports =
       "snippets.cson":
         content: @fileContent atom.config.configDirPath + "/snippets.cson"
 
-    for file in atom.config.get 'sync-settings.extraFiles'
+    for file in atom.config.get('sync-settings.extraFiles') ? []
       files[file] =
         content: @fileContent atom.config.configDirPath + "/#{file}"
 
@@ -84,19 +84,19 @@ module.exports =
         atom.notifications.addError "sync-settings: Error retrieving your settings. ("+message+")"
         return
 
-      for own file, filename of res.files
+      for own filename, file of res.files
         switch filename
           when 'settings.json'
             @applySettings '', JSON.parse(file.content)
 
           when 'packages.json'
-            @installMissintPackages JSON.parse(file.content), cb
+            @installMissingPackages JSON.parse(file.content), cb
 
           when 'keymap.cson'
             fs.writeFileSync atom.keymap.getUserKeymapPath(), file.content
 
           when 'styles.less'
-            fs.writeFileSync atom.themes.getUserStyleSheetPath(), file.content
+            fs.writeFileSync atom.styles.getUserStyleSheetPath(), file.content
 
           when 'init.coffee'
             fs.writeFileSync atom.config.configDirPath + "/init.coffee", file.content
@@ -113,7 +113,7 @@ module.exports =
     console.debug "Creating GitHubApi client with token = #{token}"
     github = new GitHubApi
       version: '3.0.0'
-      debug: true
+      # debug: true
       protocol: 'https'
     github.authenticate
       type: 'oauth'
