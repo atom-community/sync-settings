@@ -28,8 +28,8 @@ module.exports =
 
   activate: ->
     # for debug
-    atom.commands.add 'atom-text-editor', "sync-settings:upload", => @upload()
-    atom.commands.add 'atom-text-editor', "sync-settings:download", => @download()
+    atom.commands.add 'atom-workspace', "sync-settings:upload", => @upload()
+    atom.commands.add 'atom-workspace', "sync-settings:download", => @download()
 
   deactivate: ->
 
@@ -69,7 +69,7 @@ module.exports =
       cb?(err, res)
 
   getPackages: ->
-    for name,info of atom.packages.getLoadedPackages()
+    for own name,info of atom.packages.getLoadedPackages()
       {name, version, theme} = info.metadata
       {name, version, theme}
 
