@@ -66,7 +66,6 @@ describe "SyncSettings", ->
       it "uploads the settings", ->
         run (cb) ->
           SyncSettings.upload cb
-
         , ->
           run (cb) =>
             SyncSettings.createClient().gists.get({id: @gistId}, cb)
@@ -76,7 +75,6 @@ describe "SyncSettings", ->
       it "uploads the installed packages list", ->
         run (cb) ->
           SyncSettings.upload cb
-
         , ->
           run (cb) =>
             SyncSettings.createClient().gists.get({id: @gistId}, cb)
@@ -137,4 +135,4 @@ describe "SyncSettings", ->
           , ->
             for file in atom.config.get 'sync-settings.extraFiles'
               expect(fs.existsSync("#{atom.config.configDirPath}/#{file}")).toBe(true)
-              # fs.unlink "#{atom.config.configDirPath}/#{file}"
+              fs.unlink "#{atom.config.configDirPath}/#{file}"
