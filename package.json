@@ -3,8 +3,17 @@
   "main": "./lib/sync-settings",
   "version": "0.2.2",
   "description": "Synchronize package settings, keymap and installed packages",
-  "repository": "https://github.com/Hackafe/atom-sync-settings",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hackafe/atom-sync-settings"
+  },
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Hackafe/atom-sync-settings/issues"
+  },
+  "commits": {
+    "url": "https://github.com/Hackafe/atom-sync-settings/commit"
+  },
   "engines": {
     "atom": ">0.50.0"
   },
