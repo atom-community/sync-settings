@@ -6,7 +6,7 @@ PackageManager = require './package-manager'
 fs = require 'fs'
 
 # constants
-DESCRIPTION = 'Atom configuration store operated by http://atom.io/packages/sync-settings'
+DESCRIPTION = 'Atom configuration storage operated by http://atom.io/packages/sync-settings'
 REMOVE_KEYS = ["sync-settings"]
 
 module.exports =
@@ -16,11 +16,11 @@ module.exports =
       type: 'string'
       default: ''
     gistId:
-      description: 'Id of gist to use for configutation store'
+      description: 'ID of gist to use for configuration storage'
       type: 'string'
       default: ''
     extraFiles:
-      description: 'Comnma seperated list of files other than Atom\'s default config files in ~/.atom'
+      description: 'Comma-seperated list of files other than Atom\'s default config files in ~/.atom'
       type: 'array'
       default: []
       items:
