@@ -20,7 +20,7 @@ module.exports =
       type: 'string'
       default: ''
     extraFiles:
-      description: 'Comnma seperated list of files other than Atom\'s default config files in ~/.atom'
+      description: 'Comma seperated list of files other than Atom\'s default config files in ~/.atom'
       type: 'array'
       default: []
       items:
