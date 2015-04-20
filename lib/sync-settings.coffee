@@ -65,7 +65,7 @@ module.exports =
           message = 'Gist ID Not Found' if message == 'Not Found'
           atom.notifications.addError "sync-settings: Error uploading your settings. ("+message+")"
       else
-          atom.notifications.addSuccess "sync-settings: Your settings were successfully uploaded."
+          atom.notifications.addSuccess "sync-settings: Your settings were successfully uploaded. <br/><a href='"+res.url+"'>Click here to open your Gist.</a>"
       cb?(err, res)
 
   getPackages: ->
