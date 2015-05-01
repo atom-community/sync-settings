@@ -104,7 +104,7 @@ module.exports =
           when 'snippets.cson'
             fs.writeFileSync atom.config.configDirPath + "/snippets.coffee", file.content
 
-          else fs.writeFileSync "#{atom.config.configDirPath}/#{filename}"
+          else fs.writeFileSync "#{atom.config.configDirPath}/#{filename}", file.content
 
       atom.notifications.addSuccess "sync-settings: Your settings were successfully synchronized."
 
