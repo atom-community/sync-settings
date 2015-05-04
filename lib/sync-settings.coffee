@@ -52,7 +52,7 @@ module.exports =
 
     for file in atom.config.get('sync-settings.extraFiles') ? []
       files[file] =
-        content: @fileContent atom.config.configDirPath + "/#{file}" ? "# user specified settings (not found)"
+        content: (@fileContent atom.config.configDirPath + "/#{file}") ? "# user specified settings (not found)"
 
     @createClient().gists.edit
       id: atom.config.get 'sync-settings.gistId'
