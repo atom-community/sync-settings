@@ -51,8 +51,14 @@ module.exports =
         content: (@fileContent atom.config.configDirPath + "/snippets.cson") ? "# snippets file (not found)"
 
     for file in atom.config.get('sync-settings.extraFiles') ? []
+      ext = file.slice(file.lastIndexOf(".")).toLowerCase()
+      cmtstart = "#"
+      cmtstart = "//" if ext in [".less", ".scss", ".js"]
+      cmtstart = "/*" if ext in [".css"]
+      cmtend = ""
+      cmtend = "*/" if ext in [".css"]
       files[file] =
-        content: (@fileContent atom.config.configDirPath + "/#{file}") ? "# user specified settings (not found)"
+        content: (@fileContent atom.config.configDirPath + "/#{file}") ? "#{cmtstart} extra (not found) #{cmtend}"
 
     @createClient().gists.edit
       id: atom.config.get 'sync-settings.gistId'
