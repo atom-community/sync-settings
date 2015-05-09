@@ -1,9 +1,8 @@
 # imports
 {BufferedProcess} = require 'atom'
-GitHubApi = require 'github'
-_ = require 'underscore-plus'
-PackageManager = require './package-manager'
 fs = require 'fs'
+_ = require 'underscore-plus'
+[GitHubApi, PackageManager] = []
 
 # constants
 DESCRIPTION = 'Atom configuration storage operated by http://atom.io/packages/sync-settings'
@@ -28,6 +27,8 @@ module.exports =
 
   activate: ->
     # for debug
+    GitHubApi ?= require 'github'
+    PackageManager ?= require './package-manager'
     atom.commands.add 'atom-workspace', "sync-settings:upload", => @upload()
     atom.commands.add 'atom-workspace', "sync-settings:download", => @download()
 
