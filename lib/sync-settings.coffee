@@ -42,7 +42,7 @@ module.exports =
       "packages.json":
         content: JSON.stringify(@getPackages(), null, '\t')
       "keymap.cson":
-        content: @fileContent atom.keymap.getUserKeymapPath()
+        content: @fileContent atom.keymaps.getUserKeymapPath()
       "styles.less":
         content: @fileContent atom.styles.getUserStyleSheetPath()
       "init.coffee":
