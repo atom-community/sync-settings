@@ -15,7 +15,7 @@
     "url": "https://github.com/Hackafe/atom-sync-settings/commit"
   },
   "engines": {
-    "atom": ">0.50.0"
+    "atom": ">=0.200.0 <2.0.0"
   },
   "dependencies": {
     "github": "0.*",
