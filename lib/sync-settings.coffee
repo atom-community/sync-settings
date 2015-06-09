@@ -93,7 +93,7 @@ module.exports =
             @installMissingPackages JSON.parse(file.content), cb
 
           when 'keymap.cson'
-            fs.writeFileSync atom.keymap.getUserKeymapPath(), file.content
+            fs.writeFileSync atom.keymaps.getUserKeymapPath(), file.content
 
           when 'styles.less'
             fs.writeFileSync atom.styles.getUserStyleSheetPath(), file.content
