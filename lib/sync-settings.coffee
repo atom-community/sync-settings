@@ -58,7 +58,7 @@ module.exports =
       cmtend = ""
       cmtend = "*/" if ext in [".css"]
       files[file] =
-        content: (@fileContent atom.config.configDirPath + "/#{file}") ? "#{cmtstart} extra (not found) #{cmtend}"
+        content: (@fileContent atom.config.configDirPath + "/#{file}") ? "#{cmtstart} #{file} (not found) #{cmtend}"
 
     @createClient().gists.edit
       id: atom.config.get 'sync-settings.gistId'
