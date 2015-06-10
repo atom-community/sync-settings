@@ -42,17 +42,23 @@ module.exports =
       "packages.json":
         content: JSON.stringify(@getPackages(), null, '\t')
       "keymap.cson":
-        content: @fileContent atom.keymaps.getUserKeymapPath()
+        content: (@fileContent atom.keymaps.getUserKeymapPath()) ? "# keymap file (not found)"
       "styles.less":
-        content: @fileContent atom.styles.getUserStyleSheetPath()
+        content: (@fileContent atom.styles.getUserStyleSheetPath()) ? "// styles file (not found)"
       "init.coffee":
-        content: @fileContent atom.config.configDirPath + "/init.coffee"
+        content: (@fileContent atom.config.configDirPath + "/init.coffee") ? "# initialization file (not found)"
       "snippets.cson":
-        content: @fileContent atom.config.configDirPath + "/snippets.cson"
+        content: (@fileContent atom.config.configDirPath + "/snippets.cson") ? "# snippets file (not found)"
 
     for file in atom.config.get('sync-settings.extraFiles') ? []
+      ext = file.slice(file.lastIndexOf(".")).toLowerCase()
+      cmtstart = "#"
+      cmtstart = "//" if ext in [".less", ".scss", ".js"]
+      cmtstart = "/*" if ext in [".css"]
+      cmtend = ""
+      cmtend = "*/" if ext in [".css"]
       files[file] =
-        content: @fileContent atom.config.configDirPath + "/#{file}"
+        content: (@fileContent atom.config.configDirPath + "/#{file}") ? "#{cmtstart} #{file} (not found) #{cmtend}"
 
     @createClient().gists.edit
       id: atom.config.get 'sync-settings.gistId'
@@ -156,9 +162,8 @@ module.exports =
       cb?(error)
 
   fileContent: (filePath) ->
-    DEFAULT_CONTENT = '# keymap file'
     try
-      return fs.readFileSync(filePath, {encoding: 'utf8'}) || DEFAULT_CONTENT
+      return fs.readFileSync(filePath, {encoding: 'utf8'}) || null
     catch e
-      console.error "Error reading file #{filePath}. Probably doesn't exists.", e
-      DEFAULT_CONTENT
+      console.error "Error reading file #{filePath}. Probably doesn't exist.", e
+      null

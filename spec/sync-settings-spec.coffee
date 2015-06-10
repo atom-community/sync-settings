@@ -11,13 +11,13 @@ describe "SyncSettings", ->
 
   describe "low-level", ->
     describe "::fileContent", ->
-      it "returns non-empty string for not existing file", ->
-        expect(SyncSettings.fileContent("/tmp/atom-sync-settings.tmp")).toBeTruthy()
+      it "returns null for not existing file", ->
+        expect(SyncSettings.fileContent("/tmp/atom-sync-settings.tmp")).toBeNull()
 
-      it "returns non-empty string for empty file", ->
+      it "returns null for empty file", ->
         fs.writeFileSync "/tmp/atom-sync-settings.tmp", ""
         try
-          expect(SyncSettings.fileContent("/tmp/atom-sync-settings.tmp")).toBeTruthy()
+          expect(SyncSettings.fileContent("/tmp/atom-sync-settings.tmp")).toBeNull()
         finally
           fs.unlinkSync "/tmp/atom-sync-settings.tmp"
 

@@ -3,7 +3,7 @@
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'Syncronize Settings'
+      'label': 'Synchronize Settings'
       'submenu': [
         { 'label': 'Upload', 'command': 'sync-settings:upload' }
         { 'label': 'Download', 'command': 'sync-settings:download' }
