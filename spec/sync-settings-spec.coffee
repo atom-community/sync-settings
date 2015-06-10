@@ -135,4 +135,5 @@ describe "SyncSettings", ->
           , ->
             for file in atom.config.get 'sync-settings.extraFiles'
               expect(fs.existsSync("#{atom.config.configDirPath}/#{file}")).toBe(true)
+              expect(SyncSettings.fileContent("#{atom.config.configDirPath}/#{file}")).toBe("# #{file} (not found) ")
               fs.unlink "#{atom.config.configDirPath}/#{file}"
