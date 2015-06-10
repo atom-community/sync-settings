@@ -114,16 +114,16 @@ describe "SyncSettings", ->
             expect(atom.config.get "some-dummy").toBeTruthy()
 
       it "overrides keymap.cson", ->
-        original = SyncSettings.fileContent atom.keymap.getUserKeymapPath()
+        original = SyncSettings.fileContent atom.keymaps.getUserKeymapPath()
         run (cb) ->
           SyncSettings.upload cb
         , ->
-          fs.writeFileSync atom.keymap.getUserKeymapPath(), "#{original}\n# modified by sync setting spec"
+          fs.writeFileSync atom.keymaps.getUserKeymapPath(), "#{original}\n# modified by sync setting spec"
           run (cb) ->
             SyncSettings.download cb
           , ->
-            expect(SyncSettings.fileContent(atom.keymap.getUserKeymapPath())).toEqual original
-            fs.writeFileSync atom.keymap.getUserKeymapPath(), original
+            expect(SyncSettings.fileContent(atom.keymaps.getUserKeymapPath())).toEqual original
+            fs.writeFileSync atom.keymaps.getUserKeymapPath(), original
 
       it "downloads all other files in the gist as well", ->
         atom.config.set 'sync-settings.extraFiles', ['test.tmp', 'test2.tmp']

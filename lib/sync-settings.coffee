@@ -43,7 +43,7 @@ module.exports =
       "packages.json":
         content: JSON.stringify(@getPackages(), null, '\t')
       "keymap.cson":
-        content: @fileContent atom.keymap.getUserKeymapPath()
+        content: @fileContent atom.keymaps.getUserKeymapPath()
       "styles.less":
         content: @fileContent atom.styles.getUserStyleSheetPath()
       "init.coffee":
@@ -66,7 +66,7 @@ module.exports =
           message = 'Gist ID Not Found' if message == 'Not Found'
           atom.notifications.addError "sync-settings: Error uploading your settings. ("+message+")"
       else
-          atom.notifications.addSuccess "sync-settings: Your settings were successfully uploaded. <br/><a href='"+res.url+"'>Click here to open your Gist.</a>"
+          atom.notifications.addSuccess "sync-settings: Your settings were successfully uploaded. <br/><a href='"+res.html_url+"'>Click here to open your Gist.</a>"
       cb?(err, res)
 
   getPackages: ->
@@ -94,7 +94,7 @@ module.exports =
             @installMissingPackages JSON.parse(file.content), cb
 
           when 'keymap.cson'
-            fs.writeFileSync atom.keymap.getUserKeymapPath(), file.content
+            fs.writeFileSync atom.keymaps.getUserKeymapPath(), file.content
 
           when 'styles.less'
             fs.writeFileSync atom.styles.getUserStyleSheetPath(), file.content
