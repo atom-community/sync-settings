@@ -108,7 +108,7 @@ module.exports =
             fs.writeFileSync atom.config.configDirPath + "/init.coffee", file.content
 
           when 'snippets.cson'
-            fs.writeFileSync atom.config.configDirPath + "/snippets.coffee", file.content
+            fs.writeFileSync atom.config.configDirPath + "/snippets.cson", file.content
 
           else fs.writeFileSync "#{atom.config.configDirPath}/#{filename}"
 
