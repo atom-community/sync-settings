@@ -62,47 +62,47 @@ describe "SyncSettings", ->
       , (err, res) ->
         expect(err).toBeNull()
 
-    describe "::upload", ->
-      it "uploads the settings", ->
+    describe "::backup", ->
+      it "back up the settings", ->
         run (cb) ->
-          SyncSettings.upload cb
+          SyncSettings.backup cb
         , ->
           run (cb) =>
             SyncSettings.createClient().gists.get({id: @gistId}, cb)
           , (err, res) ->
             expect(res.files['settings.json']).toBeDefined()
 
-      it "uploads the installed packages list", ->
+      it "back up the installed packages list", ->
         run (cb) ->
-          SyncSettings.upload cb
+          SyncSettings.backup cb
         , ->
           run (cb) =>
             SyncSettings.createClient().gists.get({id: @gistId}, cb)
           , (err, res) ->
             expect(res.files['packages.json']).toBeDefined()
 
-      it "uploads the user keymap.cson file", ->
+      it "back up the user keymap.cson file", ->
         run (cb) ->
-          SyncSettings.upload cb
+          SyncSettings.backup cb
         , ->
           run (cb) =>
             SyncSettings.createClient().gists.get({id: @gistId}, cb)
           , (err, res) ->
             expect(res.files['keymap.cson']).toBeDefined()
 
-      it "uploads the user snippets.cson file", ->
+      it "back up the user snippets.cson file", ->
         run (cb) ->
-          SyncSettings.upload cb
+          SyncSettings.backup cb
         , ->
           run (cb) =>
             SyncSettings.createClient().gists.get({id: @gistId}, cb)
           , (err, res) ->
             expect(res.files['snippets.cson']).toBeDefined()
 
-      it "uploads the files defined in config.extraFiles", ->
+      it "back up the files defined in config.extraFiles", ->
         atom.config.set 'sync-settings.extraFiles', ['test.tmp', 'test2.tmp']
         run (cb) ->
-          SyncSettings.upload cb
+          SyncSettings.backup cb
         , ->
           run (cb) =>
             SyncSettings.createClient().gists.get({id: @gistId}, cb)
@@ -114,7 +114,7 @@ describe "SyncSettings", ->
       it "updates settings", ->
         atom.config.set "some-dummy", true
         run (cb) ->
-          SyncSettings.upload cb
+          SyncSettings.backup cb
         , ->
           atom.config.set "some-dummy", false
           run (cb) ->
@@ -125,7 +125,7 @@ describe "SyncSettings", ->
       it "overrides keymap.cson", ->
         original = SyncSettings.fileContent atom.keymaps.getUserKeymapPath()
         run (cb) ->
-          SyncSettings.upload cb
+          SyncSettings.backup cb
         , ->
           fs.writeFileSync atom.keymaps.getUserKeymapPath(), "#{original}\n# modified by sync setting spec"
           run (cb) ->
@@ -137,7 +137,7 @@ describe "SyncSettings", ->
       it "downloads all other files in the gist as well", ->
         atom.config.set 'sync-settings.extraFiles', ['test.tmp', 'test2.tmp']
         run (cb) ->
-          SyncSettings.upload cb
+          SyncSettings.backup cb
         , ->
           run (cb) =>
             SyncSettings.download cb

@@ -28,14 +28,14 @@ module.exports =
 
   activate: ->
     # for debug
-    atom.commands.add 'atom-workspace', "sync-settings:upload", => @upload()
+    atom.commands.add 'atom-workspace', "sync-settings:backup", => @backup()
     atom.commands.add 'atom-workspace', "sync-settings:download", => @download()
 
   deactivate: ->
 
   serialize: ->
 
-  upload: (cb=null) ->
+  backup: (cb=null) ->
     files =
       "settings.json":
         content: JSON.stringify(atom.config.settings, @filterSettings, '\t')
@@ -66,12 +66,12 @@ module.exports =
       files: files
     , (err, res) =>
       if err
-          console.error "error uploading data: "+err.message, err
+          console.error "error backing up data: "+err.message, err
           message = JSON.parse(err.message).message
           message = 'Gist ID Not Found' if message == 'Not Found'
-          atom.notifications.addError "sync-settings: Error uploading your settings. ("+message+")"
+          atom.notifications.addError "sync-settings: Error backing up your settings. ("+message+")"
       else
-          atom.notifications.addSuccess "sync-settings: Your settings were successfully uploaded. <br/><a href='"+res.html_url+"'>Click here to open your Gist.</a>"
+          atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up. <br/><a href='"+res.html_url+"'>Click here to open your Gist.</a>"
       cb?(err, res)
 
   getPackages: ->
