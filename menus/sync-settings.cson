@@ -6,7 +6,7 @@
       'label': 'Synchronize Settings'
       'submenu': [
         { 'label': 'Backup', 'command': 'sync-settings:backup' }
-        { 'label': 'Download', 'command': 'sync-settings:download' }
+        { 'label': 'restore', 'command': 'sync-settings:restore' }
       ]
     ]
   }

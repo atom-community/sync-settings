@@ -10,7 +10,7 @@ Synchronize package settings, keymap and installed packages across [Atom](http:/
 * sync package configuration
 * sync installed packages
 * sync user keymap file
-* manual backup/download to a gist (automatic on the roadmap)
+* manual backup/restore to a gist (automatic on the roadmap)
 
 ## Installation
 
@@ -29,8 +29,8 @@ Sync Settings: Backup
 
     Ctrl+Alt+U
 
-### Download remote configuration
-Sync Settings: Download
+### Restore remote configuration
+Sync Settings: Restore
 
     Ctrl+Alt+D
 

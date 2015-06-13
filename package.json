@@ -28,7 +28,7 @@
   "activationCommands": {
     "atom-workspace": [
       "sync-settings:backup",
-      "sync-settings:download"
+      "sync-settings:restore"
     ]
   }
 }

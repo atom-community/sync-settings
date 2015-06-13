@@ -29,7 +29,7 @@ module.exports =
   activate: ->
     # for debug
     atom.commands.add 'atom-workspace', "sync-settings:backup", => @backup()
-    atom.commands.add 'atom-workspace', "sync-settings:download", => @download()
+    atom.commands.add 'atom-workspace', "sync-settings:restore", => @restore()
 
   deactivate: ->
 
@@ -79,7 +79,7 @@ module.exports =
       {name, version, theme} = info.metadata
       {name, version, theme}
 
-  download: (cb=null) ->
+  restore: (cb=null) ->
     @createClient().gists.get
       id: atom.config.get 'sync-settings.gistId'
     , (err, res) =>

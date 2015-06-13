@@ -110,7 +110,7 @@ describe "SyncSettings", ->
             for file in atom.config.get 'sync-settings.extraFiles'
               expect(res.files[file]).toBeDefined()
 
-    describe "::download", ->
+    describe "::restore", ->
       it "updates settings", ->
         atom.config.set "some-dummy", true
         run (cb) ->
@@ -118,7 +118,7 @@ describe "SyncSettings", ->
         , ->
           atom.config.set "some-dummy", false
           run (cb) ->
-            SyncSettings.download cb
+            SyncSettings.restore cb
           , ->
             expect(atom.config.get "some-dummy").toBeTruthy()
 
@@ -129,18 +129,18 @@ describe "SyncSettings", ->
         , ->
           fs.writeFileSync atom.keymaps.getUserKeymapPath(), "#{original}\n# modified by sync setting spec"
           run (cb) ->
-            SyncSettings.download cb
+            SyncSettings.restore cb
           , ->
             expect(SyncSettings.fileContent(atom.keymaps.getUserKeymapPath())).toEqual original
             fs.writeFileSync atom.keymaps.getUserKeymapPath(), original
 
-      it "downloads all other files in the gist as well", ->
+      it "restores all other files in the gist as well", ->
         atom.config.set 'sync-settings.extraFiles', ['test.tmp', 'test2.tmp']
         run (cb) ->
           SyncSettings.backup cb
         , ->
           run (cb) =>
-            SyncSettings.download cb
+            SyncSettings.restore cb
           , ->
             for file in atom.config.get 'sync-settings.extraFiles'
               expect(fs.existsSync("#{atom.config.configDirPath}/#{file}")).toBe(true)
