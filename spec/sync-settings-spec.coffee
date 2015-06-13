@@ -90,6 +90,15 @@ describe "SyncSettings", ->
           , (err, res) ->
             expect(res.files['keymap.cson']).toBeDefined()
 
+      it "uploads the user snippets.cson file", ->
+        run (cb) ->
+          SyncSettings.upload cb
+        , ->
+          run (cb) =>
+            SyncSettings.createClient().gists.get({id: @gistId}, cb)
+          , (err, res) ->
+            expect(res.files['snippets.cson']).toBeDefined()
+
       it "uploads the files defined in config.extraFiles", ->
         atom.config.set 'sync-settings.extraFiles', ['test.tmp', 'test2.tmp']
         run (cb) ->
