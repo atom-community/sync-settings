@@ -10,7 +10,7 @@ Synchronize package settings, keymap and installed packages across [Atom](http:/
 * sync package configuration
 * sync installed packages
 * sync user keymap file
-* manual upload/download to a gist (automatic on the roadmap)
+* manual backup/restore to a gist (automatic on the roadmap)
 
 ## Installation
 
@@ -24,13 +24,13 @@ Synchronize package settings, keymap and installed packages across [Atom](http:/
 4. Create a [new gist](https://gist.github.com/) and save it.
 5. Copy the gist id (last part of url after the username) to **Sync Settings** configuration
 
-### Upload local configuration
-Sync Settings: Upload
+### Back up local configuration
+Sync Settings: Backup
 
     Ctrl+Alt+U
 
-### Download remote configuration
-Sync Settings: Download
+### Restore remote configuration
+Sync Settings: Restore
 
     Ctrl+Alt+D
 

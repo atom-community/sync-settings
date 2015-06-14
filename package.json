@@ -27,8 +27,8 @@
   "devDependencies": {},
   "activationCommands": {
     "atom-workspace": [
-      "sync-settings:download",
-      "sync-settings:upload"
+      "sync-settings:backup",
+      "sync-settings:restore"
     ]
   }
 }

@@ -8,5 +8,5 @@
 # For more detailed documentation see
 # https://atom.io/docs/latest/advanced/keymaps
 'atom-workspace':
-  'ctrl-alt-u': 'sync-settings:upload'
-  'ctrl-alt-d': 'sync-settings:download'
+  'ctrl-alt-u': 'sync-settings:backup'
+  'ctrl-alt-d': 'sync-settings:restore'
