@@ -31,6 +31,9 @@ module.exports =
     atom.commands.add 'atom-workspace', "sync-settings:backup", => @backup()
     atom.commands.add 'atom-workspace', "sync-settings:restore", => @restore()
 
+    # Clean up after #36, see #68 for more info.
+    fs.unlink(require('path').join(atom.getConfigDirPath(), 'snippets.coffee'), ->)
+
   deactivate: ->
 
   serialize: ->
