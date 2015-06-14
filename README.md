@@ -1,7 +1,6 @@
 # Sync Settings for Atom
 
 [![Join the chat at https://gitter.im/Hackafe/atom-sync-settings](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Hackafe/atom-sync-settings?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 [![Build Status](https://travis-ci.org/Hackafe/atom-sync-settings.svg?branch=master)](https://travis-ci.org/Hackafe/atom-sync-settings)
 
 Synchronize package settings, keymap and installed packages across [Atom](http://atom.io) instances.
@@ -16,33 +15,29 @@ Synchronize package settings, keymap and installed packages across [Atom](http:/
 
 `$ apm install sync-settings` or using the [Preferences pane](atom://config).
 
+## Setup
+
+1. Open **Sync Settings** configuration in [Atom Settings](atom://config).
+2. Create a [new personal access token](https://github.com/settings/tokens/new) which has the `gist` scope.
+3. Copy the access token to **Sync Settings** configuration.
+4. Create a [new gist](https://gist.github.com/) and save it.
+5. Copy the gist id (last part of url after the username) to **Sync Settings** configuration.
+
 ## Usage
 
-2. Open **Sync Settings** configuration in [Atom Settings](atom://config)
-1. Create a [new personal access token](https://github.com/settings/tokens/new) which has the `gist` scope.
-3. Copy the access token to **Sync Settings** configuration
-4. Create a [new gist](https://gist.github.com/) and save it.
-5. Copy the gist id (last part of url after the username) to **Sync Settings** configuration
-
-### Back up local configuration
-Sync Settings: Backup
-
-    Ctrl+Alt+U
-
-### Restore remote configuration
-Sync Settings: Restore
-
-    Ctrl+Alt+D
+Backup or restore all settings from the **Packages** menu or use one of the following **commands**:
+* `sync-settings:upload`
+* `sync-settings:download`
 
 ## Contributing
 
 If you're going to submit a pull request, please try to follow
 [the official contribution guidelines of Atom](https://atom.io/docs/latest/contributing).
 
-1. [Fork it](https://github.com/Hackafe/atom-sync-settings/)
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+1. [Fork it](https://github.com/Hackafe/atom-sync-settings/).
+2. Create your feature branch (`git checkout -b my-new-feature`).
+3. Commit your changes (`git commit -am 'Add some feature'`).
+4. Push to the branch (`git push origin my-new-feature`).
+5. Create new Pull Request.
 
-[See all contributors](https://github.com/Hackafe/atom-sync-settings/graphs/contributors)
+[See all contributors](https://github.com/Hackafe/atom-sync-settings/graphs/contributors).
