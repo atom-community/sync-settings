@@ -26,8 +26,8 @@ Synchronize package settings, keymap and installed packages across [Atom](http:/
 ## Usage
 
 Backup or restore all settings from the **Packages** menu or use one of the following **commands**:
-* `sync-settings:upload`
-* `sync-settings:download`
+* `sync-settings:backup`
+* `sync-settings:restore`
 
 ## Contributing
 
