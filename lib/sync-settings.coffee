@@ -16,16 +16,43 @@ module.exports =
       description: 'Your personal GitHub access token'
       type: 'string'
       default: ''
+      order: 1
     gistId:
       description: 'ID of gist to use for configuration storage'
       type: 'string'
       default: ''
+      order: 2
+    syncSettings:
+      type: 'boolean'
+      default: true
+      order: 3
+    syncPackages:
+      type: 'boolean'
+      default: true
+      order: 4
+    syncKeymap:
+      type: 'boolean'
+      default: true
+      order: 5
+    syncStyles:
+      type: 'boolean'
+      default: true
+      order: 6
+    syncInit:
+      type: 'boolean'
+      default: true
+      order: 7
+    syncSnippets:
+      type: 'boolean'
+      default: true
+      order: 8
     extraFiles:
       description: 'Comma-seperated list of files other than Atom\'s default config files in ~/.atom'
       type: 'array'
       default: []
       items:
         type: 'string'
+      order: 9
 
   activate: ->
     GitHubApi ?= require 'github'
@@ -38,19 +65,18 @@ module.exports =
   serialize: ->
 
   backup: (cb=null) ->
-    files =
-      "settings.json":
-        content: JSON.stringify(atom.config.settings, @filterSettings, '\t')
-      "packages.json":
-        content: JSON.stringify(@getPackages(), null, '\t')
-      "keymap.cson":
-        content: (@fileContent atom.keymaps.getUserKeymapPath()) ? "# keymap file (not found)"
-      "styles.less":
-        content: (@fileContent atom.styles.getUserStyleSheetPath()) ? "// styles file (not found)"
-      "init.coffee":
-        content: (@fileContent atom.config.configDirPath + "/init.coffee") ? "# initialization file (not found)"
-      "snippets.cson":
-        content: (@fileContent atom.config.configDirPath + "/snippets.cson") ? "# snippets file (not found)"
+    if atom.config.get('sync-settings.syncSettings')
+      files["settings.json"] = content: JSON.stringify(atom.config.settings, @filterSettings, '\t')
+    if atom.config.get('sync-settings.syncPackages')
+      files["packages.json"] = content: JSON.stringify(@getPackages(), null, '\t')
+    if atom.config.get('sync-settings.syncKeymap')
+      files["keymap.cson"] = content: (@fileContent atom.keymaps.getUserKeymapPath()) ? "# keymap file (not found)"
+    if atom.config.get('sync-settings.syncStyles')
+      files["styles.less"] = content: (@fileContent atom.styles.getUserStyleSheetPath()) ? "// styles file (not found)"
+    if atom.config.get('sync-settings.syncInit')
+      files["init.coffee"] = content: (@fileContent atom.config.configDirPath + "/init.coffee") ? "# initialization file (not found)"
+    if atom.config.get('sync-settings.syncSnippets')
+      files["snippets.cson"] = content: (@fileContent atom.config.configDirPath + "/snippets.cson") ? "# snippets file (not found)"
 
     for file in atom.config.get('sync-settings.extraFiles') ? []
       ext = file.slice(file.lastIndexOf(".")).toLowerCase()
@@ -95,22 +121,22 @@ module.exports =
       for own filename, file of res.files
         switch filename
           when 'settings.json'
-            @applySettings '', JSON.parse(file.content)
+            @applySettings '', JSON.parse(file.content) if atom.config.get('sync-settings.syncSettings')
 
           when 'packages.json'
-            @installMissingPackages JSON.parse(file.content), cb
+            @installMissingPackages JSON.parse(file.content), cb if atom.config.get('sync-settings.syncPackages')
 
           when 'keymap.cson'
-            fs.writeFileSync atom.keymaps.getUserKeymapPath(), file.content
+            fs.writeFileSync atom.keymaps.getUserKeymapPath(), file.content if atom.config.get('sync-settings.syncKeymap')
 
           when 'styles.less'
-            fs.writeFileSync atom.styles.getUserStyleSheetPath(), file.content
+            fs.writeFileSync atom.styles.getUserStyleSheetPath(), file.content if atom.config.get('sync-settings.syncStyles')
 
           when 'init.coffee'
-            fs.writeFileSync atom.config.configDirPath + "/init.coffee", file.content
+            fs.writeFileSync atom.config.configDirPath + "/init.coffee", file.content if atom.config.get('sync-settings.syncInit')
 
           when 'snippets.cson'
-            fs.writeFileSync atom.config.configDirPath + "/snippets.cson", file.content
+            fs.writeFileSync atom.config.configDirPath + "/snippets.cson", file.content if atom.config.get('sync-settings.syncSnippets')
 
           else fs.writeFileSync "#{atom.config.configDirPath}/#{filename}", file.content
 
