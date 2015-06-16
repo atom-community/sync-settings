@@ -65,6 +65,7 @@ describe "SyncSettings", ->
 
     describe "::backup", ->
       it "back up the settings", ->
+        atom.config.set('sync-settings.syncSettings', true)
         run (cb) ->
           SyncSettings.backup cb
         , ->
@@ -74,6 +75,7 @@ describe "SyncSettings", ->
             expect(res.files['settings.json']).toBeDefined()
 
       it "back up the installed packages list", ->
+        atom.config.set('sync-settings.syncPackages', true)
         run (cb) ->
           SyncSettings.backup cb
         , ->
@@ -82,7 +84,8 @@ describe "SyncSettings", ->
           , (err, res) ->
             expect(res.files['packages.json']).toBeDefined()
 
-      it "back up the user keymap.cson file", ->
+      it "back up the user keymaps", ->
+        atom.config.set('sync-settings.syncKeymap', true)
         run (cb) ->
           SyncSettings.backup cb
         , ->
@@ -91,7 +94,28 @@ describe "SyncSettings", ->
           , (err, res) ->
             expect(res.files['keymap.cson']).toBeDefined()
 
-      it "back up the user snippets.cson file", ->
+      it "back up the user styles", ->
+        atom.config.set('sync-settings.syncStyles', true)
+        run (cb) ->
+          SyncSettings.backup cb
+        , ->
+          run (cb) =>
+            SyncSettings.createClient().gists.get({id: @gistId}, cb)
+          , (err, res) ->
+            expect(res.files['styles.less']).toBeDefined()
+
+      it "back up the user init.coffee file", ->
+        atom.config.set('sync-settings.syncInit', true)
+        run (cb) ->
+          SyncSettings.backup cb
+        , ->
+          run (cb) =>
+            SyncSettings.createClient().gists.get({id: @gistId}, cb)
+          , (err, res) ->
+            expect(res.files['init.coffee']).toBeDefined()
+
+      it "back up the user snippets", ->
+        atom.config.set('sync-settings.syncSnippets', true)
         run (cb) ->
           SyncSettings.backup cb
         , ->
@@ -113,6 +137,7 @@ describe "SyncSettings", ->
 
     describe "::restore", ->
       it "updates settings", ->
+        atom.config.set('sync-settings.syncSettings', true)
         atom.config.set "some-dummy", true
         run (cb) ->
           SyncSettings.backup cb
@@ -124,6 +149,7 @@ describe "SyncSettings", ->
             expect(atom.config.get "some-dummy").toBeTruthy()
 
       it "overrides keymap.cson", ->
+        atom.config.set('sync-settings.syncKeymap', true)
         original = SyncSettings.fileContent atom.keymaps.getUserKeymapPath()
         run (cb) ->
           SyncSettings.backup cb

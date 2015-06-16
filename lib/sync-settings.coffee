@@ -65,6 +65,7 @@ module.exports =
   serialize: ->
 
   backup: (cb=null) ->
+    files = {}
     if atom.config.get('sync-settings.syncSettings')
       files["settings.json"] = content: JSON.stringify(atom.config.settings, @filterSettings, '\t')
     if atom.config.get('sync-settings.syncPackages')
@@ -118,13 +119,17 @@ module.exports =
         atom.notifications.addError "sync-settings: Error retrieving your settings. ("+message+")"
         return
 
+      callbackAsync = false
+
       for own filename, file of res.files
         switch filename
           when 'settings.json'
             @applySettings '', JSON.parse(file.content) if atom.config.get('sync-settings.syncSettings')
 
           when 'packages.json'
-            @installMissingPackages JSON.parse(file.content), cb if atom.config.get('sync-settings.syncPackages')
+            if atom.config.get('sync-settings.syncPackages')
+              callbackAsync = true
+              @installMissingPackages JSON.parse(file.content), cb
 
           when 'keymap.cson'
             fs.writeFileSync atom.keymaps.getUserKeymapPath(), file.content if atom.config.get('sync-settings.syncKeymap')
@@ -141,6 +146,8 @@ module.exports =
           else fs.writeFileSync "#{atom.config.configDirPath}/#{filename}", file.content
 
       atom.notifications.addSuccess "sync-settings: Your settings were successfully synchronized."
+
+      cb() unless callbackAsync
 
   createClient: ->
     token = atom.config.get 'sync-settings.personalAccessToken'
