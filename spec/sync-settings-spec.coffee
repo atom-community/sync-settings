@@ -150,7 +150,7 @@ describe "SyncSettings", ->
 
       it "overrides keymap.cson", ->
         atom.config.set('sync-settings.syncKeymap', true)
-        original = SyncSettings.fileContent atom.keymaps.getUserKeymapPath()
+        original = SyncSettings.fileContent atom.keymaps.getUserKeymapPath() ? "# keymap file (not found)"
         run (cb) ->
           SyncSettings.backup cb
         , ->
