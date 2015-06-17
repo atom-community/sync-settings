@@ -29,31 +29,37 @@ module.exports =
     # for debug
     GitHubApi ?= require 'github'
     PackageManager ?= require './package-manager'
-    atom.commands.add 'atom-workspace', "sync-settings:upload", => @upload()
-    atom.commands.add 'atom-workspace', "sync-settings:download", => @download()
+    atom.commands.add 'atom-workspace', "sync-settings:backup", => @backup()
+    atom.commands.add 'atom-workspace', "sync-settings:restore", => @restore()
 
   deactivate: ->
 
   serialize: ->
 
-  upload: (cb=null) ->
+  backup: (cb=null) ->
     files =
       "settings.json":
         content: JSON.stringify(atom.config.settings, @filterSettings, '\t')
       "packages.json":
         content: JSON.stringify(@getPackages(), null, '\t')
       "keymap.cson":
-        content: @fileContent atom.keymaps.getUserKeymapPath()
+        content: (@fileContent atom.keymaps.getUserKeymapPath()) ? "# keymap file (not found)"
       "styles.less":
-        content: @fileContent atom.styles.getUserStyleSheetPath()
+        content: (@fileContent atom.styles.getUserStyleSheetPath()) ? "// styles file (not found)"
       "init.coffee":
-        content: @fileContent atom.config.configDirPath + "/init.coffee"
+        content: (@fileContent atom.config.configDirPath + "/init.coffee") ? "# initialization file (not found)"
       "snippets.cson":
-        content: @fileContent atom.config.configDirPath + "/snippets.cson"
+        content: (@fileContent atom.config.configDirPath + "/snippets.cson") ? "# snippets file (not found)"
 
     for file in atom.config.get('sync-settings.extraFiles') ? []
+      ext = file.slice(file.lastIndexOf(".")).toLowerCase()
+      cmtstart = "#"
+      cmtstart = "//" if ext in [".less", ".scss", ".js"]
+      cmtstart = "/*" if ext in [".css"]
+      cmtend = ""
+      cmtend = "*/" if ext in [".css"]
       files[file] =
-        content: @fileContent atom.config.configDirPath + "/#{file}"
+        content: (@fileContent atom.config.configDirPath + "/#{file}") ? "#{cmtstart} #{file} (not found) #{cmtend}"
 
     @createClient().gists.edit
       id: atom.config.get 'sync-settings.gistId'
@@ -61,12 +67,12 @@ module.exports =
       files: files
     , (err, res) =>
       if err
-          console.error "error uploading data: "+err.message, err
+          console.error "error backing up data: "+err.message, err
           message = JSON.parse(err.message).message
           message = 'Gist ID Not Found' if message == 'Not Found'
-          atom.notifications.addError "sync-settings: Error uploading your settings. ("+message+")"
+          atom.notifications.addError "sync-settings: Error backing up your settings. ("+message+")"
       else
-          atom.notifications.addSuccess "sync-settings: Your settings were successfully uploaded. <br/><a href='"+res.html_url+"'>Click here to open your Gist.</a>"
+          atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up. <br/><a href='"+res.html_url+"'>Click here to open your Gist.</a>"
       cb?(err, res)
 
   getPackages: ->
@@ -74,7 +80,7 @@ module.exports =
       {name, version, theme} = info.metadata
       {name, version, theme}
 
-  download: (cb=null) ->
+  restore: (cb=null) ->
     @createClient().gists.get
       id: atom.config.get 'sync-settings.gistId'
     , (err, res) =>
@@ -103,9 +109,9 @@ module.exports =
             fs.writeFileSync atom.config.configDirPath + "/init.coffee", file.content
 
           when 'snippets.cson'
-            fs.writeFileSync atom.config.configDirPath + "/snippets.coffee", file.content
+            fs.writeFileSync atom.config.configDirPath + "/snippets.cson", file.content
 
-          else fs.writeFileSync "#{atom.config.configDirPath}/#{filename}"
+          else fs.writeFileSync "#{atom.config.configDirPath}/#{filename}", file.content
 
       atom.notifications.addSuccess "sync-settings: Your settings were successfully synchronized."
 
@@ -157,9 +163,8 @@ module.exports =
       cb?(error)
 
   fileContent: (filePath) ->
-    DEFAULT_CONTENT = '# keymap file'
     try
-      return fs.readFileSync(filePath, {encoding: 'utf8'}) || DEFAULT_CONTENT
+      return fs.readFileSync(filePath, {encoding: 'utf8'}) || null
     catch e
-      console.error "Error reading file #{filePath}. Probably doesn't exists.", e
-      DEFAULT_CONTENT
+      console.error "Error reading file #{filePath}. Probably doesn't exist.", e
+      null
