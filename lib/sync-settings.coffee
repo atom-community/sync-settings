@@ -28,7 +28,6 @@ module.exports =
         type: 'string'
 
   activate: ->
-    # for debug
     GitHubApi ?= require 'github'
     PackageManager ?= require './package-manager'
     atom.commands.add 'atom-workspace', "sync-settings:backup", => @backup()
