@@ -2,6 +2,8 @@
 {BufferedProcess} = require 'atom'
 fs = require 'fs'
 _ = require 'underscore-plus'
+# defer loading of github and package-manager modules
+# to speed up package loading time
 [GitHubApi, PackageManager] = []
 
 # constants
