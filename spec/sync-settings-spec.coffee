@@ -11,13 +11,13 @@ describe "SyncSettings", ->
 
   describe "low-level", ->
     describe "::fileContent", ->
-      it "returns non-empty string for not existing file", ->
-        expect(SyncSettings.fileContent("/tmp/atom-sync-settings.tmp")).toBeTruthy()
+      it "returns null for not existing file", ->
+        expect(SyncSettings.fileContent("/tmp/atom-sync-settings.tmp")).toBeNull()
 
-      it "returns non-empty string for empty file", ->
+      it "returns null for empty file", ->
         fs.writeFileSync "/tmp/atom-sync-settings.tmp", ""
         try
-          expect(SyncSettings.fileContent("/tmp/atom-sync-settings.tmp")).toBeTruthy()
+          expect(SyncSettings.fileContent("/tmp/atom-sync-settings.tmp")).toBeNull()
         finally
           fs.unlinkSync "/tmp/atom-sync-settings.tmp"
 
@@ -35,6 +35,7 @@ describe "SyncSettings", ->
 
     token = null
     gistId = null
+    SyncSettings.activate()
 
     beforeEach ->
       @token = process.env.GITHUB_TOKEN || atom.config.get(TOKEN_CONFIG)
@@ -62,38 +63,47 @@ describe "SyncSettings", ->
       , (err, res) ->
         expect(err).toBeNull()
 
-    describe "::upload", ->
-      it "uploads the settings", ->
+    describe "::backup", ->
+      it "back up the settings", ->
         run (cb) ->
-          SyncSettings.upload cb
+          SyncSettings.backup cb
         , ->
           run (cb) =>
             SyncSettings.createClient().gists.get({id: @gistId}, cb)
           , (err, res) ->
             expect(res.files['settings.json']).toBeDefined()
 
-      it "uploads the installed packages list", ->
+      it "back up the installed packages list", ->
         run (cb) ->
-          SyncSettings.upload cb
+          SyncSettings.backup cb
         , ->
           run (cb) =>
             SyncSettings.createClient().gists.get({id: @gistId}, cb)
           , (err, res) ->
             expect(res.files['packages.json']).toBeDefined()
 
-      it "uploads the user keymap.cson file", ->
+      it "back up the user keymap.cson file", ->
         run (cb) ->
-          SyncSettings.upload cb
+          SyncSettings.backup cb
         , ->
           run (cb) =>
             SyncSettings.createClient().gists.get({id: @gistId}, cb)
           , (err, res) ->
             expect(res.files['keymap.cson']).toBeDefined()
 
-      it "uploads the files defined in config.extraFiles", ->
+      it "back up the user snippets.cson file", ->
+        run (cb) ->
+          SyncSettings.backup cb
+        , ->
+          run (cb) =>
+            SyncSettings.createClient().gists.get({id: @gistId}, cb)
+          , (err, res) ->
+            expect(res.files['snippets.cson']).toBeDefined()
+
+      it "back up the files defined in config.extraFiles", ->
         atom.config.set 'sync-settings.extraFiles', ['test.tmp', 'test2.tmp']
         run (cb) ->
-          SyncSettings.upload cb
+          SyncSettings.backup cb
         , ->
           run (cb) =>
             SyncSettings.createClient().gists.get({id: @gistId}, cb)
@@ -101,38 +111,39 @@ describe "SyncSettings", ->
             for file in atom.config.get 'sync-settings.extraFiles'
               expect(res.files[file]).toBeDefined()
 
-    describe "::download", ->
+    describe "::restore", ->
       it "updates settings", ->
         atom.config.set "some-dummy", true
         run (cb) ->
-          SyncSettings.upload cb
+          SyncSettings.backup cb
         , ->
           atom.config.set "some-dummy", false
           run (cb) ->
-            SyncSettings.download cb
+            SyncSettings.restore cb
           , ->
             expect(atom.config.get "some-dummy").toBeTruthy()
 
       it "overrides keymap.cson", ->
-        original = SyncSettings.fileContent atom.keymap.getUserKeymapPath()
+        original = SyncSettings.fileContent atom.keymaps.getUserKeymapPath()
         run (cb) ->
-          SyncSettings.upload cb
+          SyncSettings.backup cb
         , ->
-          fs.writeFileSync atom.keymap.getUserKeymapPath(), "#{original}\n# modified by sync setting spec"
+          fs.writeFileSync atom.keymaps.getUserKeymapPath(), "#{original}\n# modified by sync setting spec"
           run (cb) ->
-            SyncSettings.download cb
+            SyncSettings.restore cb
           , ->
-            expect(SyncSettings.fileContent(atom.keymap.getUserKeymapPath())).toEqual original
-            fs.writeFileSync atom.keymap.getUserKeymapPath(), original
+            expect(SyncSettings.fileContent(atom.keymaps.getUserKeymapPath())).toEqual original
+            fs.writeFileSync atom.keymaps.getUserKeymapPath(), original
 
-      it "downloads all other files in the gist as well", ->
+      it "restores all other files in the gist as well", ->
         atom.config.set 'sync-settings.extraFiles', ['test.tmp', 'test2.tmp']
         run (cb) ->
-          SyncSettings.upload cb
+          SyncSettings.backup cb
         , ->
           run (cb) =>
-            SyncSettings.download cb
+            SyncSettings.restore cb
           , ->
             for file in atom.config.get 'sync-settings.extraFiles'
               expect(fs.existsSync("#{atom.config.configDirPath}/#{file}")).toBe(true)
+              expect(SyncSettings.fileContent("#{atom.config.configDirPath}/#{file}")).toBe("# #{file} (not found) ")
               fs.unlink "#{atom.config.configDirPath}/#{file}"

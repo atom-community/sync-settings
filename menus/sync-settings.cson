@@ -3,10 +3,10 @@
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'Syncronize Settings'
+      'label': 'Synchronize Settings'
       'submenu': [
-        { 'label': 'Upload', 'command': 'sync-settings:upload' }
-        { 'label': 'Download', 'command': 'sync-settings:download' }
+        { 'label': 'Backup', 'command': 'sync-settings:backup' }
+        { 'label': 'Restore', 'command': 'sync-settings:restore' }
       ]
     ]
   }
