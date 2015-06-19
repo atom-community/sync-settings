@@ -71,7 +71,7 @@ module.exports =
           message = 'Gist ID Not Found' if message == 'Not Found'
           atom.notifications.addError "sync-settings: Error backing up your settings. ("+message+")"
       else
-          atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up. <br/><a href='"+res.html_url+"'>Click here to open your Gist.</a>"
+          atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up. [Click here to open your Gist.]("+res.html_url+")"
       cb?(err, res)
 
   getPackages: ->
