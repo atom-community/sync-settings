@@ -1,9 +1,10 @@
 # imports
 {BufferedProcess} = require 'atom'
-GitHubApi = require 'github'
-_ = require 'underscore-plus'
-PackageManager = require './package-manager'
 fs = require 'fs'
+_ = require 'underscore-plus'
+# defer loading of github and package-manager modules
+# to speed up package loading time
+[GitHubApi, PackageManager] = []
 
 # constants
 DESCRIPTION = 'Atom configuration storage operated by http://atom.io/packages/sync-settings'
@@ -27,7 +28,8 @@ module.exports =
         type: 'string'
 
   activate: ->
-    # for debug
+    GitHubApi ?= require 'github'
+    PackageManager ?= require './package-manager'
     atom.commands.add 'atom-workspace', "sync-settings:backup", => @backup()
     atom.commands.add 'atom-workspace', "sync-settings:restore", => @restore()
 

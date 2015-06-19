@@ -35,6 +35,7 @@ describe "SyncSettings", ->
 
     token = null
     gistId = null
+    SyncSettings.activate()
 
     beforeEach ->
       @token = process.env.GITHUB_TOKEN || atom.config.get(TOKEN_CONFIG)
