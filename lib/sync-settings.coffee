@@ -66,18 +66,18 @@ module.exports =
       id: atom.config.get 'sync-settings.gistId'
       description: "automatic update by http://atom.io/packages/sync-settings"
       files: files
-    , (err, res) =>
+    , (err, res) ->
       if err
-          console.error "error backing up data: "+err.message, err
-          message = JSON.parse(err.message).message
-          message = 'Gist ID Not Found' if message == 'Not Found'
-          atom.notifications.addError "sync-settings: Error backing up your settings. ("+message+")"
+        console.error "error backing up data: "+err.message, err
+        message = JSON.parse(err.message).message
+        message = 'Gist ID Not Found' if message is 'Not Found'
+        atom.notifications.addError "sync-settings: Error backing up your settings. ("+message+")"
       else
-          atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up. <br/><a href='"+res.html_url+"'>Click here to open your Gist.</a>"
+        atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up. <br/><a href='"+res.html_url+"'>Click here to open your Gist.</a>"
       cb?(err, res)
 
   getPackages: ->
-    for own name,info of atom.packages.getLoadedPackages()
+    for own name, info of atom.packages.getLoadedPackages()
       {name, version, theme} = info.metadata
       {name, version, theme}
 
@@ -88,7 +88,7 @@ module.exports =
       if err
         console.error "error while retrieving the gist. does it exists?", err
         message = JSON.parse(err.message).message
-        message = 'Gist ID Not Found' if message == 'Not Found'
+        message = 'Gist ID Not Found' if message is 'Not Found'
         atom.notifications.addError "sync-settings: Error retrieving your settings. ("+message+")"
         return
 
@@ -129,7 +129,7 @@ module.exports =
     github
 
   filterSettings: (key, value) ->
-    return value if key == ""
+    return value if key is ""
     return undefined if ~REMOVE_KEYS.indexOf(key)
     value
 
@@ -156,7 +156,7 @@ module.exports =
     type = if pack.theme then 'theme' else 'package'
     console.info("Installing #{type} #{pack.name}...")
     packageManager = new PackageManager()
-    packageManager.install pack, (error) =>
+    packageManager.install pack, (error) ->
       if error?
         console.error("Installing #{type} #{pack.name} failed", error.stack ? error, error.stderr)
       else
@@ -165,7 +165,7 @@ module.exports =
 
   fileContent: (filePath) ->
     try
-      return fs.readFileSync(filePath, {encoding: 'utf8'}) || null
+      return fs.readFileSync(filePath, {encoding: 'utf8'}) or null
     catch e
       console.error "Error reading file #{filePath}. Probably doesn't exist.", e
       null
