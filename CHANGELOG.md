@@ -1,3 +1,35 @@
-## 0.1.0 - First Release
-* Every feature added
-* Every bug fixed
+# Changelog
+
+## vNext
+* Fixed snippets not applied. Fixes [#36](https://github.com/Hackafe/atom-sync-settings/issues/36)
+* Rename Upload/Download to Backup/Restore. Fixes [#50](https://github.com/Hackafe/atom-sync-settings/issues/50)
+* Remove keymaps. Closes [#69](https://github.com/Hackafe/atom-sync-settings/issues/69)
+* Improve package load time. Fixes [#33](https://github.com/Hackafe/atom-sync-settings/issues/33)
+
+## v0.4.0
+* Added default contents for empty files
+* Fix writing contents to extra files
+
+## v0.3.0
+* Defer package activation until first upload/download
+* Added link to uploaded gist in success notification
+* Fixed deprecations
+* Update atom engine semver
+
+## v0.2.2
+* Fixed deprecations
+* Fixed [#23](https://github.com/Hackafe/atom-sync-settings/issues/23)
+* Added extra files setting
+
+## v0.2.1
+* Added notifications
+* Fixed deprecations
+
+## v0.2.0
+* Sync user styles
+* Sync init
+* Sync snippets
+* Remove sensitive sync-settings setting data
+
+## v0.1.0
+* First Release
