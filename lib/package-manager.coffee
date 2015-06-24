@@ -221,7 +221,7 @@ class PackageManager
   checkNativeBuildTools: ->
     deferred = Q.defer()
 
-    @runCommand ['install', '--check'], (code, stdout, stderr) =>
+    @runCommand ['install', '--check'], (code, stdout, stderr) ->
       if code is 0
         deferred.resolve()
       else

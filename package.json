@@ -24,7 +24,9 @@
     "semver": "~2.2.1",
     "underscore-plus": "^1.0.6"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "coffeelint": "^1.10.1"
+  },
   "activationCommands": {
     "atom-workspace": [
       "sync-settings:backup",

@@ -38,7 +38,7 @@ describe "SyncSettings", ->
     SyncSettings.activate()
 
     beforeEach ->
-      @token = process.env.GITHUB_TOKEN || atom.config.get(TOKEN_CONFIG)
+      @token = process.env.GITHUB_TOKEN or atom.config.get(TOKEN_CONFIG)
       atom.config.set(TOKEN_CONFIG, @token)
 
       run (cb) ->
@@ -140,7 +140,7 @@ describe "SyncSettings", ->
         run (cb) ->
           SyncSettings.backup cb
         , ->
-          run (cb) =>
+          run (cb) ->
             SyncSettings.restore cb
           , ->
             for file in atom.config.get 'sync-settings.extraFiles'
