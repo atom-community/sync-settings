@@ -2,9 +2,11 @@
 
 ## vNext
 * Fixed snippets not applied. Fixes [#36](https://github.com/Hackafe/atom-sync-settings/issues/36)
+  * Please note that this issue created a redundant file called `snippets.coffee`
 * Rename Upload/Download to Backup/Restore. Fixes [#50](https://github.com/Hackafe/atom-sync-settings/issues/50)
 * Remove keymaps. Closes [#69](https://github.com/Hackafe/atom-sync-settings/issues/69)
 * Improve package load time. Fixes [#33](https://github.com/Hackafe/atom-sync-settings/issues/33)
+* Settings for which things to sync. Closes [#54](https://github.com/Hackafe/atom-sync-settings/issues/54) 
 
 ## v0.4.0
 * Added default contents for empty files
