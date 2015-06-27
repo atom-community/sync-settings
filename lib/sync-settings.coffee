@@ -2,9 +2,7 @@
 {BufferedProcess} = require 'atom'
 fs = require 'fs'
 _ = require 'underscore-plus'
-# defer loading of github and package-manager modules
-# to speed up package loading time
-[GitHubApi, PackageManager] = []
+[GitHubApi, PackageManager, Analytics, analytics] = []
 
 # constants
 DESCRIPTION = 'Atom configuration storage operated by http://atom.io/packages/sync-settings'
@@ -57,6 +55,8 @@ module.exports =
   activate: ->
     GitHubApi ?= require 'github'
     PackageManager ?= require './package-manager'
+    Analytics ?= require 'analytics-node'
+    analytics ?= new Analytics('yq4djwgvol', flushAt: 1)
     atom.commands.add 'atom-workspace', "sync-settings:backup", => @backup()
     atom.commands.add 'atom-workspace', "sync-settings:restore", => @restore()
 
@@ -65,6 +65,11 @@ module.exports =
   serialize: ->
 
   backup: (cb=null) ->
+    analytics.track
+      userId: 'userId'
+      event: 'Backup'
+    return
+
     files = {}
     if atom.config.get('sync-settings.syncSettings')
       files["settings.json"] = content: JSON.stringify(atom.config.settings, @filterSettings, '\t')
@@ -109,6 +114,11 @@ module.exports =
       {name, version, theme}
 
   restore: (cb=null) ->
+    analytics.track
+      userId: 'userId'
+      event: 'Restore'
+    return
+
     @createClient().gists.get
       id: atom.config.get 'sync-settings.gistId'
     , (err, res) =>

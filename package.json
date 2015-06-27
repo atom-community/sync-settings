@@ -18,8 +18,9 @@
     "atom": ">=0.200.0 <2.0.0"
   },
   "dependencies": {
-    "github": "0.*",
+    "analytics-node": "^1.2.2",
     "emissary": "1.x",
+    "github": "0.*",
     "q": "~1.0.1",
     "semver": "~2.2.1",
     "underscore-plus": "^1.0.6"
