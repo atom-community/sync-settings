@@ -40,4 +40,8 @@ module.exports = {
     items:
       type: 'string'
     order: 9
+  _lastBackupHash:
+    type: 'string'
+    default: ''
+    description: 'Hash of the last backup restores or created'
 }

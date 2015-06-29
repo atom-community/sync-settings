@@ -19,10 +19,46 @@ module.exports =
     atom.commands.add 'atom-workspace', "sync-settings:backup", => @backup()
     atom.commands.add 'atom-workspace', "sync-settings:restore", => @restore()
     atom.commands.add 'atom-workspace', "sync-settings:view-backup", => @viewBackup()
+    @checkForUpdate()
 
   deactivate: ->
 
   serialize: ->
+
+  checkForUpdate: (cb=null) ->
+    if atom.config.get('sync-settings.gistId')
+      setTimeout =>
+        console.debug('checking latest backup...')
+        @createClient().gists.get
+          id: atom.config.get 'sync-settings.gistId'
+        , (err, res) =>
+          console.debug(err, res)
+          if err
+            console.error "error while retrieving the gist. does it exists?", err
+            try
+              message = JSON.parse(err.message).message
+              message = 'Gist ID Not Found' if message is 'Not Found'
+            catch SyntaxError
+              message = err.message
+            atom.notifications.addError "sync-settings: Error retrieving your settings. ("+message+")"
+            return cb?()
+
+          console.debug("latest backup version #{res.history[0].version}")
+          if res.history[0].version isnt atom.config.get('sync-settings._lastBackupHash')
+            @notifyNewerBackup()
+
+          cb?()
+      , 0
+    else
+      @notifyMissingGistId()
+
+  notifyNewerBackup: ->
+    # TODO: create a link to restore command with something like custom uri
+    atom.notifications.addInfo "sync-settings: Your settings are out of date."
+
+  notifyMissingGistId: ->
+    # TODO: add link to open package settings if possible
+    atom.notifications.addInfo "sync-settings: Missing gist ID"
 
   backup: (cb=null) ->
     files = {}
@@ -60,6 +96,7 @@ module.exports =
         message = 'Gist ID Not Found' if message is 'Not Found'
         atom.notifications.addError "sync-settings: Error backing up your settings. ("+message+")"
       else
+        atom.config.set('sync-settings._lastBackupHash', res.history[0].version)
         atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up. <br/><a href='"+res.html_url+"'>Click here to open your Gist.</a>"
       cb?(err, res)
 
@@ -110,6 +147,8 @@ module.exports =
 
           else fs.writeFileSync "#{atom.config.configDirPath}/#{filename}", file.content
 
+      atom.config.set('sync-settings._lastBackupHash', res.history[0].version)
+
       atom.notifications.addSuccess "sync-settings: Your settings were successfully synchronized."
 
       cb() unless callbackAsync
@@ -119,7 +158,7 @@ module.exports =
     console.debug "Creating GitHubApi client with token = #{token}"
     github = new GitHubApi
       version: '3.0.0'
-      # debug: true
+      debug: atom.inSpecMode()
       protocol: 'https'
     github.authenticate
       type: 'oauth'

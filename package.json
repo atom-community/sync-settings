@@ -26,12 +26,5 @@
   },
   "devDependencies": {
     "coffeelint": "^1.10.1"
-  },
-  "activationCommands": {
-    "atom-workspace": [
-      "sync-settings:backup",
-      "sync-settings:restore",
-      "sync-settings:view-backup"
-    ]
   }
 }
