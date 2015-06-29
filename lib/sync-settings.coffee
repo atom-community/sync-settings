@@ -59,6 +59,7 @@ module.exports =
     PackageManager ?= require './package-manager'
     atom.commands.add 'atom-workspace', "sync-settings:backup", => @backup()
     atom.commands.add 'atom-workspace', "sync-settings:restore", => @restore()
+    atom.commands.add 'atom-workspace', "sync-settings:view-backup", => @viewBackup()
 
   deactivate: ->
 
@@ -102,6 +103,11 @@ module.exports =
       else
         atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up. <br/><a href='"+res.html_url+"'>Click here to open your Gist.</a>"
       cb?(err, res)
+
+  viewBackup: ->
+    Shell = require 'shell'
+    gistId = atom.config.get 'sync-settings.gistId'
+    Shell.openExternal "https://gist.github.com/#{gistId}"
 
   getPackages: ->
     for own name, info of atom.packages.getLoadedPackages()
