@@ -10,10 +10,10 @@ REMOVE_KEYS = ["sync-settings"]
 
 module.exports =
   config:
-    _analyticsUserId :
-      type : 'string'
-      default : ""
-      description : "Unique identifier for this user for tracking usage analytics"
+    _analyticsUserId:
+      type: 'string'
+      default: ""
+      description: "Unique identifier for this user for tracking usage analytics"
     personalAccessToken:
       description: 'Your personal GitHub access token'
       type: 'string'
