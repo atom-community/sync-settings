@@ -2,7 +2,7 @@
 {BufferedProcess} = require 'atom'
 fs = require 'fs'
 _ = require 'underscore-plus'
-[GitHubApi, PackageManager, Analytics, analytics] = []
+[GitHubApi, PackageManager, Tracker] = []
 
 # constants
 DESCRIPTION = 'Atom configuration storage operated by http://atom.io/packages/sync-settings'
@@ -10,6 +10,10 @@ REMOVE_KEYS = ["sync-settings"]
 
 module.exports =
   config:
+    _analyticsUserId :
+      type : 'string'
+      default : ""
+      description : "Unique identifier for this user for tracking usage analytics"
     personalAccessToken:
       description: 'Your personal GitHub access token'
       type: 'string'
@@ -55,21 +59,25 @@ module.exports =
   activate: ->
     GitHubApi ?= require 'github'
     PackageManager ?= require './package-manager'
-    Analytics ?= require 'analytics-node'
-    analytics ?= new Analytics('yq4djwgvol', flushAt: 1)
-    atom.commands.add 'atom-workspace', "sync-settings:backup", => @backup()
-    atom.commands.add 'atom-workspace', "sync-settings:restore", => @restore()
+    Tracker ?= require './tracker'
+
+    @tracker = new Tracker('sync-settings._analyticsUserId')
+
+    @tracker.trackActivate()
+
+    atom.commands.add 'atom-workspace', "sync-settings:backup", =>
+      @tracker.track 'Backup'
+      @backup()
+    atom.commands.add 'atom-workspace', "sync-settings:restore", =>
+      @tracker.track 'Restore'
+      @restore()
 
   deactivate: ->
+    @tracker.trackDeactivate()
 
   serialize: ->
 
   backup: (cb=null) ->
-    analytics.track
-      userId: 'userId'
-      event: 'Backup'
-    return
-
     files = {}
     if atom.config.get('sync-settings.syncSettings')
       files["settings.json"] = content: JSON.stringify(atom.config.settings, @filterSettings, '\t')
@@ -114,11 +122,6 @@ module.exports =
       {name, version, theme}
 
   restore: (cb=null) ->
-    analytics.track
-      userId: 'userId'
-      event: 'Restore'
-    return
-
     @createClient().gists.get
       id: atom.config.get 'sync-settings.gistId'
     , (err, res) =>

@@ -21,6 +21,8 @@
     "analytics-node": "^1.2.2",
     "emissary": "1.x",
     "github": "0.*",
+    "loophole": "^1.0.0",
+    "node-uuid": "^1.4.1",
     "q": "~1.0.1",
     "semver": "~2.2.1",
     "underscore-plus": "^1.0.6"
