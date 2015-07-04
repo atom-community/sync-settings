@@ -4,7 +4,8 @@ fs = require 'fs'
 _ = require 'underscore-plus'
 # defer loading of github and package-manager modules
 # to speed up package loading time
-[GitHubApi, PackageManager] = []
+[GitHubApi, PackageManager, SyncManager] = []
+
 
 # constants
 DESCRIPTION = 'Atom configuration storage operated by http://atom.io/packages/sync-settings'
@@ -16,6 +17,7 @@ module.exports =
   activate: ->
     GitHubApi ?= require 'github'
     PackageManager ?= require './package-manager'
+    SyncManager ?= require './sync-manager'
     atom.commands.add 'atom-workspace', "sync-settings:backup", => @backup()
     atom.commands.add 'atom-workspace', "sync-settings:restore", => @restore()
     atom.commands.add 'atom-workspace', "sync-settings:view-backup", => @viewBackup()
@@ -25,6 +27,12 @@ module.exports =
   serialize: ->
 
   backup: (cb=null) ->
+    files = {}
+    for own file, sync of SyncManager.get()
+      #console.log file, sync.reader()[...50]
+      files[file] = content: sync.reader()
+
+    ###
     files = {}
     if atom.config.get('sync-settings.syncSettings')
       files["settings.json"] = content: JSON.stringify(atom.config.settings, @filterSettings, '\t')
@@ -62,6 +70,7 @@ module.exports =
       else
         atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up. <br/><a href='"+res.html_url+"'>Click here to open your Gist.</a>"
       cb?(err, res)
+    ###
 
   viewBackup: ->
     Shell = require 'shell'
