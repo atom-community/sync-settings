@@ -5,7 +5,7 @@ SyncInterface = require './../sync-interface'
 REMOVE_KEYS = ["sync-settings"]
 
 class SyncConfig extends SyncInterface
-  @register: ->
+  @instance:
     file: 'settings.json'
     sync: new SyncConfig
 

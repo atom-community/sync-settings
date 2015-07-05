@@ -4,8 +4,8 @@ path = require 'path'
 SyncInterface = require './../sync-interface'
 
 class SyncSnippets extends SyncInterface
-  @register: ->
     file: 'snippets.cson'
+  @instance:
     sync: new SyncSnippets
 
   reader: ->

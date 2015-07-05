@@ -3,9 +3,9 @@ path = require 'path'
 
 class SyncManager
   constructor: ->
-    for fileName in fs.readdirSync './lib/sync-interfaces/'
-      console.log "./sync-interfaces/" + path.parse(fileName).name
-      @add require("./sync-interfaces/" + path.parse(fileName).name).register()
+    for file in fs.readdirSync './lib/sync-interfaces/'
+      name = path.parse(file).name
+      @add require("./sync-interfaces/#{name}").instance
   list = {}
   add: ({file, sync}) ->
     list[file] = sync
