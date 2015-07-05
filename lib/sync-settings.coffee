@@ -2,9 +2,9 @@
 {BufferedProcess} = require 'atom'
 fs = require 'fs'
 _ = require 'underscore-plus'
-# defer loading of github and package-manager modules
-# to speed up package loading time
-[GitHubApi, PackageManager, SyncManager] = []
+path = require 'path'
+
+[GitHubApi, PackageManager, SyncManager, SyncDocument] = []
 
 
 # constants
@@ -18,6 +18,8 @@ module.exports =
     GitHubApi ?= require 'github'
     PackageManager ?= require './package-manager'
     SyncManager ?= require './sync-manager'
+    SyncDocument ?= require('./sync-document').instance.sync
+
     atom.commands.add 'atom-workspace', "sync-settings:backup", => @backup()
     atom.commands.add 'atom-workspace', "sync-settings:restore", => @restore()
     atom.commands.add 'atom-workspace', "sync-settings:view-backup", => @viewBackup()
@@ -31,6 +33,13 @@ module.exports =
     for own file, sync of SyncManager.get()
       #console.log file, sync.reader()[...50]
       files[file] = content: sync.reader()
+
+    for file in atom.config.get('sync-settings.extraFiles') ? []
+      switch path.extname(file)
+        when '.jpg'
+          #TODO sync-image
+        else
+          files[file] = content: SyncDocument.reader path.join atom.getConfigDirPath(), file
 
     ###
     files = {}
@@ -53,15 +62,17 @@ module.exports =
       cmtstart = "//" if ext in [".less", ".scss", ".js"]
       cmtstart = "/*" if ext in [".css"]
       cmtend = ""
-      cmtend = "*/" if ext in [".css"]
+      cmtend = "* /" if ext in [".css"]
       files[file] =
         content: (@fileContent atom.config.configDirPath + "/#{file}") ? "#{cmtstart} #{file} (not found) #{cmtend}"
+    ###
 
     @createClient().gists.edit
       id: atom.config.get 'sync-settings.gistId'
       description: "automatic update by http://atom.io/packages/sync-settings"
       files: files
     , (err, res) ->
+      console.log arguments
       if err
         console.error "error backing up data: "+err.message, err
         message = JSON.parse(err.message).message
@@ -70,7 +81,6 @@ module.exports =
       else
         atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up. <br/><a href='"+res.html_url+"'>Click here to open your Gist.</a>"
       cb?(err, res)
-    ###
 
   viewBackup: ->
     Shell = require 'shell'
@@ -135,20 +145,6 @@ module.exports =
       token: token
     github
 
-  filterSettings: (key, value) ->
-    return value if key is ""
-    return undefined if ~REMOVE_KEYS.indexOf(key)
-    value
-
-  applySettings: (pref, settings) ->
-    for key, value of settings
-      keyPath = "#{pref}.#{key}"
-      if _.isObject(value) and not _.isArray(value)
-        @applySettings keyPath, value
-      else
-        console.debug "config.set #{keyPath[1...]}=#{value}"
-        atom.config.set keyPath[1...], value
-
   installMissingPackages: (packages, cb) ->
     pending=0
     for pkg in packages
@@ -169,10 +165,3 @@ module.exports =
       else
         console.info("Installed #{type} #{pack.name}")
       cb?(error)
-
-  fileContent: (filePath) ->
-    try
-      return fs.readFileSync(filePath, {encoding: 'utf8'}) or null
-    catch e
-      console.error "Error reading file #{filePath}. Probably doesn't exist.", e
-      null
