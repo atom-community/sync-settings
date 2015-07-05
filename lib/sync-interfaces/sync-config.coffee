@@ -18,12 +18,12 @@ class SyncConfig extends SyncInterface
 
 module.exports = SyncConfig
 
-_filterSettings: (key, value) ->
+_filterSettings = (key, value) ->
   return value if key is ""
   return undefined if ~REMOVE_KEYS.indexOf(key)
   value
 
-_applySettings: (pref, settings) ->
+_applySettings = (pref, settings) ->
   for key, value of settings
     keyPath = "#{pref}.#{key}"
     if _.isObject(value) and not _.isArray(value)
