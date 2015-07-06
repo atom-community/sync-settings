@@ -1,10 +1,10 @@
 # imports
 {BufferedProcess} = require 'atom'
 fs = require 'fs'
-_ = require 'underscore-plus'
 path = require 'path'
+_ = require 'underscore-plus'
 
-[GitHubApi, PackageManager, SyncManager, SyncImage, SyncDocument] = []
+[GitHubApi, SyncManager, SyncImage, SyncDocument] = []
 
 
 # constants
@@ -16,7 +16,6 @@ module.exports =
 
   activate: ->
     GitHubApi ?= require 'github'
-    PackageManager ?= require './package-manager'
     SyncManager ?= require './sync-manager'
     SyncImage ?= require('./sync-image').instance.sync
     SyncDocument ?= require('./sync-document').instance.sync
@@ -35,39 +34,12 @@ module.exports =
       files[file] = content: sync.reader()
 
     for file in atom.config.get('sync-settings.extraFiles') ? []
-      filePath = path.join atom.getConfigDirPath(), file
-      extension = path.extname(file).toLowerCase()
-      switch extension
+      file = path.join atom.getConfigDirPath(), file unless path.isAbsolute file
+      switch path.extname(file).toLowerCase()
         when '.bmp', '.gif', '.jpg', '.jpeg', '.png', '.tiff'
-          files[file] = content: SyncImage.reader filePath
+          files[file] = content: SyncImage.reader file
         else
-          files[file] = content: SyncDocument.reader filePath
-
-    ###
-    files = {}
-    if atom.config.get('sync-settings.syncSettings')
-      files["settings.json"] = content: JSON.stringify(atom.config.settings, @filterSettings, '\t')
-    if atom.config.get('sync-settings.syncPackages')
-      files["packages.json"] = content: JSON.stringify(@getPackages(), null, '\t')
-    if atom.config.get('sync-settings.syncKeymap')
-      files["keymap.cson"] = content: (@fileContent atom.keymaps.getUserKeymapPath()) ? "# keymap file (not found)"
-    if atom.config.get('sync-settings.syncStyles')
-      files["styles.less"] = content: (@fileContent atom.styles.getUserStyleSheetPath()) ? "// styles file (not found)"
-    if atom.config.get('sync-settings.syncInit')
-      files["init.coffee"] = content: (@fileContent atom.config.configDirPath + "/init.coffee") ? "# initialization file (not found)"
-    if atom.config.get('sync-settings.syncSnippets')
-      files["snippets.cson"] = content: (@fileContent atom.config.configDirPath + "/snippets.cson") ? "# snippets file (not found)"
-
-    for file in atom.config.get('sync-settings.extraFiles') ? []
-      ext = file.slice(file.lastIndexOf(".")).toLowerCase()
-      cmtstart = "#"
-      cmtstart = "//" if ext in [".less", ".scss", ".js"]
-      cmtstart = "/*" if ext in [".css"]
-      cmtend = ""
-      cmtend = "* /" if ext in [".css"]
-      files[file] =
-        content: (@fileContent atom.config.configDirPath + "/#{file}") ? "#{cmtstart} #{file} (not found) #{cmtend}"
-    ###
+          files[file] = content: SyncDocument.reader file
 
     @createClient().gists.edit
       id: atom.config.get 'sync-settings.gistId'
@@ -88,11 +60,6 @@ module.exports =
     Shell = require 'shell'
     gistId = atom.config.get 'sync-settings.gistId'
     Shell.openExternal "https://gist.github.com/#{gistId}"
-
-  getPackages: ->
-    for own name, info of atom.packages.getLoadedPackages()
-      {name, version, theme} = info.metadata
-      {name, version, theme}
 
   restore: (cb=null) ->
     @createClient().gists.get
@@ -146,24 +113,3 @@ module.exports =
       type: 'oauth'
       token: token
     github
-
-  installMissingPackages: (packages, cb) ->
-    pending=0
-    for pkg in packages
-      continue if atom.packages.isPackageLoaded(pkg.name)
-      pending++
-      @installPackage pkg, ->
-        pending--
-        cb?() if pending is 0
-    cb?() if pending is 0
-
-  installPackage: (pack, cb) ->
-    type = if pack.theme then 'theme' else 'package'
-    console.info("Installing #{type} #{pack.name}...")
-    packageManager = new PackageManager()
-    packageManager.install pack, (error) ->
-      if error?
-        console.error("Installing #{type} #{pack.name} failed", error.stack ? error, error.stderr)
-      else
-        console.info("Installed #{type} #{pack.name}")
-      cb?(error)
