@@ -4,7 +4,7 @@ fs = require 'fs'
 _ = require 'underscore-plus'
 path = require 'path'
 
-[GitHubApi, PackageManager, SyncManager, SyncDocument] = []
+[GitHubApi, PackageManager, SyncManager, SyncImage, SyncDocument] = []
 
 
 # constants
@@ -18,6 +18,7 @@ module.exports =
     GitHubApi ?= require 'github'
     PackageManager ?= require './package-manager'
     SyncManager ?= require './sync-manager'
+    SyncImage ?= require('./sync-image').instance.sync
     SyncDocument ?= require('./sync-document').instance.sync
 
     atom.commands.add 'atom-workspace', "sync-settings:backup", => @backup()
@@ -31,15 +32,16 @@ module.exports =
   backup: (cb=null) ->
     files = {}
     for own file, sync of SyncManager.get()
-      #console.log file, sync.reader()[...50]
       files[file] = content: sync.reader()
 
     for file in atom.config.get('sync-settings.extraFiles') ? []
-      switch path.extname(file)
-        when '.jpg'
-          #TODO sync-image
+      filePath = path.join atom.getConfigDirPath(), file
+      extension = path.extname(file).toLowerCase()
+      switch extension
+        when '.bmp', '.gif', '.jpg', '.jpeg', '.png', '.tiff'
+          files[file] = content: SyncImage.reader filePath
         else
-          files[file] = content: SyncDocument.reader path.join atom.getConfigDirPath(), file
+          files[file] = content: SyncDocument.reader filePath
 
     ###
     files = {}

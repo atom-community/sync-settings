@@ -9,10 +9,11 @@ class SyncImage extends SyncInterface
     sync: new SyncImage
 
   reader: (path) ->
-    fs.readFileSync path, encoding: 'utf8'
+    data = fs.readFileSync path
+    new Buffer(data).toString 'base64'
 
   writer: (path, contents) ->
-    contents ?= '# file (not found)'
-    fs.writeFileSync path, contents
+    data = new Buffer contents, 'base64'
+    fs.writeFileSync path, data
 
 module.exports = SyncImage
