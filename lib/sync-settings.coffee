@@ -26,7 +26,7 @@ module.exports =
   serialize: ->
 
   checkForUpdate: (cb=null) ->
-    if atom.config.get('sync-settings.gistId')
+    if atom.config.get('sync-settings.gistId') and atom.config.get('sync-settings.checkForUpdatedBackup')
       setTimeout =>
         console.debug('checking latest backup...')
         @createClient().gists.get

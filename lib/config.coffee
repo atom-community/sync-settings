@@ -40,6 +40,10 @@ module.exports = {
     items:
       type: 'string'
     order: 9
+  checkForUpdatedBackup:
+    description: 'Check for newer backup on Atom start'
+    type: 'boolean'
+    default: true
   _lastBackupHash:
     type: 'string'
     default: ''
