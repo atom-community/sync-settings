@@ -9,68 +9,27 @@ DESCRIPTION = 'Atom configuration storage operated by http://atom.io/packages/sy
 REMOVE_KEYS = ["sync-settings"]
 
 module.exports =
-  config:
-    _analyticsUserId:
-      type: 'string'
-      default: ""
-      description: "Unique identifier for this user for tracking usage analytics"
-    personalAccessToken:
-      description: 'Your personal GitHub access token'
-      type: 'string'
-      default: ''
-      order: 1
-    gistId:
-      description: 'ID of gist to use for configuration storage'
-      type: 'string'
-      default: ''
-      order: 2
-    syncSettings:
-      type: 'boolean'
-      default: true
-      order: 3
-    syncPackages:
-      type: 'boolean'
-      default: true
-      order: 4
-    syncKeymap:
-      type: 'boolean'
-      default: true
-      order: 5
-    syncStyles:
-      type: 'boolean'
-      default: true
-      order: 6
-    syncInit:
-      type: 'boolean'
-      default: true
-      order: 7
-    syncSnippets:
-      type: 'boolean'
-      default: true
-      order: 8
-    extraFiles:
-      description: 'Comma-seperated list of files other than Atom\'s default config files in ~/.atom'
-      type: 'array'
-      default: []
-      items:
-        type: 'string'
-      order: 9
+  config: require('./config.coffee')
 
   activate: ->
     GitHubApi ?= require 'github'
     PackageManager ?= require './package-manager'
+
     Tracker ?= require './tracker'
 
     @tracker = new Tracker('sync-settings._analyticsUserId')
 
     @tracker.trackActivate()
 
-    atom.commands.add 'atom-workspace', "sync-settings:backup", =>
+    atom.commands.add 'atom-workspace', "sync-settings:backup", => 
       @tracker.track 'Backup'
       @backup()
     atom.commands.add 'atom-workspace', "sync-settings:restore", =>
       @tracker.track 'Restore'
       @restore()
+    atom.commands.add 'atom-workspace', "sync-settings:view-backup", =>
+      @tracker.track 'View backup'
+      @viewBackup()
 
   deactivate: ->
     @tracker.trackDeactivate()
@@ -115,6 +74,11 @@ module.exports =
       else
         atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up. <br/><a href='"+res.html_url+"'>Click here to open your Gist.</a>"
       cb?(err, res)
+
+  viewBackup: ->
+    Shell = require 'shell'
+    gistId = atom.config.get 'sync-settings.gistId'
+    Shell.openExternal "https://gist.github.com/#{gistId}"
 
   getPackages: ->
     for own name, info of atom.packages.getLoadedPackages()
