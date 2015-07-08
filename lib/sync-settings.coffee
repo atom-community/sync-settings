@@ -21,7 +21,7 @@ module.exports =
 
     @tracker.trackActivate()
 
-    atom.commands.add 'atom-workspace', "sync-settings:backup", => 
+    atom.commands.add 'atom-workspace', "sync-settings:backup", =>
       @tracker.track 'Backup'
       @backup()
     atom.commands.add 'atom-workspace', "sync-settings:restore", =>
