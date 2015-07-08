@@ -14,12 +14,16 @@ module.exports =
   config: require('./config.coffee')
 
   activate: ->
-    GitHubApi ?= require 'github'
-    PackageManager ?= require './package-manager'
-    atom.commands.add 'atom-workspace', "sync-settings:backup", => @backup()
-    atom.commands.add 'atom-workspace', "sync-settings:restore", => @restore()
-    atom.commands.add 'atom-workspace', "sync-settings:view-backup", => @viewBackup()
-    @checkForUpdate()
+    # speedup activation by async initializing
+    # further optimization can be achieved by minimizing this file
+    setImmediate =>
+      # actual initialization after atom has loaded
+      GitHubApi ?= require 'github'
+      PackageManager ?= require './package-manager'
+      atom.commands.add 'atom-workspace', "sync-settings:backup", => @backup()
+      atom.commands.add 'atom-workspace', "sync-settings:restore", => @restore()
+      atom.commands.add 'atom-workspace', "sync-settings:view-backup", => @viewBackup()
+      @checkForUpdate()
 
   deactivate: ->
 
