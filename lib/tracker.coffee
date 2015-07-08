@@ -31,7 +31,9 @@ class Tracker
     console.debug "tracking #{message.event}"
     @analytics.track _.deepExtend({
       userId: atom.config.get @analyticsUserIdConfig
-      properties: version: @pkg.version
+      properties:
+        version: @pkg.version
+        atomVersion: atom.getVersion()
       value: 1
     }, message)
 
