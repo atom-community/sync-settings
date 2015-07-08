@@ -4,7 +4,7 @@ fs = require 'fs'
 path = require 'path'
 _ = require 'underscore-plus'
 
-[GitHubApi, SyncManager, SyncImage, SyncDocument] = []
+[GistApi, SyncManager, SyncImage, SyncDocument] = []
 
 
 # constants
@@ -15,7 +15,7 @@ module.exports =
   config: require('./config.coffee')
 
   activate: ->
-    GitHubApi ?= require 'github'
+    GistApi ?= require './gist-api'
     SyncManager ?= require './sync-manager'
     SyncImage ?= require('./sync-image').instance.sync
     SyncDocument ?= require('./sync-document').instance.sync
@@ -28,8 +28,9 @@ module.exports =
 
   serialize: ->
 
-  backup: (cb=null) ->
+  backup: ->
     files = {}
+
     for own file, sync of SyncManager.get()
       files[file] = content: sync.reader()
 
@@ -41,25 +42,7 @@ module.exports =
         else
           files[file] = content: SyncDocument.reader file
 
-    @createClient().gists.edit
-      id: atom.config.get 'sync-settings.gistId'
-      description: "automatic update by http://atom.io/packages/sync-settings"
-      files: files
-    , (err, res) ->
-      console.log arguments
-      if err
-        console.error "error backing up data: "+err.message, err
-        message = JSON.parse(err.message).message
-        message = 'Gist ID Not Found' if message is 'Not Found'
-        atom.notifications.addError "sync-settings: Error backing up your settings. ("+message+")"
-      else
-        atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up. <br/><a href='"+res.html_url+"'>Click here to open your Gist.</a>"
-      cb?(err, res)
-
-  viewBackup: ->
-    Shell = require 'shell'
-    gistId = atom.config.get 'sync-settings.gistId'
-    Shell.openExternal "https://gist.github.com/#{gistId}"
+    GistApi.update files
 
   restore: (cb=null) ->
     @createClient().gists.get
@@ -102,14 +85,7 @@ module.exports =
 
       cb() unless callbackAsync
 
-  createClient: ->
-    token = atom.config.get 'sync-settings.personalAccessToken'
-    console.debug "Creating GitHubApi client with token = #{token}"
-    github = new GitHubApi
-      version: '3.0.0'
-      # debug: true
-      protocol: 'https'
-    github.authenticate
-      type: 'oauth'
-      token: token
-    github
+  viewBackup: ->
+    Shell = require 'shell'
+    gistId = atom.config.get 'sync-settings.gistId'
+    Shell.openExternal "https://gist.github.com/#{gistId}"
