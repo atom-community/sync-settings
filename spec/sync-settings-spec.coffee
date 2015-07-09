@@ -33,7 +33,9 @@ describe "SyncSettings", ->
     TOKEN_CONFIG = 'sync-settings.personalAccessToken'
     GIST_ID_CONFIG = 'sync-settings.gistId'
 
+    window.resetTimeouts()
     SyncSettings.activate()
+    window.advanceClock()
 
     beforeEach ->
       @token = process.env.GITHUB_TOKEN or atom.config.get(TOKEN_CONFIG)
@@ -270,12 +272,10 @@ describe "SyncSettings", ->
       describe "::notification", ->
         beforeEach ->
           atom.notifications.clear()
-          window.resetTimeouts()
 
         it "displays on newer backup", ->
           run (cb) ->
             SyncSettings.checkForUpdate cb
-            window.advanceClock()
           , ->
             expect(atom.notifications.getNotifications().length).toBe(1)
 
@@ -286,6 +286,5 @@ describe "SyncSettings", ->
             run (cb) ->
               atom.notifications.clear()
               SyncSettings.checkForUpdate cb
-              window.advanceClock()
             , ->
               expect(atom.notifications.getNotifications().length).toBe(0)
