@@ -28,35 +28,34 @@ SyncSettings =
       atom.commands.add 'atom-workspace', "sync-settings:view-backup", => @viewBackup()
       atom.commands.add 'atom-workspace', "sync-settings:check-backup", => @checkForUpdate()
 
-      @checkForUpdate()
+      @checkForUpdate() if atom.config.get('sync-settings.checkForUpdatedBackup')
 
   deactivate: ->
 
   serialize: ->
 
   checkForUpdate: (cb=null) ->
-    if atom.config.get('sync-settings.gistId') and atom.config.get('sync-settings.checkForUpdatedBackup')
-      setImmediate =>
-        console.debug('checking latest backup...')
-        @createClient().gists.get
-          id: atom.config.get 'sync-settings.gistId'
-        , (err, res) =>
-          console.debug(err, res)
-          if err
-            console.error "error while retrieving the gist. does it exists?", err
-            try
-              message = JSON.parse(err.message).message
-              message = 'Gist ID Not Found' if message is 'Not Found'
-            catch SyntaxError
-              message = err.message
-            atom.notifications.addError "sync-settings: Error retrieving your settings. ("+message+")"
-            return cb?()
+    if atom.config.get('sync-settings.gistId')
+      console.debug('checking latest backup...')
+      @createClient().gists.get
+        id: atom.config.get 'sync-settings.gistId'
+      , (err, res) =>
+        console.debug(err, res)
+        if err
+          console.error "error while retrieving the gist. does it exists?", err
+          try
+            message = JSON.parse(err.message).message
+            message = 'Gist ID Not Found' if message is 'Not Found'
+          catch SyntaxError
+            message = err.message
+          atom.notifications.addError "sync-settings: Error retrieving your settings. ("+message+")"
+          return cb?()
 
-          console.debug("latest backup version #{res.history[0].version}")
-          if res.history[0].version isnt atom.config.get('sync-settings._lastBackupHash')
-            @notifyNewerBackup()
+        console.debug("latest backup version #{res.history[0].version}")
+        if res.history[0].version isnt atom.config.get('sync-settings._lastBackupHash')
+          @notifyNewerBackup()
 
-          cb?()
+        cb?()
     else
       @notifyMissingGistId()
 
