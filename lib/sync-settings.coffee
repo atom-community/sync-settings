@@ -7,10 +7,12 @@ _ = require 'underscore-plus'
 [GitHubApi, PackageManager] = []
 
 # constants
+syncUri = 'sync-settings:/'
+
 DESCRIPTION = 'Atom configuration storage operated by http://atom.io/packages/sync-settings'
 REMOVE_KEYS = ["sync-settings"]
 
-module.exports =
+SyncSettings =
   config: require('./config.coffee')
 
   activate: ->
@@ -20,9 +22,11 @@ module.exports =
       # actual initialization after atom has loaded
       GitHubApi ?= require 'github'
       PackageManager ?= require './package-manager'
+
       atom.commands.add 'atom-workspace', "sync-settings:backup", => @backup()
       atom.commands.add 'atom-workspace', "sync-settings:restore", => @restore()
       atom.commands.add 'atom-workspace', "sync-settings:view-backup", => @viewBackup()
+
       @checkForUpdate()
 
   deactivate: ->
@@ -31,7 +35,7 @@ module.exports =
 
   checkForUpdate: (cb=null) ->
     if atom.config.get('sync-settings.gistId') and atom.config.get('sync-settings.checkForUpdatedBackup')
-      setTimeout =>
+      setImmediate =>
         console.debug('checking latest backup...')
         @createClient().gists.get
           id: atom.config.get 'sync-settings.gistId'
@@ -52,13 +56,30 @@ module.exports =
             @notifyNewerBackup()
 
           cb?()
-      , 0
     else
       @notifyMissingGistId()
 
   notifyNewerBackup: ->
-    # TODO: create a link to restore command with something like custom uri
-    atom.notifications.addInfo "sync-settings: Your settings are out of date."
+    notification = atom.notifications.addInfo "sync-settings: Your settings are out of date.",
+      dismissable: true
+      buttons: [{
+        text: "Backup"
+        className: 'btn-warning'
+        onDidClick: ->
+          SyncSettings.backup()
+          notification.dismiss()
+      }, {
+        text: "View backup"
+        className: 'btn-info'
+        onDidClick: ->
+          SyncSettings.viewBackup()
+      }, {
+        text: "Restore"
+        className: 'btn-success'
+        onDidClick: ->
+          SyncSettings.restore()
+          notification.dismiss()
+      }]
 
   notifyMissingGistId: ->
     # TODO: add link to open package settings if possible
@@ -210,3 +231,5 @@ module.exports =
     catch e
       console.error "Error reading file #{filePath}. Probably doesn't exist.", e
       null
+
+module.exports = SyncSettings
