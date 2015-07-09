@@ -26,6 +26,7 @@ SyncSettings =
       atom.commands.add 'atom-workspace', "sync-settings:backup", => @backup()
       atom.commands.add 'atom-workspace', "sync-settings:restore", => @restore()
       atom.commands.add 'atom-workspace', "sync-settings:view-backup", => @viewBackup()
+      atom.commands.add 'atom-workspace', "sync-settings:check-backup", => @checkForUpdate()
 
       @checkForUpdate()
 
