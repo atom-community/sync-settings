@@ -34,19 +34,33 @@ class Tracker
     @analytics.track _.deepExtend({
       userId: atom.config.get @analyticsUserIdConfigKey
       properties:
-        version: pkg.version
-        atomVersion: atom.getVersion()
         value: 1
+        version: atom.getVersion()
+        platform: navigator.platform
+        category: "Atom-#{atom.getVersion()}/#{pkg.name}-#{pkg.version}"
+      context:
+        app:
+          name: pkg.name
+          version: pkg.version
+        userAgent: navigator.userAgent
     }, message)
 
   trackActivate: ->
     @track
-      label: "v#{pkg.version}"
       event: 'Activate'
+      properties:
+        label: pkg.version
 
   trackDeactivate: ->
     @track
-      label: "v#{pkg.version}"
       event: 'Deactivate'
+      properties:
+        label: pkg.version
+
+  error: (e) ->
+    @track
+      event: 'Error'
+      properties:
+        error: e
 
 module.exports = Tracker
