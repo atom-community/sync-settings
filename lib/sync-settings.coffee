@@ -14,22 +14,21 @@ module.exports =
   activate: ->
     GitHubApi ?= require 'github'
     PackageManager ?= require './package-manager'
-
     Tracker ?= require './tracker'
 
-    @tracker = new Tracker('sync-settings._analyticsUserId')
-
-    @tracker.trackActivate()
-
     atom.commands.add 'atom-workspace', "sync-settings:backup", =>
-      @tracker.track 'Backup'
       @backup()
+      @tracker.track 'Backup'
     atom.commands.add 'atom-workspace', "sync-settings:restore", =>
-      @tracker.track 'Restore'
       @restore()
+      @tracker.track 'Restore'
     atom.commands.add 'atom-workspace', "sync-settings:view-backup", =>
-      @tracker.track 'View backup'
       @viewBackup()
+      @tracker.track 'View backup'
+
+    # make the tracking last in case any exception happens
+    @tracker = new Tracker('sync-settings._analyticsUserId')
+    @tracker.trackActivate()
 
   deactivate: ->
     @tracker.trackDeactivate()
