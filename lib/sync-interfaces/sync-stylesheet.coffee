@@ -1,15 +1,20 @@
-fs = require 'fs'
+fs = require 'fs-plus'
 path = require 'path'
 
 SyncInterface = require './../sync-interface'
 
 class SyncStyleSheet extends SyncInterface
-  @instance:
-    file: path.parse(atom.styles.getUserStyleSheetPath()).base
-    sync: new SyncStyleSheet
+  @instance: new SyncStyleSheet
+
+  fileName: path.parse(atom.styles.getUserStyleSheetPath()).base
 
   reader: ->
-    fs.readFileSync atom.styles.getUserStyleSheetPath(), encoding: 'utf8'
+    new Promise (resolve, reject) =>
+      file = atom.styles.getUserStyleSheetPath()
+      fs.readFile file, encoding: 'utf8', (err, content) =>
+        return reject err if err
+        (result = {})[@fileName] = content: content
+        resolve result
 
   writer: (contents) ->
     contents ?= '# styles file (not found)'

@@ -4,20 +4,24 @@ path = require 'path'
 SyncInterface = require './../sync-interface'
 
 class SyncSnippets extends SyncInterface
-  @instance:
-    file: (->
-      file = fs.resolve path.join(atom.getConfigDirPath(), 'snippets'), ['cson', 'json']
-      if fs.isFileSync file then path.parse(file).base else 'snippets.cson'
-    )()
-    sync: new SyncSnippets
+  @instance: new SyncSnippets
+
+  fileName: (->
+    file = fs.resolve atom.getConfigDirPath(), 'snippets', ['cson', 'json']
+    if file then path.parse(file).base else 'snippets.cson'
+  )()
 
   reader: ->
-    file = path.join atom.getConfigDirPath(), SyncSnippets.instance.file
-    fs.readFileSync file, encoding: 'utf8'
+    new Promise (resolve, reject) =>
+      file = path.join atom.getConfigDirPath(), @fileName
+      fs.readFile file, encoding: 'utf8', (err, content) =>
+        return reject err if err
+        (result = {})[@fileName] = content: content
+        resolve result
 
   writer: (contents) ->
     contents ?= '# snippets file (not found)'
-    file = path.join atom.getConfigDirPath(), SyncSnippets.instance.file
+    file = path.join atom.getConfigDirPath(), @fileName
     fs.writeFileSync file, contents
 
 module.exports = SyncSnippets

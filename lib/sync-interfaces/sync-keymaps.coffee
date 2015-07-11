@@ -1,15 +1,20 @@
-fs = require 'fs'
+fs = require 'fs-plus'
 path = require 'path'
 
 SyncInterface = require './../sync-interface'
 
 class SyncKeymaps extends SyncInterface
-  @instance:
-    file: path.parse(atom.keymaps.getUserKeymapPath()).base
-    sync: new SyncKeymaps
+  @instance: new SyncKeymaps
+
+  fileName: path.parse(atom.keymaps.getUserKeymapPath()).base
 
   reader: ->
-    fs.readFileSync atom.keymaps.getUserKeymapPath(), encoding: 'utf8'
+    new Promise (resolve, reject) =>
+      file = atom.keymaps.getUserKeymapPath()
+      fs.readFile file, encoding: 'utf8', (err, content) =>
+        return reject err if err
+        (result = {})[@fileName] = content: content
+        resolve result
 
   writer: (contents) ->
     contents ?= '# keymap file (not found)'

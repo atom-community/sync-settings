@@ -5,12 +5,18 @@ SyncInterface = require './../sync-interface'
 REMOVE_KEYS = ["sync-settings"]
 
 class SyncConfig extends SyncInterface
-  @instance:
-    file: 'settings.json'
-    sync: new SyncConfig
+  @instance: new SyncConfig
+
+  fileName: 'settings.json'
 
   reader: ->
-    JSON.stringify(atom.config.settings, _filterSettings, '\t')
+    new Promise (resolve, reject) =>
+      try
+        content = JSON.stringify(atom.config.settings, _filterSettings, '\t')
+        (result = {})[@fileName] = content: content
+        resolve result
+      catch err
+        reject err
 
   writer: (contents) ->
     settings = JSON.parse(contents ? {})

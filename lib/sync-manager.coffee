@@ -1,17 +1,19 @@
-fs = require 'fs'
+fs = require 'fs-plus'
 path = require 'path'
 
 class SyncManager
+  _list = []
+
   constructor: ->
-    files = fs.readdirSync('./lib/sync-interfaces/').filter (file) ->
-      path.extname file is '.coffee'
-    for file in files
+    for file in fs.readdirSync './lib/sync-interfaces/'
+      continue if path.extname(file) isnt '.coffee'
       name = path.parse(file).name
-      @add require("./sync-interfaces/#{name}").instance
-  list = {}
-  add: ({file, sync}) ->
-    list[file] = sync
-  get: ->
-    list
+      _list.push require("./sync-interfaces/#{name}").instance
+
+  loadReaders: ->
+    Promise.all(item.reader() for item in _list)
+
+  loadWriters: ->
+    Promise.all(item.writer() for item in _list)
 
 module.exports = new SyncManager()

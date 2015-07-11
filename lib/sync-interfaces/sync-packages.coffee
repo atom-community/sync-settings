@@ -4,12 +4,18 @@ PackageManager = require './../package-manager'
 SyncInterface = require './../sync-interface'
 
 class SyncPackages extends SyncInterface
-  @instance:
-    file: 'packages.json'
-    sync: new SyncPackages
+  @instance: new SyncPackages
+
+  fileName: 'packages.json'
 
   reader: ->
-    JSON.stringify(_getPackages(), null, '\t')
+    new Promise (resolve, reject) =>
+      try
+        content = JSON.stringify(_getPackages(), null, '\t')
+        (result = {})[@fileName] = content: content
+        resolve result
+      catch err
+        reject err
 
   writer: (contents) ->
     packages = JSON.parse(contents ? {})

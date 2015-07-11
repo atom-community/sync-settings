@@ -1,15 +1,20 @@
-fs = require 'fs'
+fs = require 'fs-plus'
 path = require 'path'
 
 SyncInterface = require './../sync-interface'
 
 class SyncInitScript extends SyncInterface
-  @instance:
-    file: path.parse(atom.getUserInitScriptPath()).base
-    sync: new SyncInitScript
+  @instance: new SyncInitScript
+
+  fileName: path.parse(atom.getUserInitScriptPath()).base
 
   reader: ->
-    fs.readFileSync atom.getUserInitScriptPath(), encoding: 'utf8'
+    new Promise (resolve, reject) =>
+      file = atom.getUserInitScriptPath()
+      fs.readFile file, encoding: 'utf8', (err, content) =>
+        return reject err if err
+        (result = {})[@fileName] = content: content
+        resolve result
 
   writer: (contents) ->
     contents ?= '# init file (not found)'

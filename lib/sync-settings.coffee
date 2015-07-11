@@ -1,18 +1,16 @@
 # imports
 {BufferedProcess} = require 'atom'
-fs = require 'fs'
+fs = require 'fs-plus'
 path = require 'path'
 _ = require 'underscore-plus'
 
 [GistApi, SyncManager, SyncImage, SyncDocument] = []
 
-
 # constants
 DESCRIPTION = 'Atom configuration storage operated by http://atom.io/packages/sync-settings'
-REMOVE_KEYS = ["sync-settings"]
 
 module.exports =
-  config: require('./config.coffee')
+  config: require './config.coffee'
 
   activate: ->
     GistApi ?= require './gist-api'
@@ -29,6 +27,12 @@ module.exports =
   serialize: ->
 
   backup: ->
+    SyncManager.loadReaders().then (filesArr) ->
+      files = _.extend {}, filesArr...
+      console.log files
+      GistApi.update files
+
+    ###
     files = {}
 
     for own file, sync of SyncManager.get()
@@ -43,6 +47,7 @@ module.exports =
           files[file] = content: SyncDocument.reader file
 
     GistApi.update files
+    ###
 
   restore: (cb=null) ->
     @createClient().gists.get
