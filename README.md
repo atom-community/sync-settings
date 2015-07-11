@@ -3,17 +3,21 @@
 [![Join the chat at https://gitter.im/Hackafe/atom-sync-settings](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Hackafe/atom-sync-settings?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/Hackafe/atom-sync-settings.svg?branch=master)](https://travis-ci.org/Hackafe/atom-sync-settings)
 
-Synchronize package settings, keymap and installed packages across [Atom](http://atom.io) instances.
+Synchronize settings, keymaps, user styles, init script, snippets and installed packages across [Atom](http://atom.io) instances.
 
 ## Features
-* sync package configuration
-* sync installed packages
-* sync user keymap file
-* manual backup/restore to a gist (automatic on the roadmap)
+* Sync Atom's and package settings
+* Sync installed packages
+* Sync user keymaps
+* Sync user styles
+* Sync user init script
+* Sync snippets
+* Sync user defined text files
+* Manual backup/restore to a gist
 
 ## Installation
 
-`$ apm install sync-settings` or using the [Preferences pane](atom://config).
+`$ apm install sync-settings` or using the Install packages pane from [Atom Settings](atom://config).
 
 ## Setup
 
@@ -25,9 +29,12 @@ Synchronize package settings, keymap and installed packages across [Atom](http:/
 
 ## Usage
 
-Backup or restore all settings from the **Packages** menu or use one of the following **commands**:
+Backup or restore all settings from the <kbd>Packages</kbd> menu or use one of the following **commands**:
 * `sync-settings:backup`
 * `sync-settings:restore`
+
+View your online backup using the following command:
+* `sync-settings:view-backup`
 
 ## Contributing
 
