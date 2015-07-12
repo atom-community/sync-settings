@@ -19,9 +19,12 @@ class SyncSnippets extends SyncInterface
         (result = {})[@fileName] = {content}
         resolve result
 
-  writer: (contents) ->
-    contents ?= '# snippets file (not found)'
-    file = path.join atom.getConfigDirPath(), @fileName
-    fs.writeFileSync file, contents
+  writer: (files) ->
+    new Promise (resolve, reject) =>
+      return resolve false unless content = files[@fileName]?.content
+      file = path.join atom.getConfigDirPath(), @fileName
+      fs.writeFile file, content, (err) ->
+        return reject err if err
+        resolve true
 
 module.exports = SyncSnippets

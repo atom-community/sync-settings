@@ -26,25 +26,34 @@ module.exports =
       This might take a while depending on your settings and the network \
       connection.'
 
-    SyncManager.loadReaders().then (filesArr) ->
+    SyncManager.loadReaders().then (filesArr) =>
       files = _.extend {}, filesArr...
       console.log files
       GistApi.update(files).then (res) ->
-        atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up. <br/><a href='#{res.html_url}'>Click here to open your Gist.</a>"
-      , (err) ->
-        message = JSON.parse(err.message).message
-        message = 'Gist ID Not Found' if message is 'Not Found'
-        atom.notifications.addError "sync-settings: Error backing up your settings. (#{message})"
+        atom.notifications.addSuccess "sync-settings: Your settings were successfully synchronized. <br/><a href='#{res.html_url}'>Click here to open your Gist.</a>"
+      , @error
+    , @error
 
-  restore: (cb=null) ->
+  restore: ->
+    GistApi.read().then (res) =>
+      console.log(res)
+      SyncManager.loadWriters(res.files).then ->
+        atom.notifications.addSuccess "sync-settings: Your settings were successfully synchronized."
+      , @error
+    , @error
+
+  error: (err) ->
+    message = JSON.parse(err.message).message
+    message = 'Gist ID Not Found' if message is 'Not Found'
+    atom.notifications.addError "sync-settings: Error synchronizing your settings. (#{message})"
+
+
+  ###
     @createClient().gists.get
       id: atom.config.get 'sync-settings.gistId'
     , (err, res) =>
       if err
         console.error "error while retrieving the gist. does it exists?", err
-        message = JSON.parse(err.message).message
-        message = 'Gist ID Not Found' if message is 'Not Found'
-        atom.notifications.addError "sync-settings: Error retrieving your settings. ("+message+")"
         return
 
       callbackAsync = false
@@ -73,9 +82,10 @@ module.exports =
 
           else fs.writeFileSync "#{atom.config.configDirPath}/#{filename}", file.content
 
-      atom.notifications.addSuccess "sync-settings: Your settings were successfully synchronized."
+
 
       cb() unless callbackAsync
+      ###
 
   viewBackup: ->
     Shell = require 'shell'

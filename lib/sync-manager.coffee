@@ -13,7 +13,7 @@ class SyncManager
   loadReaders: ->
     Promise.all(item.reader() for item in _list)
 
-  loadWriters: ->
-    Promise.all(item.writer() for item in _list)
+  loadWriters: (files) ->
+    Promise.all(item.writer(files) for item in _list)
 
 module.exports = new SyncManager()

@@ -16,8 +16,12 @@ class SyncInitScript extends SyncInterface
         (result = {})[@fileName] = {content}
         resolve result
 
-  writer: (contents) ->
-    contents ?= '# init file (not found)'
-    fs.writeFileSync atom.getUserInitScriptPath(), contents
+  writer: (files) ->
+    new Promise (resolve, reject) =>
+      return resolve false unless content = files[@fileName]?.content
+      file = atom.getUserInitScriptPath()
+      fs.writeFile file, content, (err) ->
+        return reject err if err
+        resolve true
 
 module.exports = SyncInitScript

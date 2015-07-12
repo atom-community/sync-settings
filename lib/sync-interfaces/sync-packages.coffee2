@@ -17,9 +17,15 @@ class SyncPackages extends SyncInterface
       catch err
         reject err
 
-  writer: (contents) ->
-    packages = JSON.parse(contents ? {})
-    _installMissingPackages packages
+  writer: (files) ->
+    new Promise (resolve, reject) =>
+      return resolve false unless content = files[@fileName]?.content
+      try
+        packages = JSON.parse content
+        _installMissingPackages(packages) if packages
+        resolve true
+      catch err
+        reject err
 
 module.exports = SyncPackages
 

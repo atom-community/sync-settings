@@ -24,9 +24,9 @@ class SyncSnippets extends SyncInterface
         files = _.extend {}, filesArr...
         resolve files
 
-  writer: (contents) ->
-    contents ?= '# snippets file (not found)'
+  writer: (content) ->
+    content ?= '# snippets file (not found)'
     file = path.join atom.getConfigDirPath(), @fileName
-    fs.writeFileSync file, contents
+    fs.writeFileSync file, content
 
 module.exports = SyncSnippets

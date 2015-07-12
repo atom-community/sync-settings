@@ -18,14 +18,20 @@ class SyncConfig extends SyncInterface
       catch err
         reject err
 
-  writer: (contents) ->
-    settings = JSON.parse(contents ? {})
-    _applySettings '', settings
+  writer: (files) ->
+    new Promise (resolve, reject) =>
+      return resolve false unless content = files[@fileName]?.content
+      try
+        settings = JSON.parse content
+        _applySettings('', settings) if settings
+        resolve true
+      catch err
+        reject err
 
 module.exports = SyncConfig
 
 _filterSettings = (key, value) ->
-  return value if key is ""
+  return value if key is ''
   return undefined if ~REMOVE_KEYS.indexOf(key)
   value
 

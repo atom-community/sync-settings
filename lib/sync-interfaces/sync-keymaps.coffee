@@ -16,8 +16,13 @@ class SyncKeymaps extends SyncInterface
         (result = {})[@fileName] = {content}
         resolve result
 
-  writer: (contents) ->
-    contents ?= '# keymap file (not found)'
-    fs.writeFileSync atom.keymaps.getUserKeymapPath(), contents
+  writer: (files) ->
+    new Promise (resolve, reject) =>
+      console.log files[@fileName], files[@fileName]?.content
+      return resolve false unless content = files[@fileName]?.content
+      file = atom.keymaps.getUserKeymapPath()
+      fs.writeFile file, content, (err) ->
+        return reject err if err
+        resolve true
 
 module.exports = SyncKeymaps

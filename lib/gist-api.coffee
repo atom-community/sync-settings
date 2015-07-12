@@ -20,3 +20,11 @@ module.exports = GistApi =
       , (err, res) ->
         return reject err if err
         resolve res
+
+  read: ->
+    new Promise (resolve, reject) ->
+      GistApi.connect().get
+        id: atom.config.get 'sync-settings.gistId'
+      , (err, res) ->
+        return reject err if err
+        resolve res

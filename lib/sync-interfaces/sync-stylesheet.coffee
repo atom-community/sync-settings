@@ -16,8 +16,12 @@ class SyncStyleSheet extends SyncInterface
         (result = {})[@fileName] = {content}
         resolve result
 
-  writer: (contents) ->
-    contents ?= '# styles file (not found)'
-    fs.writeFileSync atom.styles.getUserStyleSheetPath(), contents
+  writer: (files) ->
+    new Promise (resolve, reject) =>
+      return resolve false unless content = files[@fileName]?.content
+      file = atom.styles.getUserStyleSheetPath()
+      fs.writeFile file, content, (err) ->
+        return reject err if err
+        resolve true
 
 module.exports = SyncStyleSheet
