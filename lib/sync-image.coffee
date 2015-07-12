@@ -1,16 +1,18 @@
-fs = require 'fs'
+fs = require 'fs-plus'
 path = require 'path'
 
 SyncInterface = require './sync-interface'
 
 class SyncImage extends SyncInterface
-  @instance:
-    file: null
-    sync: new SyncImage
+  @instance: new SyncImage
 
-  reader: (path) ->
-    data = fs.readFileSync path
-    new Buffer(data).toString 'base64'
+  reader: (file) ->
+    new Promise (resolve, reject) ->
+      fs.readFile file, encoding: 'utf8', (err, content) ->
+        return reject err if err
+        data = new Buffer(data).toString 'base64'
+        (result = {})[file] = content: data
+        resolve result
 
   writer: (path, contents) ->
     data = new Buffer contents, 'base64'

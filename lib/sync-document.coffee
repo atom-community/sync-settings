@@ -1,15 +1,17 @@
-fs = require 'fs'
+fs = require 'fs-plus'
 path = require 'path'
 
 SyncInterface = require './sync-interface'
 
 class SyncDocument extends SyncInterface
-  @instance:
-    file: null
-    sync: new SyncDocument
+  @instance: new SyncDocument
 
-  reader: (path) ->
-    fs.readFileSync path, encoding: 'utf8'
+  reader: (file) ->
+    new Promise (resolve, reject) ->
+      fs.readFile file, encoding: 'utf8', (err, content) ->
+        return reject err if err
+        (result = {})[file] = content: content
+        resolve result
 
   writer: (path, contents) ->
     contents ?= '# file (not found)'

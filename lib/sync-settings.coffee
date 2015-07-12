@@ -4,7 +4,7 @@ fs = require 'fs-plus'
 path = require 'path'
 _ = require 'underscore-plus'
 
-[GistApi, SyncManager, SyncImage, SyncDocument] = []
+[GistApi, SyncManager] = []
 
 # constants
 DESCRIPTION = 'Atom configuration storage operated by http://atom.io/packages/sync-settings'
@@ -15,8 +15,6 @@ module.exports =
   activate: ->
     GistApi ?= require './gist-api'
     SyncManager ?= require './sync-manager'
-    SyncImage ?= require('./sync-image').instance.sync
-    SyncDocument ?= require('./sync-document').instance.sync
 
     atom.commands.add 'atom-workspace', "sync-settings:backup", => @backup()
     atom.commands.add 'atom-workspace', "sync-settings:restore", => @restore()
@@ -31,23 +29,6 @@ module.exports =
       files = _.extend {}, filesArr...
       console.log files
       GistApi.update files
-
-    ###
-    files = {}
-
-    for own file, sync of SyncManager.get()
-      files[file] = content: sync.reader()
-
-    for file in atom.config.get('sync-settings.extraFiles') ? []
-      file = path.join atom.getConfigDirPath(), file unless path.isAbsolute file
-      switch path.extname(file).toLowerCase()
-        when '.bmp', '.gif', '.jpg', '.jpeg', '.png', '.tiff'
-          files[file] = content: SyncImage.reader file
-        else
-          files[file] = content: SyncDocument.reader file
-
-    GistApi.update files
-    ###
 
   restore: (cb=null) ->
     @createClient().gists.get
