@@ -10,7 +10,7 @@ class SyncImage extends SyncInterface
     new Promise (resolve, reject) ->
       fs.readFile file, encoding: 'utf8', (err, content) ->
         return reject err if err
-        data = new Buffer(data).toString 'base64'
+        data = new Buffer(content).toString 'base64'
         (result = {})[file] = content: data
         resolve result
 
