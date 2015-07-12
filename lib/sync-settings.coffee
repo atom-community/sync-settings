@@ -28,7 +28,12 @@ module.exports =
     SyncManager.loadReaders().then (filesArr) ->
       files = _.extend {}, filesArr...
       console.log files
-      GistApi.update files
+      GistApi.update(files).then (res) ->
+        atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up. <br/><a href='#{res.html_url}'>Click here to open your Gist.</a>"
+      , (err) ->
+        message = JSON.parse(err.message).message
+        message = 'Gist ID Not Found' if message is 'Not Found'
+        atom.notifications.addError "sync-settings: Error backing up your settings. (#{message})"
 
   restore: (cb=null) ->
     @createClient().gists.get
