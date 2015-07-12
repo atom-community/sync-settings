@@ -13,7 +13,7 @@ class SyncInitScript extends SyncInterface
       file = atom.getUserInitScriptPath()
       fs.readFile file, encoding: 'utf8', (err, content) =>
         return reject err if err
-        (result = {})[@fileName] = content: content
+        (result = {})[@fileName] = {content}
         resolve result
 
   writer: (contents) ->

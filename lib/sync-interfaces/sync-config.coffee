@@ -13,7 +13,7 @@ class SyncConfig extends SyncInterface
     new Promise (resolve, reject) =>
       try
         content = JSON.stringify(atom.config.settings, _filterSettings, '\t')
-        (result = {})[@fileName] = content: content
+        (result = {})[@fileName] = {content}
         resolve result
       catch err
         reject err

@@ -6,9 +6,6 @@ _ = require 'underscore-plus'
 
 [GistApi, SyncManager] = []
 
-# constants
-DESCRIPTION = 'Atom configuration storage operated by http://atom.io/packages/sync-settings'
-
 module.exports =
   config: require './config.coffee'
 

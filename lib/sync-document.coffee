@@ -10,7 +10,7 @@ class SyncDocument extends SyncInterface
     new Promise (resolve, reject) ->
       fs.readFile file, encoding: 'utf8', (err, content) ->
         return reject err if err
-        (result = {})[file] = content: content
+        (result = {})[file] = {content}
         resolve result
 
   writer: (path, contents) ->
