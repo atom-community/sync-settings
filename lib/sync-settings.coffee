@@ -25,6 +25,10 @@ module.exports =
   serialize: ->
 
   backup: ->
+    atom.notifications.addInfo 'sync-settings: Backing up your settings. <br/>\
+      This might take a while depending on your settings and the network \
+      connection.'
+
     SyncManager.loadReaders().then (filesArr) ->
       files = _.extend {}, filesArr...
       console.log files
