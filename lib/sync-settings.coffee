@@ -27,7 +27,7 @@ module.exports =
       @tracker.track 'View backup'
 
     # make the tracking last in case any exception happens
-    @tracker = new Tracker('sync-settings._analyticsUserId')
+    @tracker = new Tracker 'sync-settings._analyticsUserId', 'sync-settings.analytics'
     @tracker.trackActivate()
 
   deactivate: ->

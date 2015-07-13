@@ -44,7 +44,7 @@ If you're going to submit a pull request, please try to follow
 
 ## Privacy
 
-We use google analytics to collect usage statistics about the package.
-The statistics include only system information like package version,
-atom version and platform it is running on. We use the statistics to
-prioritize features and plan updates.
+There is [Segment.io](https://segment.io/) which forwards data to [Google Analytics](http://www.google.com/analytics/) to track what versions and platforms
+are used. Everything is anonymized and no personal information, such as source code,
+is sent. See https://github.com/Hackafe/atom-sync-settings/issues/82 for more details.
+It can be disabled from package settings.

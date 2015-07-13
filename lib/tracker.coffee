@@ -14,7 +14,7 @@ pkg = require("../package.json")
 
 class Tracker
 
-  constructor: (@analyticsUserIdConfigKey) ->
+  constructor: (@analyticsUserIdConfigKey, @analyticsEnabledConfigKey) ->
     # Setup Analytics
     @analytics = new Analytics analyticsWriteKey
 
@@ -43,7 +43,13 @@ class Tracker
         userId: userId
       @defaultEvent.userId = userId
 
+    # cache enabled and watch for changes
+    @enabled = atom.config.get @analyticsEnabledConfigKey
+    atom.config.onDidChange @analyticsEnabledConfigKey, ({newValue}) =>
+      @enabled = newValue
+
   track: (message) ->
+    return if not @enabled
     message = event: message if _.isString(message)
     console.debug "tracking #{message.event}"
     @analytics.track _.deepExtend(@defaultEvent, message)
