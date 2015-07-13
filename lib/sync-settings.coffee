@@ -17,7 +17,6 @@ SyncSettings =
 
   activate: ->
     # speedup activation by async initializing
-    # further optimization can be achieved by minimizing this file
     setImmediate =>
       # actual initialization after atom has loaded
       GitHubApi ?= require 'github'
@@ -82,7 +81,6 @@ SyncSettings =
       }]
 
   notifyMissingGistId: ->
-    # TODO: add link to open package settings if possible
     atom.notifications.addInfo "sync-settings: Missing gist ID"
 
   backup: (cb=null) ->
@@ -183,7 +181,7 @@ SyncSettings =
     console.debug "Creating GitHubApi client with token = #{token}"
     github = new GitHubApi
       version: '3.0.0'
-      debug: atom.inSpecMode()
+      # debug: true
       protocol: 'https'
     github.authenticate
       type: 'oauth'
