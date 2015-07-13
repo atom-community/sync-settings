@@ -23,15 +23,8 @@ class Tracker
       uuid = require 'node-uuid'
       atom.config.set @analyticsUserIdConfigKey, uuid.v4()
 
-    # identify the user
-    atom.config.observe @analyticsUserIdConfigKey, {}, (userId) =>
-      @analytics.identify
-        userId: userId
-
-  track: (message) ->
-    message = event: message if _.isString(message)
-    console.debug "tracking #{message.event}"
-    @analytics.track _.deepExtend({
+    # default event properties
+    @defaultEvent =
       userId: atom.config.get @analyticsUserIdConfigKey
       properties:
         value: 1
@@ -43,7 +36,17 @@ class Tracker
           name: pkg.name
           version: pkg.version
         userAgent: navigator.userAgent
-    }, message)
+
+    # identify the user
+    atom.config.observe @analyticsUserIdConfigKey, (userId) =>
+      @analytics.identify
+        userId: userId
+      @defaultEvent.userId = userId
+
+  track: (message) ->
+    message = event: message if _.isString(message)
+    console.debug "tracking #{message.event}"
+    @analytics.track _.deepExtend(@defaultEvent, message)
 
   trackActivate: ->
     @track
