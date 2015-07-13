@@ -61,32 +61,32 @@ SyncSettings =
       @notifyMissingGistId()
 
   notifyNewerBackup: ->
-    notification = atom.notifications.addInfo "sync-settings: Your settings are out of date.",
+    notification = atom.notifications.addWarning "sync-settings: Your settings are out of date.",
       dismissable: true
       buttons: [{
         text: "Backup"
-        className: 'btn-warning'
         onDidClick: ->
           SyncSettings.backup()
           notification.dismiss()
       }, {
         text: "View backup"
-        className: 'btn-info'
         onDidClick: ->
           SyncSettings.viewBackup()
       }, {
         text: "Restore"
-        className: 'btn-success'
         onDidClick: ->
           SyncSettings.restore()
           notification.dismiss()
+      }, {
+        text: "Dismiss"
+        onDidClick: -> notification.dismiss()
       }]
 
   notifyBackupUptodate: ->
     atom.notifications.addSuccess "sync-settings: Latest backup is already applied."
 
   notifyMissingGistId: ->
-    atom.notifications.addInfo "sync-settings: Missing gist ID"
+    atom.notifications.addError "sync-settings: Missing gist ID"
 
   backup: (cb=null) ->
     files = {}
