@@ -41,3 +41,10 @@ If you're going to submit a pull request, please try to follow
 5. Create new Pull Request.
 
 [See all contributors](https://github.com/Hackafe/atom-sync-settings/graphs/contributors).
+
+## Privacy
+
+We use google analytics to collect usage statistics about the package.
+The statistics include only system information like package version,
+atom version and platform it is running on. We use the statistics to
+prioritize features and plan updates.
