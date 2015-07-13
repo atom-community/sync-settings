@@ -278,6 +278,7 @@ describe "SyncSettings", ->
             SyncSettings.checkForUpdate cb
           , ->
             expect(atom.notifications.getNotifications().length).toBe(1)
+            expect(atom.notifications.getNotifications()[0].getType()).toBe('warning')
 
         it "ignores on up-to-date backup", ->
           run (cb) ->
@@ -287,4 +288,5 @@ describe "SyncSettings", ->
               atom.notifications.clear()
               SyncSettings.checkForUpdate cb
             , ->
-              expect(atom.notifications.getNotifications().length).toBe(0)
+              expect(atom.notifications.getNotifications().length).toBe(1)
+              expect(atom.notifications.getNotifications()[0].getType()).toBe('success')
