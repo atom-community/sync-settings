@@ -66,16 +66,16 @@ SyncSettings =
       buttons: [{
         text: "Backup"
         onDidClick: ->
-          SyncSettings.backup()
+          atom.commands.dispatch 'atom-workspace', "sync-settings:backup"
           notification.dismiss()
       }, {
         text: "View backup"
         onDidClick: ->
-          SyncSettings.viewBackup()
+          atom.commands.dispatch 'atom-workspace', "sync-settings:view-backup"
       }, {
         text: "Restore"
         onDidClick: ->
-          SyncSettings.restore()
+          atom.commands.dispatch 'atom-workspace', "sync-settings:restore"
           notification.dismiss()
       }, {
         text: "Dismiss"
