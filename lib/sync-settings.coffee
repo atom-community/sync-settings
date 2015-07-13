@@ -53,6 +53,8 @@ SyncSettings =
         console.debug("latest backup version #{res.history[0].version}")
         if res.history[0].version isnt atom.config.get('sync-settings._lastBackupHash')
           @notifyNewerBackup()
+        else
+          @notifyBackupUptodate()
 
         cb?()
     else
@@ -79,6 +81,9 @@ SyncSettings =
           SyncSettings.restore()
           notification.dismiss()
       }]
+
+  notifyBackupUptodate: ->
+    atom.notifications.addSuccess "sync-settings: Latest backup is already applied."
 
   notifyMissingGistId: ->
     atom.notifications.addInfo "sync-settings: Missing gist ID"
