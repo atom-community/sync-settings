@@ -22,8 +22,10 @@ class SyncPackages extends SyncInterface
       return resolve false unless content = files[@fileName]?.content
       try
         packages = JSON.parse content
-        _installMissingPackages(packages) if packages
-        resolve true
+        return resolve false unless packages
+        _installMissingPackages packages, (err) ->
+          return reject err if err
+          resolve true
       catch err
         reject err
 
