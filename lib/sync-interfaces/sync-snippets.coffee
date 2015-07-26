@@ -1,5 +1,6 @@
-fs = require 'fs-plus'
 path = require 'path'
+fs = require 'fs-plus'
+{readFilePromise, writeFilePromise} = require './../helpers'
 
 SyncInterface = require './../sync-interface'
 
@@ -12,19 +13,11 @@ class SyncSnippets extends SyncInterface
   )()
 
   reader: ->
-    new Promise (resolve, reject) =>
-      file = path.join atom.getConfigDirPath(), @fileName
-      fs.readFile file, encoding: 'utf8', (err, content) =>
-        return reject err if err
-        (result = {})[@fileName] = {content}
-        resolve result
+    file = path.join atom.getConfigDirPath(), @fileName
+    readFilePromise(file, @fileName)
 
   writer: (files) ->
-    new Promise (resolve, reject) =>
-      return resolve false unless content = files[@fileName]?.content
-      file = path.join atom.getConfigDirPath(), @fileName
-      fs.writeFile file, content, (err) ->
-        return reject err if err
-        resolve true
+    file = path.join atom.getConfigDirPath(), @fileName
+    writeFilePromise(file, @fileName, files)
 
 module.exports = SyncSnippets
