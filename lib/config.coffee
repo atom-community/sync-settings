@@ -53,4 +53,14 @@ module.exports = {
     default: ""
     description: "Unique identifier for this user for tracking usage analytics"
     order: 11
+  checkForUpdatedBackup:
+    description: 'Check for newer backup on Atom start'
+    type: 'boolean'
+    default: true
+    order: 12
+  _lastBackupHash:
+    type: 'string'
+    default: ''
+    description: 'Hash of the last backup restored or created'
+    order: 13
 }

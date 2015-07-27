@@ -36,6 +36,9 @@ Backup or restore all settings from the <kbd>Packages</kbd> menu or use one of t
 View your online backup using the following command:
 * `sync-settings:view-backup`
 
+Check the latest backup is applied:
+* `sync-settings:check-backup`
+
 ## Contributing
 
 If you're going to submit a pull request, please try to follow

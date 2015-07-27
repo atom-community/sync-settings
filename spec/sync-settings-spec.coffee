@@ -33,7 +33,9 @@ describe "SyncSettings", ->
     TOKEN_CONFIG = 'sync-settings.personalAccessToken'
     GIST_ID_CONFIG = 'sync-settings.gistId'
 
+    window.resetTimeouts()
     SyncSettings.activate()
+    window.advanceClock()
 
     beforeEach ->
       @token = process.env.GITHUB_TOKEN or atom.config.get(TOKEN_CONFIG)
@@ -49,6 +51,7 @@ describe "SyncSettings", ->
         expect(err).toBeNull()
 
         @gistId = res.id
+        console.log "Using Gist #{@gistId}"
         atom.config.set(GIST_ID_CONFIG, @gistId)
 
     afterEach ->
@@ -248,3 +251,42 @@ describe "SyncSettings", ->
               expect(fs.existsSync("#{atom.config.configDirPath}/#{file}")).toBe(true)
               expect(SyncSettings.fileContent("#{atom.config.configDirPath}/#{file}")).toBe("# #{file} (not found) ")
               fs.unlink "#{atom.config.configDirPath}/#{file}"
+
+    describe "::check for update", ->
+
+      beforeEach ->
+        atom.config.unset 'sync-settings._lastBackupHash'
+
+      it "updates last hash on backup", ->
+        run (cb) ->
+          SyncSettings.backup cb
+        , ->
+          expect(atom.config.get "sync-settings._lastBackupHash").toBeDefined()
+
+      it "updates last hash on restore", ->
+        run (cb) ->
+          SyncSettings.restore cb
+        , ->
+          expect(atom.config.get "sync-settings._lastBackupHash").toBeDefined()
+
+      describe "::notification", ->
+        beforeEach ->
+          atom.notifications.clear()
+
+        it "displays on newer backup", ->
+          run (cb) ->
+            SyncSettings.checkForUpdate cb
+          , ->
+            expect(atom.notifications.getNotifications().length).toBe(1)
+            expect(atom.notifications.getNotifications()[0].getType()).toBe('warning')
+
+        it "ignores on up-to-date backup", ->
+          run (cb) ->
+            SyncSettings.backup cb
+          , ->
+            run (cb) ->
+              atom.notifications.clear()
+              SyncSettings.checkForUpdate cb
+            , ->
+              expect(atom.notifications.getNotifications().length).toBe(1)
+              expect(atom.notifications.getNotifications()[0].getType()).toBe('success')
