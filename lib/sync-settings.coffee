@@ -7,8 +7,6 @@ _ = require 'underscore-plus'
 [GitHubApi, PackageManager] = []
 
 # constants
-syncUri = 'sync-settings:/'
-
 DESCRIPTION = 'Atom configuration storage operated by http://atom.io/packages/sync-settings'
 REMOVE_KEYS = ["sync-settings"]
 
