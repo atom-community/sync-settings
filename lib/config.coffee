@@ -43,12 +43,14 @@ module.exports = {
   analytics:
     type: 'boolean'
     default: true
-    description: "There is [Segment.io](https://segment.io/) which forwards data to [Google
-            Analytics](http://www.google.com/analytics/) to track what versions and platforms
+    description: "There is Segment.io which forwards data to Google
+            Analytics to track what versions and platforms
             are used. Everything is anonymized and no personal information, such as source code,
-            is sent. See https://github.com/Hackafe/atom-sync-settings/issues/82 for more details."
+            is sent. See the README.md for more details."
+    order: 10
   _analyticsUserId:
     type: 'string'
     default: ""
     description: "Unique identifier for this user for tracking usage analytics"
+    order: 11
 }
