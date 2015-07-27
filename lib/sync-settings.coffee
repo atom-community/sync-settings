@@ -58,22 +58,26 @@ SyncSettings =
     else
       @notifyMissingGistId()
 
+
+
   notifyNewerBackup: ->
+    # we need the actual element for dispatching on it
+    workspaceElement = atom.views.getView(atom.workspace)
     notification = atom.notifications.addWarning "sync-settings: Your settings are out of date.",
       dismissable: true
       buttons: [{
         text: "Backup"
         onDidClick: ->
-          atom.commands.dispatch 'atom-workspace', "sync-settings:backup"
+          atom.commands.dispatch workspaceElement, "sync-settings:backup"
           notification.dismiss()
       }, {
         text: "View backup"
         onDidClick: ->
-          atom.commands.dispatch 'atom-workspace', "sync-settings:view-backup"
+          atom.commands.dispatch workspaceElement, "sync-settings:view-backup"
       }, {
         text: "Restore"
         onDidClick: ->
-          atom.commands.dispatch 'atom-workspace', "sync-settings:restore"
+          atom.commands.dispatch workspaceElement, "sync-settings:restore"
           notification.dismiss()
       }, {
         text: "Dismiss"
