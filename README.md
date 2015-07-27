@@ -48,3 +48,10 @@ If you're going to submit a pull request, please try to follow
 5. Create new Pull Request.
 
 [See all contributors](https://github.com/Hackafe/atom-sync-settings/graphs/contributors).
+
+## Privacy
+
+There is [Segment.io](https://segment.io/) which forwards data to [Google Analytics](http://www.google.com/analytics/) to track what versions and platforms
+are used. Everything is anonymized and no personal information, such as source code,
+is sent. See https://github.com/Hackafe/atom-sync-settings/issues/82 for more details.
+It can be disabled from package settings.

@@ -2,9 +2,7 @@
 {BufferedProcess} = require 'atom'
 fs = require 'fs'
 _ = require 'underscore-plus'
-# defer loading of github and package-manager modules
-# to speed up package loading time
-[GitHubApi, PackageManager] = []
+[GitHubApi, PackageManager, Tracker] = []
 
 # constants
 DESCRIPTION = 'Atom configuration storage operated by http://atom.io/packages/sync-settings'
@@ -16,11 +14,24 @@ module.exports =
   activate: ->
     GitHubApi ?= require 'github'
     PackageManager ?= require './package-manager'
-    atom.commands.add 'atom-workspace', "sync-settings:backup", => @backup()
-    atom.commands.add 'atom-workspace', "sync-settings:restore", => @restore()
-    atom.commands.add 'atom-workspace', "sync-settings:view-backup", => @viewBackup()
+    Tracker ?= require './tracker'
+
+    atom.commands.add 'atom-workspace', "sync-settings:backup", =>
+      @backup()
+      @tracker.track 'Backup'
+    atom.commands.add 'atom-workspace', "sync-settings:restore", =>
+      @restore()
+      @tracker.track 'Restore'
+    atom.commands.add 'atom-workspace', "sync-settings:view-backup", =>
+      @viewBackup()
+      @tracker.track 'View backup'
+
+    # make the tracking last in case any exception happens
+    @tracker = new Tracker 'sync-settings._analyticsUserId', 'sync-settings.analytics'
+    @tracker.trackActivate()
 
   deactivate: ->
+    @tracker.trackDeactivate()
 
   serialize: ->
 

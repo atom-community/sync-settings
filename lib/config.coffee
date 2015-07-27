@@ -40,4 +40,17 @@ module.exports = {
     items:
       type: 'string'
     order: 9
+  analytics:
+    type: 'boolean'
+    default: true
+    description: "There is Segment.io which forwards data to Google
+            Analytics to track what versions and platforms
+            are used. Everything is anonymized and no personal information, such as source code,
+            is sent. See the README.md for more details."
+    order: 10
+  _analyticsUserId:
+    type: 'string'
+    default: ""
+    description: "Unique identifier for this user for tracking usage analytics"
+    order: 11
 }
