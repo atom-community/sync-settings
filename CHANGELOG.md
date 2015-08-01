@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.6.0
+* Check for updated backup. Closes [#81](https://github.com/Hackafe/atom-sync-settings/issues/81)
+* New menu option to open the gist with external browser. Closes [#87](https://github.com/Hackafe/atom-sync-settings/issues/87)
+* Track usage. Closes [#82](https://github.com/Hackafe/atom-sync-settings/issues/82)
+
 ## v0.5.0
 * Fixed snippets not applied. Fixes [#36](https://github.com/Hackafe/atom-sync-settings/issues/36)
   * Please note that this issue created a redundant file called `snippets.coffee`
