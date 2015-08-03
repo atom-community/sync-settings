@@ -28,6 +28,9 @@ SyncSettings =
       atom.commands.add 'atom-workspace', "sync-settings:view-backup", =>
         @viewBackup()
         @tracker.track 'View backup'
+      atom.commands.add 'atom-workspace', "sync-settings:check-backup", =>
+        @checkForUpdate()
+        @tracker.track 'Check backup'
 
       @checkForUpdate() if atom.config.get('sync-settings.checkForUpdatedBackup')
 
