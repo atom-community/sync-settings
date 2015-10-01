@@ -148,7 +148,7 @@ SyncSettings =
     Shell.openExternal "https://gist.github.com/#{gistId}"
 
   getPackages: ->
-    for own name, info of atom.packages.getLoadedPackages()
+    for own name, info of(atom.packages.getLoadedPackages().filter (x)-> not x.bundledPackage)
       {name, version, theme} = info.metadata
       {name, version, theme}
 
