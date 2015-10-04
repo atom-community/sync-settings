@@ -7,8 +7,10 @@ _ = require 'underscore-plus'
 # constants
 DESCRIPTION = 'Atom configuration storage operated by http://atom.io/packages/sync-settings'
 REMOVE_KEYS = ["sync-settings"]
+MISSING_PACKAGES_JSON = '.missingpackages'
 
 SyncSettings =
+  missingPackages: []
   config: require('./config.coffee')
 
   activate: ->
@@ -33,6 +35,7 @@ SyncSettings =
         @tracker.track 'Check backup'
 
       @checkForUpdate() if atom.config.get('sync-settings.checkForUpdatedBackup')
+      @checkFoPackageNeedInstall() if atom.config.get('sync-settings.checkForUpdatedBackup')
 
       # make the tracking last in case any exception happens
       @tracker = new Tracker 'sync-settings._analyticsUserId', 'sync-settings.analytics'
@@ -42,6 +45,16 @@ SyncSettings =
     @tracker.trackDeactivate()
 
   serialize: ->
+
+  checkFoPackageNeedInstall: (cb=null) ->
+    filePath = atom.config.configDirPath + "/" + MISSING_PACKAGES_JSON
+
+    fs.exists filePath, (exists)=>
+      if exists
+        fileContent = @fileContent filePath
+        list = JSON.parse fileContent
+
+        @installMissingPackages list, null
 
   checkForUpdate: (cb=null) ->
     if atom.config.get('sync-settings.gistId')
@@ -226,10 +239,15 @@ SyncSettings =
     for pkg in packages
       continue if atom.packages.isPackageLoaded(pkg.name)
       pending++
-      @installPackage pkg, ->
+      @addMissingPackage(pkg)
+      @installPackage pkg, =>
         pending--
+        @deleteMissingPackage(pkg)
+        @saveMissingPackage()
         cb?() if pending is 0
+        @deleteMissingPackageFile() if pending is 0
     cb?() if pending is 0
+    @saveMissingPackage() if pending > 0
 
   installPackage: (pack, cb) ->
     type = if pack.theme then 'theme' else 'package'
@@ -248,5 +266,31 @@ SyncSettings =
     catch e
       console.error "Error reading file #{filePath}. Probably doesn't exist.", e
       null
+
+  addMissingPackage: (packageinfo) ->
+    installed = false
+
+    for item  in @missingPackages
+      if item.nam is packageinfo.name
+        installed = YES
+        break
+
+    if not installed
+      @missingPackages.push packageinfo
+
+  saveMissingPackage: (cb=null) ->
+    content = JSON.stringify @missingPackages
+    fs.writeFileSync "#{atom.config.configDirPath}/" + MISSING_PACKAGES_JSON, content
+
+    console.log 'saveMissingPackage...'
+
+  deleteMissingPackage: (packageinfo) ->
+    newList = @missingPackages.filter (item) ->
+      item.name isnt packageinfo.name
+
+    @missingPackages = newList
+
+  deleteMissingPackageFile: (cb=null) ->
+    fs.unlinkSync "#{atom.config.configDirPath}/" + MISSING_PACKAGES_JSON
 
 module.exports = SyncSettings
