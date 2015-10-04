@@ -49,7 +49,7 @@ SyncSettings =
   checkFoPackageNeedInstall: (cb=null) ->
     filePath = atom.config.configDirPath + "/" + MISSING_PACKAGES_JSON
 
-    fs.exists filePath, (exists)=>
+    fs.exists filePath, (exists) =>
       if exists
         fileContent = @fileContent filePath
         list = JSON.parse fileContent
@@ -161,7 +161,7 @@ SyncSettings =
     Shell.openExternal "https://gist.github.com/#{gistId}"
 
   getPackages: ->
-    for own name, info of(atom.packages.getLoadedPackages().filter (x)-> not x.bundledPackage)
+    for own name, info of(atom.packages.getLoadedPackages().filter (x) -> not x.bundledPackage)
       {name, version, theme} = info.metadata
       {name, version, theme}
 
