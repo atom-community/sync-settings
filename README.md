@@ -39,6 +39,13 @@ View your online backup using the following command:
 Check the latest backup is applied:
 * `sync-settings:check-backup`
 
+
+## Running the tests
+
+1. Create a new [personal access token](https://github.com/settings/tokens/new) which has the `gist` scope and will be used for testing purposes.
+2. Export it with `export GITHUB_TOKEN=YOUR_TOKEN`
+3. Run `apm test`
+
 ## Contributing
 
 If you're going to submit a pull request, please try to follow
@@ -46,9 +53,10 @@ If you're going to submit a pull request, please try to follow
 
 1. [Fork it](https://github.com/Hackafe/atom-sync-settings/).
 2. Create your feature branch (`git checkout -b my-new-feature`).
-3. Commit your changes (`git commit -am 'Add some feature'`).
-4. Push to the branch (`git push origin my-new-feature`).
-5. Create new Pull Request.
+3. Ensure tests are passing. See [running-the-tests](https://github.com/Hackafe/atom-sync-settings#running-the-tests).
+4. Commit your changes (`git commit -am 'Add some feature'`).
+5. Push to the branch (`git push origin my-new-feature`).
+6. Create new Pull Request.
 
 [See all contributors](https://github.com/Hackafe/atom-sync-settings/graphs/contributors).
 
