@@ -33,7 +33,7 @@ SyncSettings =
         @tracker.track 'Check backup'
 
       mandatorySettingsApplied = @checkMandatorySettings()
-      @checkForUpdate() if atom.config.get('sync-settings.checkForUpdatedBackup') && mandatorySettingsApplied
+      @checkForUpdate() if atom.config.get('sync-settings.checkForUpdatedBackup') and mandatorySettingsApplied
 
       # make the tracking last in case any exception happens
       @tracker = new Tracker 'sync-settings._analyticsUserId', 'sync-settings.analytics'
@@ -47,10 +47,10 @@ SyncSettings =
   checkMandatorySettings: ->
     isSettingsMissing = false
     missingSettings = []
-    if !atom.config.get('sync-settings.gistId')
+    if not atom.config.get('sync-settings.gistId')
       missingSettings.push("Gist ID")
       isSettingsMissing = true
-    if !atom.config.get('sync-settings.personalAccessToken')
+    if not atom.config.get('sync-settings.personalAccessToken')
       missingSettings.push("GH personal access token")
       isSettingsMissing = true
     if isSettingsMissing
@@ -117,7 +117,7 @@ SyncSettings =
     context = this
     errorMsg = "sync-settings: Mandatory settings missing: "
     for setting, i in missingSettings
-      errorMsg += if i == 0 then setting else ", " + setting
+      errorMsg += if i is 0 then setting else ", " + setting
 
     notification = atom.notifications.addError errorMsg,
       dismissable: true
@@ -238,7 +238,7 @@ SyncSettings =
     return undefined if ~REMOVE_KEYS.indexOf(key)
     value
 
-  goToPackageSettings: () ->
+  goToPackageSettings: ->
     atom.workspace.open("atom://config/packages/sync-settings")
 
   applySettings: (pref, settings) ->
