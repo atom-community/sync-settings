@@ -32,7 +32,8 @@ SyncSettings =
         @checkForUpdate()
         @tracker.track 'Check backup'
 
-      @checkForUpdate() if atom.config.get('sync-settings.checkForUpdatedBackup')
+      mandatorySettingsApplied = @checkMandatorySettings()
+      @checkForUpdate() if atom.config.get('sync-settings.checkForUpdatedBackup') && mandatorySettingsApplied
 
       # make the tracking last in case any exception happens
       @tracker = new Tracker 'sync-settings._analyticsUserId', 'sync-settings.analytics'
@@ -43,6 +44,20 @@ SyncSettings =
 
   serialize: ->
 
+  checkMandatorySettings: ->
+    isSettingsMissing = false
+    missingSettings = []
+    if !atom.config.get('sync-settings.gistId')
+      missingSettings.push("Gist ID")
+      isSettingsMissing = true
+    if !atom.config.get('sync-settings.personalAccessToken')
+      missingSettings.push("GH personal access token")
+      isSettingsMissing = true
+    if isSettingsMissing
+      @notifyMissingMandatorySettings(missingSettings)
+      return false
+    else
+      return true
   checkForUpdate: (cb=null) ->
     if atom.config.get('sync-settings.gistId')
       console.debug('checking latest backup...')
@@ -68,9 +83,7 @@ SyncSettings =
 
         cb?()
     else
-      @notifyMissingGistId()
-
-
+      @notifyMissingMandatorySettings(["Gist ID"])
 
   notifyNewerBackup: ->
     # we need the actual element for dispatching on it
@@ -99,8 +112,21 @@ SyncSettings =
   notifyBackupUptodate: ->
     atom.notifications.addSuccess "sync-settings: Latest backup is already applied."
 
-  notifyMissingGistId: ->
-    atom.notifications.addError "sync-settings: Missing gist ID"
+
+  notifyMissingMandatorySettings: (missingSettings) ->
+    context = this
+    errorMsg = "sync-settings: Mandatory settings missing: "
+    for setting, i in missingSettings
+      errorMsg += if i == 0 then setting else ", " + setting
+
+    notification = atom.notifications.addError errorMsg,
+      dismissable: true
+      buttons: [{
+        text: "Package settings"
+        onDidClick: ->
+            context.goToPackageSettings()
+            notification.dismiss()
+      }]
 
   backup: (cb=null) ->
     files = {}
@@ -211,6 +237,9 @@ SyncSettings =
     return value if key is ""
     return undefined if ~REMOVE_KEYS.indexOf(key)
     value
+
+  goToPackageSettings: () ->
+    atom.workspace.open("atom://config/packages/sync-settings")
 
   applySettings: (pref, settings) ->
     for key, value of settings
