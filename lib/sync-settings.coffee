@@ -222,12 +222,12 @@ SyncSettings =
         atom.config.set keyPath[1...], value
 
   installMissingPackages: (packages, cb) ->
-    pkgs = (pkg for pkg in packages when ! atom.packages.isPackageLoaded(pkg.name))
+    pkgs = (pkg for pkg in packages when not atom.packages.isPackageLoaded(pkg.name))
     t = pkgs.length
     installSync = (pkgs) =>
-        return cb?() unless pkgs.length
-        atom.notifications.addInfo "Sync-settings: installing #{pkgs[0].name} (#{t-pkgs.length+1}/#{t})"
-        @installPackage pkgs[0], -> installSync(pkgs[1...])
+      return cb?() unless pkgs.length
+      atom.notifications.addInfo "Sync-settings: installing #{pkgs[0].name} (#{t-pkgs.length+1}/#{t})"
+      @installPackage pkgs[0], -> installSync(pkgs[1...])
     installSync(pkgs)
 
   installPackage: (pack, cb) ->
