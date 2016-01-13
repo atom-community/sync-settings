@@ -27,6 +27,17 @@ Synchronize settings, keymaps, user styles, init script, snippets and installed 
 4. Create a [new gist](https://gist.github.com/) and save it.
 5. Copy the gist id (last part of url after the username) to **Sync Settings** configuration.
 
+### Alternative **Sync Settings** configuration using Atom's config.cson
+
+1. Click on Menu "Open Your Config" to edit Atom's config.cson
+2. Use these keys:
+
+```js
+  "sync-settings":
+    gistId: "b3025...88c41c"
+    personalAccessToken: "6a10cc207b....7a67e871"
+```
+
 ## Usage
 
 Backup or restore all settings from the <kbd>Packages</kbd> menu or use one of the following **commands**:
