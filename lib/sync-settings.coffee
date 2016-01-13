@@ -148,9 +148,11 @@ SyncSettings =
     Shell.openExternal "https://gist.github.com/#{gistId}"
 
   getPackages: ->
+    packages = []
     for own name, info of atom.packages.getLoadedPackages()
       {name, version, theme} = info.metadata
-      {name, version, theme}
+      packages.push({name, version, theme})
+    _.sortBy(packages, 'name')
 
   restore: (cb=null) ->
     @createClient().gists.get
