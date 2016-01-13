@@ -193,7 +193,7 @@ SyncSettings =
 
       atom.notifications.addSuccess "sync-settings: Your settings were successfully synchronized."
 
-      cb() unless callbackAsync
+      cb?() unless callbackAsync
 
   createClient: ->
     token = atom.config.get 'sync-settings.personalAccessToken'
