@@ -31,6 +31,9 @@ SyncSettings =
       atom.commands.add 'atom-workspace', "sync-settings:check-backup", =>
         @checkForUpdate()
         @tracker.track 'Check backup'
+      atom.commands.add 'atom-workspace', "sync-settings:fork", =>
+        @forkExisting()
+        @tracker.track 'Fork'
 
       @checkForUpdate() if atom.config.get('sync-settings.checkForUpdatedBackup')
 
@@ -250,5 +253,33 @@ SyncSettings =
     catch e
       console.error "Error reading file #{filePath}. Probably doesn't exist.", e
       null
+
+  forkExisting: (gistId) ->
+    if atom.config.get("sync-settings.forkId")
+      forkId = atom.config.get "sync-settings.forkId"
+      console.debug("forking existing settings...")
+      @createClient().gists.fork
+        id: forkId
+      , (err, res) =>
+        console.debug(err, res)
+        if err
+          console.error "error while retrieving the gist. does it exists?", err
+          try
+            message = JSON.parse(err.message).message
+            message = "Gist ID Not Found" if message is "Not Found"
+          catch SyntaxError
+            message = err.message
+          atom.notifications.addError "sync-settings: Error forking settings. ("+message+")"
+          return cb?()
+
+        console.debug("gist #{forkId} forked to #{res.id}")
+        if res.id
+          atom.config.set "sync-settings.gistId", res.id
+        else
+          atom.notifications.addError "sync-settings: Error forking settings"
+
+        cb?()
+    else
+      @notifyMissingForkId()
 
 module.exports = SyncSettings
