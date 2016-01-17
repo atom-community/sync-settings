@@ -33,13 +33,20 @@ module.exports = {
     type: 'boolean'
     default: true
     order: 8
+  blacklistedKeys:
+    description: 'Comma-seperated list of blacklisted keys'
+    type: 'array'
+    default: []
+    items:
+      type: 'string'
+    order: 9
   extraFiles:
     description: 'Comma-seperated list of files other than Atom\'s default config files in ~/.atom'
     type: 'array'
     default: []
     items:
       type: 'string'
-    order: 9
+    order: 10
   analytics:
     type: 'boolean'
     default: true
@@ -47,20 +54,20 @@ module.exports = {
             Analytics to track what versions and platforms
             are used. Everything is anonymized and no personal information, such as source code,
             is sent. See the README.md for more details."
-    order: 10
+    order: 11
   _analyticsUserId:
     type: 'string'
     default: ""
     description: "Unique identifier for this user for tracking usage analytics"
-    order: 11
+    order: 12
   checkForUpdatedBackup:
     description: 'Check for newer backup on Atom start'
     type: 'boolean'
     default: true
-    order: 12
+    order: 13
   _lastBackupHash:
     type: 'string'
     default: ''
     description: 'Hash of the last backup restored or created'
-    order: 13
+    order: 14
 }
