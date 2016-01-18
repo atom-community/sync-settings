@@ -129,7 +129,7 @@ SyncSettings =
 
     @createClient().gists.edit
       id: atom.config.get 'sync-settings.gistId'
-      description: "automatic update by http://atom.io/packages/sync-settings"
+      description: atom.config.get 'sync-settings.gistDescription'
       files: files
     , (err, res) ->
       if err
