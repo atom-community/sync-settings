@@ -40,6 +40,8 @@ Synchronize settings, keymaps, user styles, init script, snippets and installed 
 
 ## Usage
 
+Open the Atom [Command Palette](https://github.com/atom/command-palette) where you can search for the following list of commands.
+
 Backup or restore all settings from the <kbd>Packages</kbd> menu or use one of the following **commands**:
 * `sync-settings:backup`
 * `sync-settings:restore`
