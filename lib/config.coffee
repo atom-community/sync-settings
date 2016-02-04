@@ -19,7 +19,7 @@ module.exports = {
     default: true
     order: 4
   blacklistedKeys:
-    description: 'Comma-seperated list of blacklisted keys'
+    description: "Comma-seperated list of blacklisted keys (e.g. 'package-name,other-package-name.config-name')"
     type: 'array'
     default: []
     items:

@@ -248,24 +248,20 @@ SyncSettings =
   getFilteredSettings: ->
     # _.clone() doesn't deep clone thus we are using JSON parse trick
     settings = JSON.parse(JSON.stringify(atom.config.settings))
-    for blacklistedKey in atom.config.get('sync-settings.blacklistedKeys') ? []
+    blacklistedKeys = REMOVE_KEYS.concat(atom.config.get('sync-settings.blacklistedKeys') ? [])
+    for blacklistedKey in blacklistedKeys
       blacklistedKey = blacklistedKey.split(".")
-      @removeProperty(settings, blacklistedKey)
-    return JSON.stringify(settings, @filterSettings, '\t')
+      @_removeProperty(settings, blacklistedKey)
+    return JSON.stringify(settings, null, '\t')
 
-  removeProperty: (obj, key) ->
+  _removeProperty: (obj, key) ->
     lastKey = key.length is 1
     currentKey = key.shift()
 
     if not lastKey and _.isObject(obj[currentKey]) and not _.isArray(obj[currentKey])
-      @removeProperty(obj[currentKey], key)
+      @_removeProperty(obj[currentKey], key)
     else
       delete obj[currentKey]
-
-  filterSettings: (key, value) ->
-    return value if key is ""
-    return undefined if ~REMOVE_KEYS.indexOf(key)
-    value
 
   goToPackageSettings: ->
     atom.workspace.open("atom://config/packages/sync-settings")
