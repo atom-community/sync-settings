@@ -20,7 +20,7 @@
   "dependencies": {
     "analytics-node": "^1.2.2",
     "emissary": "1.x",
-    "github": "0.*",
+    "github4": "^0.4.0",
     "loophole": "^1.0.0",
     "node-uuid": "^1.4.1",
     "q": "~1.0.1",

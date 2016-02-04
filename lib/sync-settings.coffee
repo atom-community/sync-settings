@@ -15,7 +15,7 @@ SyncSettings =
     # speedup activation by async initializing
     setImmediate =>
       # actual initialization after atom has loaded
-      GitHubApi ?= require 'github'
+      GitHubApi ?= require 'github4'
       PackageManager ?= require './package-manager'
       Tracker ?= require './tracker'
 
