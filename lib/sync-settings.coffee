@@ -45,19 +45,15 @@ SyncSettings =
   serialize: ->
 
   checkMandatorySettings: ->
-    isSettingsMissing = false
     missingSettings = []
     if not atom.config.get('sync-settings.gistId')
       missingSettings.push("Gist ID")
-      isSettingsMissing = true
     if not atom.config.get('sync-settings.personalAccessToken')
-      missingSettings.push("GH personal access token")
-      isSettingsMissing = true
-    if isSettingsMissing
+      missingSettings.push("GitHub personal access token")
+    if missingSettings.length
       @notifyMissingMandatorySettings(missingSettings)
-      return false
-    else
-      return true
+    return missingSettings.length is 0
+
   checkForUpdate: (cb=null) ->
     if atom.config.get('sync-settings.gistId')
       console.debug('checking latest backup...')
@@ -115,9 +111,7 @@ SyncSettings =
 
   notifyMissingMandatorySettings: (missingSettings) ->
     context = this
-    errorMsg = "sync-settings: Mandatory settings missing: "
-    for setting, i in missingSettings
-      errorMsg += if i is 0 then setting else ", " + setting
+    errorMsg = "sync-settings: Mandatory settings missing: " + missingSettings.join(', ')
 
     notification = atom.notifications.addError errorMsg,
       dismissable: true
