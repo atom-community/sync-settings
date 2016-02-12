@@ -71,6 +71,6 @@ module.exports = {
   quietUpdateCheck:
     type: 'boolean'
     default: false
-    description: 'Mute \'Latest backup is already applied\' message'
+    description: "Mute 'Latest backup is already applied' message"
     order: 15
 }
