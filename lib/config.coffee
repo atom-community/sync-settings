@@ -68,4 +68,9 @@ module.exports = {
     default: ''
     description: 'Hash of the last backup restored or created'
     order: 14
+  quietUpdateCheck:
+    type: 'boolean'
+    default: false
+    description: 'Mute \'Latest backup is already applied\' message'
+    order: 15
 }
