@@ -74,7 +74,7 @@ SyncSettings =
         console.debug("latest backup version #{res.history[0].version}")
         if res.history[0].version isnt atom.config.get('sync-settings._lastBackupHash')
           @notifyNewerBackup()
-        else
+        else if not atom.config.get('sync-settings.quietUpdateCheck')
           @notifyBackupUptodate()
 
         cb?()
