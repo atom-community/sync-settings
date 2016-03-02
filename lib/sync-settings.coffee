@@ -3,6 +3,7 @@
 fs = require 'fs'
 _ = require 'underscore-plus'
 [GitHubApi, PackageManager, Tracker] = []
+ForkGistIdInputView = null
 
 # constants
 DESCRIPTION = 'Atom configuration storage operated by http://atom.io/packages/sync-settings'
@@ -31,6 +32,8 @@ SyncSettings =
       atom.commands.add 'atom-workspace', "sync-settings:check-backup", =>
         @checkForUpdate()
         @tracker.track 'Check backup'
+      atom.commands.add 'atom-workspace', "sync-settings:fork", =>
+        @inputForkGistId()
 
       mandatorySettingsApplied = @checkMandatorySettings()
       @checkForUpdate() if atom.config.get('sync-settings.checkForUpdatedBackup') and mandatorySettingsApplied
@@ -40,6 +43,7 @@ SyncSettings =
       @tracker.trackActivate()
 
   deactivate: ->
+    @inputView?.destroy()
     @tracker.trackDeactivate()
 
   serialize: ->
@@ -273,5 +277,32 @@ SyncSettings =
     catch e
       console.error "Error reading file #{filePath}. Probably doesn't exist.", e
       null
+
+  inputForkGistId: ->
+    ForkGistIdInputView ?= require './fork-gistid-input-view'
+    @inputView = new ForkGistIdInputView()
+    @inputView.setCallbackInstance(this)
+
+  forkGistId: (forkId) ->
+    @tracker.track 'Fork'
+    @createClient().gists.fork
+      id: forkId
+    , (err, res) =>
+      if err
+        try
+          message = JSON.parse(err.message).message
+          message = "Gist ID Not Found" if message is "Not Found"
+        catch SyntaxError
+          message = err.message
+        atom.notifications.addError "sync-settings: Error forking settings. ("+message+")"
+        return cb?()
+
+      if res.id
+        atom.config.set "sync-settings.gistId", res.id
+        atom.notifications.addSuccess "sync-settings: Forked successfully to the new Gist ID " + res.id + " which has been saved to your config."
+      else
+        atom.notifications.addError "sync-settings: Error forking settings"
+
+      cb?()
 
 module.exports = SyncSettings
