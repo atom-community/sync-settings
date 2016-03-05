@@ -2,6 +2,8 @@ SyncSettings = require '../lib/sync-settings'
 SpecHelper = require './spec-helpers'
 run = SpecHelper.callAsync
 fs = require 'fs'
+path = require 'path'
+os = require 'os'
 # Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
 #
 # To run a specific `it` or `describe` block add an `f` to the front (e.g. `fit`
@@ -11,23 +13,25 @@ describe "SyncSettings", ->
 
   describe "low-level", ->
     describe "::fileContent", ->
+      tmpPath = path.join(os.tmpdir(), 'atom-sync-settings.tmp')
+
       it "returns null for not existing file", ->
-        expect(SyncSettings.fileContent("/tmp/atom-sync-settings.tmp")).toBeNull()
+        expect(SyncSettings.fileContent(tmpPath)).toBeNull()
 
       it "returns null for empty file", ->
-        fs.writeFileSync "/tmp/atom-sync-settings.tmp", ""
+        fs.writeFileSync tmpPath, ""
         try
-          expect(SyncSettings.fileContent("/tmp/atom-sync-settings.tmp")).toBeNull()
+          expect(SyncSettings.fileContent(tmpPath)).toBeNull()
         finally
-          fs.unlinkSync "/tmp/atom-sync-settings.tmp"
+          fs.unlinkSync tmpPath
 
       it "returns content of existing file", ->
         text = "alabala portocala"
-        fs.writeFileSync "/tmp/atom-sync-settings.tmp", text
+        fs.writeFileSync tmpPath, text
         try
-          expect(SyncSettings.fileContent("/tmp/atom-sync-settings.tmp")).toEqual text
+          expect(SyncSettings.fileContent(tmpPath)).toEqual text
         finally
-          fs.unlinkSync "/tmp/atom-sync-settings.tmp"
+          fs.unlinkSync tmpPath
 
   describe "high-level", ->
     TOKEN_CONFIG = 'sync-settings.personalAccessToken'
