@@ -52,6 +52,9 @@ View your online backup using the following command:
 Check the latest backup is applied:
 * `sync-settings:check-backup`
 
+You can also fork existing settings from a different GitHub user using the following command:
+* `sync-settings:fork`
+* In the following input field enter the Gist ID to fork
 
 ## Running the tests
 
