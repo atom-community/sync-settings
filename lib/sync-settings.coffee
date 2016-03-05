@@ -48,21 +48,33 @@ SyncSettings =
 
   serialize: ->
 
+  getGistId: ->
+    gistId = atom.config.get 'sync-settings.gistId'
+    if gistId
+      gistId = gistId.trim()
+    return gistId
+
+  getPersonalAccessToken: ->
+    token = atom.config.get 'sync-settings.personalAccessToken'
+    if token
+      token = token.trim()
+    return token
+
   checkMandatorySettings: ->
     missingSettings = []
-    if not atom.config.get('sync-settings.gistId')
+    if not @getGistId()
       missingSettings.push("Gist ID")
-    if not atom.config.get('sync-settings.personalAccessToken')
+    if not @getPersonalAccessToken()
       missingSettings.push("GitHub personal access token")
     if missingSettings.length
       @notifyMissingMandatorySettings(missingSettings)
     return missingSettings.length is 0
 
   checkForUpdate: (cb=null) ->
-    if atom.config.get('sync-settings.gistId')
+    if @getGistId()
       console.debug('checking latest backup...')
       @createClient().gists.get
-        id: atom.config.get 'sync-settings.gistId'
+        id: @getGistId()
       , (err, res) =>
         console.debug(err, res)
         if err
@@ -152,7 +164,7 @@ SyncSettings =
         content: (@fileContent atom.config.configDirPath + "/#{file}") ? "#{cmtstart} #{file} (not found) #{cmtend}"
 
     @createClient().gists.edit
-      id: atom.config.get 'sync-settings.gistId'
+      id: @getGistId()
       description: atom.config.get 'sync-settings.gistDescription'
       files: files
     , (err, res) ->
@@ -168,7 +180,7 @@ SyncSettings =
 
   viewBackup: ->
     Shell = require 'shell'
-    gistId = atom.config.get 'sync-settings.gistId'
+    gistId = @getGistId()
     Shell.openExternal "https://gist.github.com/#{gistId}"
 
   getPackages: ->
@@ -180,7 +192,7 @@ SyncSettings =
 
   restore: (cb=null) ->
     @createClient().gists.get
-      id: atom.config.get 'sync-settings.gistId'
+      id: @getGistId()
     , (err, res) =>
       if err
         console.error "error while retrieving the gist. does it exists?", err
@@ -222,7 +234,7 @@ SyncSettings =
       cb?() unless callbackAsync
 
   createClient: ->
-    token = atom.config.get 'sync-settings.personalAccessToken'
+    token = @getPersonalAccessToken()
     console.debug "Creating GitHubApi client with token = #{token}"
     github = new GitHubApi
       version: '3.0.0'
