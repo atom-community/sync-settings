@@ -269,7 +269,12 @@ SyncSettings =
   applySettings: (pref, settings) ->
     for key, value of settings
       keyPath = "#{pref}.#{key}"
-      if _.isObject(value) and not _.isArray(value)
+      isColor = false
+      if _.isObject(value)
+        valueKeys = Object.keys(value)
+        colorKeys = ['alpha', 'blue', 'green', 'red']
+        isColor = _.isEqual(_.sortBy(valueKeys), colorKeys)
+      if _.isObject(value) and not _.isArray(value) and not isColor
         @applySettings keyPath, value
       else
         console.debug "config.set #{keyPath[1...]}=#{value}"
