@@ -7,7 +7,12 @@ ForkGistIdInputView = null
 
 # constants
 DESCRIPTION = 'Atom configuration storage operated by http://atom.io/packages/sync-settings'
-REMOVE_KEYS = ["sync-settings"]
+REMOVE_KEYS = [
+  'sync-settings.gistId',
+  'sync-settings.personalAccessToken',
+  'sync-settings._analyticsUserId',
+  'sync-settings._lastBackupHash',
+]
 
 SyncSettings =
   config: require('./config.coffee')
