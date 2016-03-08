@@ -12,7 +12,7 @@
 * Check for mandatory settings at startup. Closes [140](https://github.com/Hackafe/atom-sync-settings/pull/140)
 * Proxy support. Closes [142](https://github.com/Hackafe/atom-sync-settings/issues/142)
 * Improve documentation how to run sync settings commands. Closes [172](https://github.com/Hackafe/atom-sync-settings/pull/172)
-* Add option t customize Gist description. Closes [163](https://github.com/Hackafe/atom-sync-settings/issues/163)
+* Add option to customize Gist description. Closes [163](https://github.com/Hackafe/atom-sync-settings/issues/163)
 * Improve documentation on settings in config.cson. Closes [161](https://github.com/Hackafe/atom-sync-settings/issues/161)
 * Improve documentation how to run the unit tests. Closes [139](https://github.com/Hackafe/atom-sync-settings/pull/139)
 * Use deterministic package order for reasonable diffs. Fixes [149](https://github.com/Hackafe/atom-sync-settings/pull/149)
