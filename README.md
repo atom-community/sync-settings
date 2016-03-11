@@ -1,7 +1,7 @@
 # Sync Settings for Atom
 
-[![Join the chat at https://gitter.im/Hackafe/atom-sync-settings](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Hackafe/atom-sync-settings?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Build Status](https://travis-ci.org/Hackafe/atom-sync-settings.svg?branch=master)](https://travis-ci.org/Hackafe/atom-sync-settings)
+[![Join the chat at https://gitter.im/atom-community/sync-settings](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/atom-community/sync-settings?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/atom-community/sync-settings.svg?branch=master)](https://travis-ci.org/atom-community/sync-settings)
 
 Synchronize settings, keymaps, user styles, init script, snippets and installed packages across [Atom](http://atom.io) instances.
 
@@ -69,18 +69,18 @@ You can also fork existing settings from a different GitHub user using the follo
 If you're going to submit a pull request, please try to follow
 [the official contribution guidelines of Atom](https://atom.io/docs/latest/contributing).
 
-1. [Fork it](https://github.com/Hackafe/atom-sync-settings/).
+1. [Fork it](https://github.com/atom-community/sync-settings/).
 2. Create your feature branch (`git checkout -b my-new-feature`).
-3. Ensure tests are passing. See [running-the-tests](https://github.com/Hackafe/atom-sync-settings#running-the-tests).
+3. Ensure tests are passing. See [running-the-tests](https://github.com/atom-community/sync-settings#running-the-tests).
 4. Commit your changes (`git commit -am 'Add some feature'`).
 5. Push to the branch (`git push origin my-new-feature`).
 6. Create new Pull Request.
 
-[See all contributors](https://github.com/Hackafe/atom-sync-settings/graphs/contributors).
+[See all contributors](https://github.com/atom-community/sync-settings/graphs/contributors).
 
 ## Privacy
 
 There is [Segment.io](https://segment.io/) which forwards data to [Google Analytics](http://www.google.com/analytics/) to track what versions and platforms
 are used. Everything is anonymized and no personal information, such as source code,
-is sent. See https://github.com/Hackafe/atom-sync-settings/issues/82 for more details.
+is sent. See https://github.com/atom-community/sync-settings/issues/82 for more details.
 It can be disabled from package settings.
