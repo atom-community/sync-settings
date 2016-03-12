@@ -20,7 +20,10 @@
   "keywords": [
     "settings",
     "productivity",
-    "manager"
+    "manager",
+    "sync",
+    "backup",
+    "restore"
   ],
   "dependencies": {
     "analytics-node": "^1.2.2",
