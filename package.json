@@ -17,6 +17,11 @@
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
+  "keywords": [
+    "settings",
+    "productivity",
+    "manager"
+  ],
   "dependencies": {
     "analytics-node": "^1.2.2",
     "atom-space-pen-views": "^2.2.0",
