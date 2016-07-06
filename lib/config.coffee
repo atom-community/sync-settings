@@ -80,4 +80,9 @@ module.exports = {
     default: false
     description: "Mute 'Latest backup is already applied' message"
     order: 16
+  proxy:
+    type: 'string'
+    default: ''
+    description: 'The proxy used when connecting to GitHub'
+    order: 17
 }

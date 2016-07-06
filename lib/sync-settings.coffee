@@ -245,6 +245,7 @@ SyncSettings =
       version: '3.0.0'
       # debug: true
       protocol: 'https'
+      proxy: atom.config.get('sync-settings.proxy')
     github.authenticate
       type: 'oauth'
       token: token
