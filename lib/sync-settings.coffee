@@ -286,14 +286,13 @@ SyncSettings =
         atom.config.set keyPath[1...], value
 
   installMissingPackages: (packages, cb) ->
-    pending=0
-    for pkg in packages
-      continue if atom.packages.isPackageLoaded(pkg.name)
-      pending++
-      @installPackage pkg, ->
-        pending--
-        cb?() if pending is 0
-    cb?() if pending is 0
+    pkgs = (pkg for pkg in packages when not atom.packages.isPackageLoaded(pkg.name))
+    t = pkgs.length
+    installSync = (pkgs) =>
+      return cb?() unless pkgs.length
+      atom.notifications.addInfo "Sync-settings: installing #{pkgs[0].name} (#{t-pkgs.length+1}/#{t})"
+      @installPackage pkgs[0], -> installSync(pkgs[1...])
+    installSync(pkgs)
 
   installPackage: (pack, cb) ->
     type = if pack.theme then 'theme' else 'package'
