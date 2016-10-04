@@ -151,13 +151,16 @@ class PackageManager
     @runCommand(args, exit)
 
   install: (pack, callback) ->
-    {name, version, theme} = pack
+    {name, version, theme, apmInstallSource} = pack
     activateOnSuccess = not theme and not atom.packages.isPackageDisabled(name)
     activateOnFailure = atom.packages.isPackageActive(name)
     atom.packages.deactivatePackage(name) if atom.packages.isPackageActive(name)
     atom.packages.unloadPackage(name) if atom.packages.isPackageLoaded(name)
 
-    args = ['install', "#{name}@#{version}"]
+    packageRef =
+      if apmInstallSource then apmInstallSource.source
+      else "#{name}@#{version}"
+    args = ['install', packageRef]
     exit = (code, stdout, stderr) =>
       if code is 0
         if activateOnSuccess
@@ -169,7 +172,7 @@ class PackageManager
         @emitPackageEvent 'installed', pack
       else
         atom.packages.activatePackage(name) if activateOnFailure
-        error = new Error("Installing \u201C#{name}@#{version}\u201D failed.")
+        error = new Error("Installing \u201C#{packageRef}\u201D failed.")
         error.stdout = stdout
         error.stderr = stderr
         error.packageInstallError = not theme

@@ -191,8 +191,8 @@ SyncSettings =
   getPackages: ->
     packages = []
     for own name, info of atom.packages.getLoadedPackages()
-      {name, version, theme} = info.metadata
-      packages.push({name, version, theme})
+      {name, version, theme, apmInstallSource} = info.metadata
+      packages.push({name, version, theme, apmInstallSource})
     _.sortBy(packages, 'name')
 
   restore: (cb=null) ->
