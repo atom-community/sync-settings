@@ -81,7 +81,6 @@ SyncSettings =
       @createClient().gists.get
         id: @getGistId()
       , (err, res) =>
-        console.debug(err, res)
         if err
           console.error "error while retrieving the gist. does it exists?", err
           try
