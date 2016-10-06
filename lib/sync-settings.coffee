@@ -288,7 +288,8 @@ SyncSettings =
   installMissingPackages: (packages, cb) ->
     pending=0
     for pkg in packages
-      continue if atom.packages.isPackageLoaded(pkg.name) and not pkg.apmInstallSource
+      continue if atom.packages.isPackageLoaded(pkg.name) and
+        (!!pkg.apmInstallSource is !!atom.packages.getLoadedPackage(pkg.name).metadata.apmInstallSource)
       pending++
       @installPackage pkg, ->
         pending--
