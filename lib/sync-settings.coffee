@@ -190,8 +190,8 @@ SyncSettings =
 
   getPackages: ->
     packages = []
-    for own name, info of atom.packages.getLoadedPackages()
-      {name, version, theme} = info.metadata
+    for own name, info of atom.packages.getAvailablePackageMetadata()
+      {name, version, theme} = info
       packages.push({name, version, theme})
     _.sortBy(packages, 'name')
 
