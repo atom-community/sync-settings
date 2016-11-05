@@ -191,8 +191,8 @@ SyncSettings =
   getPackages: ->
     packages = []
     for own name, info of atom.packages.getLoadedPackages()
-      {name, version, theme} = info.metadata
-      packages.push({name, version, theme})
+      {name, version, theme, apmInstallSource} = info.metadata
+      packages.push({name, version, theme, apmInstallSource})
     _.sortBy(packages, 'name')
 
   restore: (cb=null) ->
@@ -288,7 +288,8 @@ SyncSettings =
   installMissingPackages: (packages, cb) ->
     pending=0
     for pkg in packages
-      continue if atom.packages.isPackageLoaded(pkg.name)
+      continue if atom.packages.isPackageLoaded(pkg.name) and
+        (!!pkg.apmInstallSource is !!atom.packages.getLoadedPackage(pkg.name).metadata.apmInstallSource)
       pending++
       @installPackage pkg, ->
         pending--
