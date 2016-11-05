@@ -190,10 +190,25 @@ SyncSettings =
 
   getPackages: ->
     packages = []
-    for own name, info of atom.packages.getLoadedPackages()
-      {name, version, theme, apmInstallSource} = info.metadata
+    for i, metadata of @_getAvailablePackageMetadataWithoutDuplicates()
+      {name, version, theme, apmInstallSource} = metadata
       packages.push({name, version, theme, apmInstallSource})
     _.sortBy(packages, 'name')
+
+  _getAvailablePackageMetadataWithoutDuplicates: ->
+    path2metadata = {}
+    package_metadata = atom.packages.getAvailablePackageMetadata()
+    for path, i in atom.packages.getAvailablePackagePaths()
+      path2metadata[fs.realpathSync(path)] = package_metadata[i]
+
+    packages = []
+    for i, pkg_name of atom.packages.getAvailablePackageNames()
+      pkg_path = atom.packages.resolvePackagePath(pkg_name)
+      if path2metadata[pkg_path]
+        packages.push(path2metadata[pkg_path])
+      else
+        console.error('could not correlate package name, path, and metadata')
+    packages
 
   restore: (cb=null) ->
     @createClient().gists.get
