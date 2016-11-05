@@ -286,15 +286,47 @@ SyncSettings =
         atom.config.set keyPath[1...], value
 
   installMissingPackages: (packages, cb) ->
-    pending=0
-    for pkg in packages
-      continue if atom.packages.isPackageLoaded(pkg.name) and
-        (!!pkg.apmInstallSource is !!atom.packages.getLoadedPackage(pkg.name).metadata.apmInstallSource)
-      pending++
-      @installPackage pkg, ->
-        pending--
-        cb?() if pending is 0
-    cb?() if pending is 0
+    missing_packages = (
+      pkg for pkg in packages when not atom.packages.isPackageLoaded(pkg.name) or not (!!pkg.apmInstallSource is !!atom.packages.getLoadedPackage(pkg.name).metadata.apmInstallSource))
+    if missing_packages.length is 0
+      atom.notifications.addInfo "Sync-settings: no packages to install"
+      return cb?()
+
+    notifications = {}
+    succeeded = []
+    failed = []
+    installNextPackage = =>
+      if missing_packages.length > 0
+        # start installing next package
+        pkg = missing_packages.shift()
+        i = succeeded.length + failed.length + Object.keys(notifications).length + 1
+        count = i + missing_packages.length
+        notifications[pkg.name] = atom.notifications.addInfo "Sync-settings: installing #{pkg.name} (#{i}/#{count})", {dismissable: true}
+        do (pkg) =>
+          @installPackage pkg, (error) ->
+            # installation of package finished
+            notifications[pkg.name].dismiss()
+            delete notifications[pkg.name]
+            if error?
+              failed.push(pkg.name)
+              atom.notifications.addWarning "Sync-settings: failed to install #{pkg.name}"
+            else
+              succeeded.push(pkg.name)
+            # trigger next package
+            installNextPackage()
+      else if Object.keys(notifications).length is 0
+        # last package installation finished
+        if failed.length is 0
+          atom.notifications.addSuccess "Sync-settings: finished installing #{succeeded.length} packages"
+        else
+          failed.sort()
+          failedStr = failed.join(', ')
+          atom.notifications.addWarning "Sync-settings: finished installing packages (#{failed.length} failed: #{failedStr})", {dismissable: true}
+        cb?()
+    # start as many package installations in parallel as desired
+    concurrency = Math.min missing_packages.length, 8
+    for i in [0...concurrency]
+      installNextPackage()
 
   installPackage: (pack, cb) ->
     type = if pack.theme then 'theme' else 'package'
