@@ -81,7 +81,6 @@ SyncSettings =
       @createClient().gists.get
         id: @getGistId()
       , (err, res) =>
-        console.debug(err, res)
         if err
           console.error "error while retrieving the gist. does it exists?", err
           try
@@ -90,6 +89,11 @@ SyncSettings =
           catch SyntaxError
             message = err.message
           atom.notifications.addError "sync-settings: Error retrieving your settings. ("+message+")"
+          return cb?()
+
+        if not res?.history?[0]?.version?
+          console.error "could not interpret result:", res
+          atom.notifications.addError "sync-settings: Error retrieving your settings."
           return cb?()
 
         console.debug("latest backup version #{res.history[0].version}")
