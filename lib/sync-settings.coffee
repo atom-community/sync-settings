@@ -179,8 +179,11 @@ SyncSettings =
     , (err, res) ->
       if err
         console.error "error backing up data: "+err.message, err
-        message = JSON.parse(err.message).message
-        message = 'Gist ID Not Found' if message is 'Not Found'
+        try
+          message = JSON.parse(err.message).message
+          message = 'Gist ID Not Found' if message is 'Not Found'
+        catch SyntaxError
+          message = err.message
         atom.notifications.addError "sync-settings: Error backing up your settings. ("+message+")"
       else
         atom.config.set('sync-settings._lastBackupHash', res.history[0].version)
@@ -220,8 +223,11 @@ SyncSettings =
     , (err, res) =>
       if err
         console.error "error while retrieving the gist. does it exists?", err
-        message = JSON.parse(err.message).message
-        message = 'Gist ID Not Found' if message is 'Not Found'
+        try
+          message = JSON.parse(err.message).message
+          message = 'Gist ID Not Found' if message is 'Not Found'
+        catch SyntaxError
+          message = err.message
         atom.notifications.addError "sync-settings: Error retrieving your settings. ("+message+")"
         return
 
