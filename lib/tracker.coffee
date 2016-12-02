@@ -37,16 +37,32 @@ class Tracker
           version: pkg.version
         userAgent: navigator.userAgent
 
-    # identify the user
-    atom.config.observe @analyticsUserIdConfigKey, (userId) =>
-      @analytics.identify
-        userId: userId
-      @defaultEvent.userId = userId
-
     # cache enabled and watch for changes
     @enabled = atom.config.get @analyticsEnabledConfigKey
     atom.config.onDidChange @analyticsEnabledConfigKey, ({newValue}) =>
       @enabled = newValue
+      if @enabled
+        # avoid calling identify without a userId
+        if @defaultEvent.userId
+          @analytics.identify
+            userId: @defaultEvent.userId
+        else
+          uuid = require 'node-uuid'
+          # this will retrigger the observe callback and identify the userId
+          atom.config.set @analyticsUserIdConfigKey, uuid.v4()
+
+    # identify the user
+    atom.config.observe @analyticsUserIdConfigKey, (userId) =>
+      @defaultEvent.userId = userId
+      if @enabled
+        # avoid calling identify without a userId
+        if userId
+          @analytics.identify
+            userId: userId
+        else
+          uuid = require 'node-uuid'
+          # this will retrigger the observe callback and identify the userId
+          atom.config.set @analyticsUserIdConfigKey, uuid.v4()
 
   track: (message) ->
     return if not @enabled
