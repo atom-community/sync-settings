@@ -2,7 +2,7 @@
 {BufferedProcess} = require 'atom'
 fs = require 'fs'
 _ = require 'underscore-plus'
-[GitHubApi, PackageManager, Tracker] = []
+[GitHubApi, PackageManager] = []
 ForkGistIdInputView = null
 
 # constants
@@ -10,7 +10,7 @@ DESCRIPTION = 'Atom configuration storage operated by http://atom.io/packages/sy
 REMOVE_KEYS = [
   'sync-settings.gistId',
   'sync-settings.personalAccessToken',
-  'sync-settings._analyticsUserId',
+  'sync-settings._analyticsUserId',  # keep legacy key in blacklist
   'sync-settings._lastBackupHash',
 ]
 
@@ -23,33 +23,23 @@ SyncSettings =
       # actual initialization after atom has loaded
       GitHubApi ?= require 'github'
       PackageManager ?= require './package-manager'
-      Tracker ?= require './tracker'
 
       atom.commands.add 'atom-workspace', "sync-settings:backup", =>
         @backup()
-        @tracker.track 'Backup'
       atom.commands.add 'atom-workspace', "sync-settings:restore", =>
         @restore()
-        @tracker.track 'Restore'
       atom.commands.add 'atom-workspace', "sync-settings:view-backup", =>
         @viewBackup()
-        @tracker.track 'View backup'
       atom.commands.add 'atom-workspace', "sync-settings:check-backup", =>
         @checkForUpdate()
-        @tracker.track 'Check backup'
       atom.commands.add 'atom-workspace', "sync-settings:fork", =>
         @inputForkGistId()
 
       mandatorySettingsApplied = @checkMandatorySettings()
       @checkForUpdate() if atom.config.get('sync-settings.checkForUpdatedBackup') and mandatorySettingsApplied
 
-      # make the tracking last in case any exception happens
-      @tracker = new Tracker 'sync-settings._analyticsUserId', 'sync-settings.analytics'
-      @tracker.trackActivate()
-
   deactivate: ->
     @inputView?.destroy()
-    @tracker.trackDeactivate()
 
   serialize: ->
 
@@ -377,7 +367,6 @@ SyncSettings =
     @inputView.setCallbackInstance(this)
 
   forkGistId: (forkId) ->
-    @tracker.track 'Fork'
     @createClient().gists.fork
       id: forkId
     , (err, res) =>
