@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.8.0
+* Remove Analytics. Closes [#321](https://github.com/atom-community/sync-settings/issues/321)
+* Avoid exception when editing Analytics User Id. Closes [#320](https://github.com/atom-community/sync-settings/issues/320)
+* Catch SyntaxError for JSON.parse calls. Closes [#319](https://github.com/atom-community/sync-settings/issues/319)
+* Reduce debug messages on the console. Closes [#312](https://github.com/atom-community/sync-settings/issues/312)
+* Add notifications while installing packages, limit concurrent installations. Closes [#311](https://github.com/atom-community/sync-settings/issues/311)
+* Sync disabled packages too. Closes [#310](https://github.com/atom-community/sync-settings/issues/310)
+* Allow syncing git-installed packages. Closes [#299](https://github.com/atom-community/sync-settings/issues/299)
+* Update dependencies, switch back to github from github4. Closes [#283](https://github.com/atom-community/sync-settings/issues/283)
+* Add keywords to package manifest. Closes [#235](https://github.com/atom-community/sync-settings/issues/235)
+
+## v0.7.2
+* New release from new location
+
 ## v0.7.1
 * This package has been moved to [Atom Community](https://github.com/atom-community) organization. Closes [#227](https://github.com/atom-community/sync-settings/issues/227)
 
