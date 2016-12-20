@@ -22,7 +22,7 @@ Synchronize settings, keymaps, user styles, init script, snippets and installed 
 ## Setup
 
 1. Open **Sync Settings** configuration in [Atom Settings](atom://config).
-2. Create a [new personal access token](https://github.com/settings/tokens/new) which has the `gist` scope and be sure to activate permissions: Gist -> create gists.
+2. Create a [new personal access token](https://github.com/settings/tokens/new) which has the `gist` scope and be sure to **activate permissions**: Gist -> create gists.
 3. Copy the access token to **Sync Settings** configuration.
 4. Create a [new gist](https://gist.github.com/) and save it.
 5. Copy the gist id (last part of url after the username) to **Sync Settings** configuration.
