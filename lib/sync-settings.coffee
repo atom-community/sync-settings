@@ -301,8 +301,16 @@ SyncSettings =
         atom.config.set keyPath[1...], value
 
   installMissingPackages: (packages, cb) ->
-    missing_packages = (
-      pkg for pkg in packages when not atom.packages.isPackageLoaded(pkg.name) or not (!!pkg.apmInstallSource is !!atom.packages.getLoadedPackage(pkg.name).metadata.apmInstallSource))
+    available_packages = @getPackages()
+    missing_packages = []
+    for pkg in packages
+      available_package = (p for p in available_packages when p.name is pkg.name)
+      if available_package.length is 0
+        # missing if not yet installed
+        missing_packages.push(pkg)
+      else if not(!!pkg.apmInstallSource is !!available_package[0].apmInstallSource)
+        # or installed but with different apm install source
+        missing_packages.push(pkg)
     if missing_packages.length is 0
       atom.notifications.addInfo "Sync-settings: no packages to install"
       return cb?()
