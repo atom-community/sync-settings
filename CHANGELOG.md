@@ -1,6 +1,9 @@
 # Changelog
 
-## v0.8.0
+## v0.8.1 (2016-12-29)
+* Restore keeps reinstalling disabled packages. Closes [#328](https://github.com/atom-community/sync-settings/issues/328)
+
+## v0.8.0 (2016-12-08)
 * Remove Analytics. Closes [#321](https://github.com/atom-community/sync-settings/issues/321)
 * Avoid exception when editing Analytics User Id. Closes [#320](https://github.com/atom-community/sync-settings/issues/320)
 * Catch SyntaxError for JSON.parse calls. Closes [#319](https://github.com/atom-community/sync-settings/issues/319)
@@ -11,13 +14,13 @@
 * Update dependencies, switch back to github from github4. Closes [#283](https://github.com/atom-community/sync-settings/issues/283)
 * Add keywords to package manifest. Closes [#235](https://github.com/atom-community/sync-settings/issues/235)
 
-## v0.7.2
+## v0.7.2 (2016-03-11)
 * New release from new location
 
-## v0.7.1
+## v0.7.1 (2016-03-11)
 * This package has been moved to [Atom Community](https://github.com/atom-community) organization. Closes [#227](https://github.com/atom-community/sync-settings/issues/227)
 
-## v0.7.0
+## v0.7.0 (2016-03-07)
 * Allow synchronizing some settings of this package. Closes [#193](https://github.com/atom-community/sync-settings/pull/193)
 * Fix restoring settings of type color. Fixes [#180](https://github.com/atom-community/sync-settings/issues/180)
 * Improve documentation to use private gists. Closes [#190](https://github.com/atom-community/sync-settings/issues/190)
@@ -36,12 +39,12 @@
 * Fix uncaught TypeError. Fixes [135](https://github.com/atom-community/sync-settings/issues/135)
 * Restore check backup command. Fixes [116](https://github.com/atom-community/sync-settings/pull/116)
 
-## v0.6.0
+## v0.6.0 (2015-08-01)
 * Check for updated backup. Closes [#81](https://github.com/atom-community/sync-settings/issues/81)
 * New menu option to open the gist with external browser. Closes [#87](https://github.com/atom-community/sync-settings/issues/87)
 * Track usage. Closes [#82](https://github.com/atom-community/sync-settings/issues/82)
 
-## v0.5.0
+## v0.5.0 (2015-06-26)
 * Fixed snippets not applied. Fixes [#36](https://github.com/atom-community/sync-settings/issues/36)
   * Please note that this issue created a redundant file called `snippets.coffee`
 * Rename Upload/Download to Backup/Restore. Fixes [#50](https://github.com/atom-community/sync-settings/issues/50)
@@ -49,30 +52,30 @@
 * Improve package load time. Fixes [#33](https://github.com/atom-community/sync-settings/issues/33)
 * Settings for which things to sync. Closes [#54](https://github.com/atom-community/sync-settings/issues/54)
 
-## v0.4.0
+## v0.4.0 (2015-06-10)
 * Added default contents for empty files
 * Fix writing contents to extra files
 
-## v0.3.0
+## v0.3.0 (2015-06-09)
 * Defer package activation until first upload/download
 * Added link to uploaded gist in success notification
 * Fixed deprecations
 * Update atom engine semver
 
-## v0.2.2
+## v0.2.2 (2015-03-05)
 * Fixed deprecations
 * Fixed [#23](https://github.com/atom-community/sync-settings/issues/23)
 * Added extra files setting
 
-## v0.2.1
+## v0.2.1 (2015-01-24)
 * Added notifications
 * Fixed deprecations
 
-## v0.2.0
+## v0.2.0 (2015-01-06)
 * Sync user styles
 * Sync init
 * Sync snippets
 * Remove sensitive sync-settings setting data
 
-## v0.1.0
+## v0.1.0 (2014-08-03)
 * First Release
