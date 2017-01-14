@@ -27,7 +27,7 @@ Synchronize settings, keymaps, user styles, init script, snippets and installed 
 4. Create a [new gist](https://gist.github.com/) and save it.
 5. Copy the gist id (last part of url after the username) to **Sync Settings** configuration.
 
-Disclaimer: Github Gists are by default **public**. If you don't want other people to easily find your gist (i.e. if you use certain packages, storing auth-tokens, a malicious party could abuse them), you should make sure to **create a secret gist**.
+Disclaimer: GitHub Gists are by default **public**. If you don't want other people to easily find your gist (i.e. if you use certain packages, storing auth-tokens, a malicious party could abuse them), you should make sure to **create a secret gist**.
 
 ### Alternative **Sync Settings** configuration using Atom's config.cson
 
