@@ -232,6 +232,7 @@ SyncSettings =
             if atom.config.get('sync-settings.syncPackages')
               callbackAsync = true
               @installMissingPackages JSON.parse(file.content), cb
+              @uninstallRedundantPackages JSON.parse(file.content), cb
 
           when 'keymap.cson'
             fs.writeFileSync atom.keymaps.getUserKeymapPath(), file.content if atom.config.get('sync-settings.syncKeymap')
@@ -299,6 +300,21 @@ SyncSettings =
       else
         console.debug "config.set #{keyPath[1...]}=#{value}"
         atom.config.set keyPath[1...], value
+
+  uninstallRedundantPackages: (packages, cb) ->
+    available_packages = @getPackages()
+    redundant_packages = []
+    for pkg in available_packages
+      available_package = (p for p in packages when p.name is pkg.name)
+      if available_package.length is 0
+        redundant_packages.push(pkg)
+    if redundant_packages.length is 0
+      atom.notifications.addInfo "Sync-settings: no packages to remove"
+      return cb?()
+    else
+      for pkg in redundant_packages
+        packageManager = new PackageManager()
+        packageManager.uninstall pkg
 
   installMissingPackages: (packages, cb) ->
     available_packages = @getPackages()
