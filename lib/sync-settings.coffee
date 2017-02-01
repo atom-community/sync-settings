@@ -232,7 +232,8 @@ SyncSettings =
             if atom.config.get('sync-settings.syncPackages')
               callbackAsync = true
               @installMissingPackages JSON.parse(file.content), cb
-              @uninstallRedundantPackages JSON.parse(file.content), cb
+              if atom.config.get('sync-settings.removePackage')
+                @uninstallRedundantPackages JSON.parse(file.content), cb
 
           when 'keymap.cson'
             fs.writeFileSync atom.keymaps.getUserKeymapPath(), file.content if atom.config.get('sync-settings.syncKeymap')
