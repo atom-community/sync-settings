@@ -344,7 +344,7 @@ SyncSettings =
           failedStr = failed.join(', ')
           atom.notifications.addWarning "Sync-settings: finished removing packages (#{failed.length} failed: #{failedStr})", {dismissable: true}
         cb?()
-    # start as many package installations in parallel as desired
+    # start as many package removal in parallel as desired
     concurrency = Math.min redundant_packages.length, 8
     for i in [0...concurrency]
       removeNextPackage()
