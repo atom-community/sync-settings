@@ -47,7 +47,7 @@ module.exports = {
     order: 10
   removePackage:
     title: 'Remove unused packages'
-    description: 'Packages installed but not in the backup will be removed upon restoring.'
+    description: 'Packages installed but not in the backup will be removed when restoring backups'
     type: 'boolean'
     default: false
     order: 11
