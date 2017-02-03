@@ -243,6 +243,9 @@ SyncSettings =
           when 'init.coffee'
             fs.writeFileSync atom.config.configDirPath + "/init.coffee", file.content if atom.config.get('sync-settings.syncInit')
 
+          when 'init.js'
+            fs.writeFileSync atom.config.configDirPath + "/init.js", file.content if atom.config.get('sync-settings.syncInit')
+
           when 'snippets.cson'
             fs.writeFileSync atom.config.configDirPath + "/snippets.cson", file.content if atom.config.get('sync-settings.syncSnippets')
 
