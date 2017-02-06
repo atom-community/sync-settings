@@ -45,32 +45,32 @@ module.exports = {
     type: 'boolean'
     default: true
     order: 10
-  removePackage:
-    title: 'Remove unused packages'
-    description: 'Packages installed but not in the backup will be removed when restoring backups'
-    type: 'boolean'
-    default: false
-    order: 11
   extraFiles:
     description: 'Comma-seperated list of files other than Atom\'s default config files in ~/.atom'
     type: 'array'
     default: []
     items:
       type: 'string'
-    order: 12
+    order: 11
   checkForUpdatedBackup:
     description: 'Check for newer backup on Atom start'
     type: 'boolean'
     default: true
-    order: 13
+    order: 12
   _lastBackupHash:
     type: 'string'
     default: ''
     description: 'Hash of the last backup restored or created'
-    order: 14
+    order: 13
   quietUpdateCheck:
     type: 'boolean'
     default: false
     description: "Mute 'Latest backup is already applied' message"
+    order: 14
+  removePackage:
+    title: 'Remove unused packages'
+    description: 'Packages installed but not in the backup will be removed when restoring backups'
+    type: 'boolean'
+    default: false
     order: 15
 }
