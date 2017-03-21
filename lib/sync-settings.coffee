@@ -232,8 +232,8 @@ SyncSettings =
             if atom.config.get('sync-settings.syncPackages')
               callbackAsync = true
               @installMissingPackages JSON.parse(file.content), cb
-              if atom.config.get('sync-settings.removePackage')
-                @removeRedundantPackages JSON.parse(file.content), cb
+              if atom.config.get('sync-settings.removeObsoletePackage')
+                @removeObsoletePackages JSON.parse(file.content), cb
 
           when 'keymap.cson'
             fs.writeFileSync atom.keymaps.getUserKeymapPath(), file.content if atom.config.get('sync-settings.syncKeymap')
@@ -302,14 +302,14 @@ SyncSettings =
         console.debug "config.set #{keyPath[1...]}=#{value}"
         atom.config.set keyPath[1...], value
 
-  removeRedundantPackages: (packages, cb) ->
+  removeObsoletePackages: (extraneous_packages, cb) ->
     available_packages = @getPackages()
-    redundant_packages = []
+    obsolete_packages = []
     for pkg in available_packages
-      available_package = (p for p in packages when p.name is pkg.name)
+      available_package = (p for p in extraneous_packages when p.name is pkg.name)
       if available_package.length is 0
-        redundant_packages.push(pkg)
-    if redundant_packages.length is 0
+        obsolete_packages.push(pkg)
+    if obsolete_packages.length is 0
       atom.notifications.addInfo "Sync-settings: no packages to remove"
       return cb?()
 
@@ -317,11 +317,11 @@ SyncSettings =
     succeeded = []
     failed = []
     removeNextPackage = =>
-      if redundant_packages.length > 0
+      if obsolete_packages.length > 0
         # start removing next package
-        pkg = redundant_packages.shift()
+        pkg = obsolete_packages.shift()
         i = succeeded.length + failed.length + Object.keys(notifications).length + 1
-        count = i + redundant_packages.length
+        count = i + obsolete_packages.length
         notifications[pkg.name] = atom.notifications.addInfo "Sync-settings: removing #{pkg.name} (#{i}/#{count})", {dismissable: true}
         do (pkg) =>
           @removePackage pkg, (error) ->
@@ -345,7 +345,7 @@ SyncSettings =
           atom.notifications.addWarning "Sync-settings: finished removing packages (#{failed.length} failed: #{failedStr})", {dismissable: true}
         cb?()
     # start as many package removal in parallel as desired
-    concurrency = Math.min redundant_packages.length, 8
+    concurrency = Math.min obsolete_packages.length, 8
     for i in [0...concurrency]
       removeNextPackage()
 
