@@ -24,7 +24,13 @@ Synchronize settings, keymaps, user styles, init script, snippets and installed 
 1. Open **Sync Settings** configuration in [Atom Settings](atom://config).
 2. Create a [new personal access token](https://github.com/settings/tokens/new) which has the `gist` scope and be sure to **activate permissions**: Gist -> create gists.
 3. Copy the access token to **Sync Settings** configuration.
-4. Create a [new gist](https://gist.github.com/) using `packages.json` as the filename and save it.
+4. Create a [new gist](https://gist.github.com/):
+
+  - The description can be left empty. It will be set when invoking the `backup` command the first time.
+  - Use `packages.json` as the filename.
+  - Put some arbitrary non-empty content into the file. It will be overwritten by the first invocation of the `backup` command
+  - Save the gist.
+
 5. Copy the gist id (last part of url after the username) to **Sync Settings** configuration.
 
 Disclaimer: GitHub Gists are by default **public**. If you don't want other people to easily find your gist (i.e. if you use certain packages, storing auth-tokens, a malicious party could abuse them), you should make sure to **create a secret gist**.
