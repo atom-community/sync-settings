@@ -67,8 +67,7 @@ module.exports = {
     default: false
     description: "Mute 'Latest backup is already applied' message"
     order: 14
-  removeObsoletePackage:
-    title: 'Remove obsolete packages'
+  removeObsoletePackages:
     description: 'Packages installed but not in the backup will be removed when restoring backups'
     type: 'boolean'
     default: false
