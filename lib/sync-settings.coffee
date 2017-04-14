@@ -50,7 +50,7 @@ SyncSettings =
     return gistId
 
   getPersonalAccessToken: ->
-    token = atom.config.get 'sync-settings.personalAccessToken'
+    token = process.env.GITHUB_TOKEN or atom.config.get 'sync-settings.personalAccessToken'
     if token
       token = token.trim()
     return token
