@@ -38,6 +38,9 @@ SyncSettings =
       mandatorySettingsApplied = @checkMandatorySettings()
       @checkForUpdate() if atom.config.get('sync-settings.checkForUpdatedBackup') and mandatorySettingsApplied
 
+    # Clean up after #36, see #68 for more info.
+    fs.unlink(require('path').join(atom.getConfigDirPath(), 'snippets.coffee'), ->)
+
   deactivate: ->
     @inputView?.destroy()
 
