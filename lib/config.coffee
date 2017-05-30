@@ -67,4 +67,9 @@ module.exports = {
     default: false
     description: "Mute 'Latest backup is already applied' message"
     order: 14
+  proxy:
+    description: 'Proxy for sync-settings'
+    type: 'string'
+    default: ''
+    order: 15
 }

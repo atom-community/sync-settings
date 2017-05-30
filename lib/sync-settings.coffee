@@ -55,6 +55,12 @@ SyncSettings =
       token = token.trim()
     return token
 
+  getProxy: ->
+    proxy = atom.config.get 'sync-settings.proxy'
+    if proxy
+      proxy = proxy.trim()
+    return proxy
+
   checkMandatorySettings: ->
     missingSettings = []
     if not @getGistId()
@@ -265,6 +271,7 @@ SyncSettings =
       version: '3.0.0'
       # debug: true
       protocol: 'https'
+      proxy: @getProxy()
     github.authenticate
       type: 'oauth'
       token: token
