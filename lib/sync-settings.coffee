@@ -148,7 +148,9 @@ SyncSettings =
     if atom.config.get('sync-settings.syncStyles')
       files["styles.less"] = content: (@fileContent atom.styles.getUserStyleSheetPath()) ? "// styles file (not found)"
     if atom.config.get('sync-settings.syncInit')
-      files["init.coffee"] = content: (@fileContent atom.config.configDirPath + "/init.coffee") ? "# initialization file (not found)"
+      initPath = atom.getUserInitScriptPath()
+      path = require('path')
+      files[path.basename(initPath)] = content: (@fileContent initPath) ? "# initialization file (not found)"
     if atom.config.get('sync-settings.syncSnippets')
       files["snippets.cson"] = content: (@fileContent atom.config.configDirPath + "/snippets.cson") ? "# snippets file (not found)"
 
@@ -241,6 +243,9 @@ SyncSettings =
 
           when 'init.coffee'
             fs.writeFileSync atom.config.configDirPath + "/init.coffee", file.content if atom.config.get('sync-settings.syncInit')
+
+          when 'init.js'
+            fs.writeFileSync atom.config.configDirPath + "/init.js", file.content if atom.config.get('sync-settings.syncInit')
 
           when 'snippets.cson'
             fs.writeFileSync atom.config.configDirPath + "/snippets.cson", file.content if atom.config.get('sync-settings.syncSnippets')
