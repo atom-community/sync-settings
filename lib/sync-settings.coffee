@@ -149,7 +149,8 @@ SyncSettings =
       files["styles.less"] = content: (@fileContent atom.styles.getUserStyleSheetPath()) ? "// styles file (not found)"
     if atom.config.get('sync-settings.syncInit')
       initPath = atom.getUserInitScriptPath()
-      files[require('path').basename(initPath)] = content: (@fileContent initPath) ? "# initialization file (not found)"
+      path = require('path')
+      files[path.basename(initPath)] = content: (@fileContent initPath) ? "# initialization file (not found)"
     if atom.config.get('sync-settings.syncSnippets')
       files["snippets.cson"] = content: (@fileContent atom.config.configDirPath + "/snippets.cson") ? "# snippets file (not found)"
 
