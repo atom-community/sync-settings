@@ -442,7 +442,7 @@ SyncSettings =
   forkGistId: (forkId) ->
     @createClient().gists.fork
       id: forkId
-    , (err, res) =>
+    , (err, res) ->
       if err
         try
           message = JSON.parse(err.message).message
