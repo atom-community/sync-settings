@@ -302,12 +302,12 @@ SyncSettings =
         console.debug "config.set #{keyPath[1...]}=#{value}"
         atom.config.set keyPath[1...], value
 
-  removeObsoletePackages: (extraneous_packages, cb) ->
-    available_packages = @getPackages()
+  removeObsoletePackages: (remaining_packages, cb) ->
+    installed_packages = @getPackages()
     obsolete_packages = []
-    for pkg in available_packages
-      available_package = (p for p in extraneous_packages when p.name is pkg.name)
-      if available_package.length is 0
+    for pkg in installed_packages
+      keep_installed_package = (p for p in remaining_packages when p.name is pkg.name)
+      if keep_installed_package.length is 0
         obsolete_packages.push(pkg)
     if obsolete_packages.length is 0
       atom.notifications.addInfo "Sync-settings: no packages to remove"
