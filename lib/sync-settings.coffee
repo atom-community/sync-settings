@@ -234,6 +234,8 @@ SyncSettings =
             if atom.config.get('sync-settings.syncPackages')
               callbackAsync = true
               @installMissingPackages JSON.parse(file.content), cb
+              if atom.config.get('sync-settings.removeObsoletePackage')
+                @removeObsoletePackages JSON.parse(file.content), cb
 
           when 'keymap.cson'
             fs.writeFileSync atom.keymaps.getUserKeymapPath(), file.content if atom.config.get('sync-settings.syncKeymap')
@@ -304,6 +306,64 @@ SyncSettings =
       else
         console.debug "config.set #{keyPath[1...]}=#{value}"
         atom.config.set keyPath[1...], value
+
+  removeObsoletePackages: (remaining_packages, cb) ->
+    installed_packages = @getPackages()
+    obsolete_packages = []
+    for pkg in installed_packages
+      keep_installed_package = (p for p in remaining_packages when p.name is pkg.name)
+      if keep_installed_package.length is 0
+        obsolete_packages.push(pkg)
+    if obsolete_packages.length is 0
+      atom.notifications.addInfo "Sync-settings: no packages to remove"
+      return cb?()
+
+    notifications = {}
+    succeeded = []
+    failed = []
+    removeNextPackage = =>
+      if obsolete_packages.length > 0
+        # start removing next package
+        pkg = obsolete_packages.shift()
+        i = succeeded.length + failed.length + Object.keys(notifications).length + 1
+        count = i + obsolete_packages.length
+        notifications[pkg.name] = atom.notifications.addInfo "Sync-settings: removing #{pkg.name} (#{i}/#{count})", {dismissable: true}
+        do (pkg) =>
+          @removePackage pkg, (error) ->
+            # removal of package finished
+            notifications[pkg.name].dismiss()
+            delete notifications[pkg.name]
+            if error?
+              failed.push(pkg.name)
+              atom.notifications.addWarning "Sync-settings: failed to remove #{pkg.name}"
+            else
+              succeeded.push(pkg.name)
+            # trigger next package
+            removeNextPackage()
+      else if Object.keys(notifications).length is 0
+        # last package removal finished
+        if failed.length is 0
+          atom.notifications.addSuccess "Sync-settings: finished removing #{succeeded.length} packages"
+        else
+          failed.sort()
+          failedStr = failed.join(', ')
+          atom.notifications.addWarning "Sync-settings: finished removing packages (#{failed.length} failed: #{failedStr})", {dismissable: true}
+        cb?()
+    # start as many package removal in parallel as desired
+    concurrency = Math.min obsolete_packages.length, 8
+    for i in [0...concurrency]
+      removeNextPackage()
+
+  removePackage: (pack, cb) ->
+    type = if pack.theme then 'theme' else 'package'
+    console.info("Removing #{type} #{pack.name}...")
+    packageManager = new PackageManager()
+    packageManager.uninstall pack, (error) ->
+      if error?
+        console.error("Removing #{type} #{pack.name} failed", error.stack ? error, error.stderr)
+      else
+        console.info("Removing #{type} #{pack.name}")
+      cb?(error)
 
   installMissingPackages: (packages, cb) ->
     available_packages = @getPackages()
