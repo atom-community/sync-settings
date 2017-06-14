@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.8.2 (2017-06-13)
+* Remove obsolete packages. Closes [#91](https://github.com/atom-community/sync-settings/pull/338)
+* Utilise GITHUB_TOKEN env variable. Closes [#343](https://github.com/atom-community/sync-settings/pull/357)
+* Add support for init.js. Closes [#331](https://github.com/atom-community/sync-settings/pull/339)
+
 ## v0.8.1 (2016-12-29)
 * Restore keeps reinstalling disabled packages. Closes [#328](https://github.com/atom-community/sync-settings/issues/328)
 
