@@ -34,7 +34,7 @@ It currently [does **not** support](https://github.com/atom-community/sync-setti
   - Put some arbitrary non-empty content into the file. It will be overwritten by the first invocation of the `backup` command
   - Save the gist.
 
-5. Copy the gist id (last part of url after the username) to **Sync Settings** configuration.
+5. Copy the gist id (last part of url after the username) to **Sync Settings** configuration or set it as an environmental variable **GIST_ID**.
 
 Disclaimer: GitHub Gists are by default **public**. If you don't want other people to easily find your gist (i.e. if you use certain packages, storing auth-tokens, a malicious party could abuse them), you should make sure to **create a secret gist**.
 
@@ -47,6 +47,15 @@ Disclaimer: GitHub Gists are by default **public**. If you don't want other peop
   "sync-settings":
     gistId: "b3025...88c41c"
     personalAccessToken: "6a10cc207b....7a67e871"
+```
+
+### Cloning a backup to a fresh Atom install
+
+1. Install the package from the command line: `apm install sync-settings`
+1. Launch Atom passing in **GITHUB_TOKEN** and **GIST_ID**. For example:
+
+```
+GITHUB_TOKEN=6a10cc207b....7a67e871 GIST_ID=b3025...88c41c atom
 ```
 
 ## Usage
