@@ -13,7 +13,10 @@ Synchronize settings, keymaps, user styles, init script, snippets and installed 
 * Sync user init script
 * Sync snippets
 * Sync user defined text files
-* Manual backup/restore to a gist
+
+### Note
+
+It currently [does **not** support](https://github.com/atom-community/sync-settings/issues/317) automatic backup - it must be done manually. Only the restore is being triggered automatically.
 
 ## Installation
 
