@@ -50,10 +50,10 @@ Disclaimer: GitHub Gists are by default **public**. If you don't want other peop
 
 1. Install the package from the command line: `apm install sync-settings`
 1. Launch Atom passing in **GITHUB_TOKEN** and **GIST_ID**. For example:
-
 ```
 GITHUB_TOKEN=6a10cc207b....7a67e871 GIST_ID=b3025...88c41c atom
 ```
+1. You will still need to make sure you add your gist id and github token to the **Sync Settings** configuration in [Atom Settings](atom://config) OR set them as environment variables in your shell configuration.
 
 ## Usage
 
