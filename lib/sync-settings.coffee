@@ -234,7 +234,7 @@ SyncSettings =
             if atom.config.get('sync-settings.syncPackages')
               callbackAsync = true
               @installMissingPackages JSON.parse(file.content), cb
-              if atom.config.get('sync-settings.removeObsoletePackage')
+              if atom.config.get('sync-settings.removeObsoletePackages')
                 @removeObsoletePackages JSON.parse(file.content), cb
 
           when 'keymap.cson'
