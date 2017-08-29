@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.8.3 (2017-08-28)
+* Fix configu option to remove obsolete packages. Closes [#379](https://github.com/atom-community/sync-settings/pull/379)
+* Prioritize package settings over GITHUB_TOKEN env variable. Closes [#366](https://github.com/atom-community/sync-settings/pull/374)
+
 ## v0.8.2 (2017-06-13)
 * Remove obsolete packages. Closes [#91](https://github.com/atom-community/sync-settings/pull/338)
 * Utilise GITHUB_TOKEN env variable. Closes [#343](https://github.com/atom-community/sync-settings/pull/357)
