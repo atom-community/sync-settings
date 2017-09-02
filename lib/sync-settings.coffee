@@ -142,7 +142,8 @@ SyncSettings =
     if atom.config.get('sync-settings.syncSettings')
       files["settings.json"] = content: @getFilteredSettings()
     if atom.config.get('sync-settings.syncPackages')
-      files["packages.json"] = content: JSON.stringify(@getPackages(), null, '\t')
+      syncCommunityPackagesOnly = atom.config.get('sync-settings.syncCommunityPackagesOnly')
+      files["packages.json"] = content: JSON.stringify(@getPackages(syncCommunityPackagesOnly), null, '\t')
     if atom.config.get('sync-settings.syncKeymap')
       files["keymap.cson"] = content: (@fileContent atom.keymaps.getUserKeymapPath()) ? "# keymap file (not found)"
     if atom.config.get('sync-settings.syncStyles')
@@ -187,11 +188,15 @@ SyncSettings =
     gistId = @getGistId()
     Shell.openExternal "https://gist.github.com/#{gistId}"
 
-  getPackages: ->
+  getPackages: (syncCommunityPackagesOnly) ->
     packages = []
     for i, metadata of @_getAvailablePackageMetadataWithoutDuplicates()
       {name, version, theme, apmInstallSource} = metadata
-      packages.push({name, version, theme, apmInstallSource})
+      if syncCommunityPackagesOnly
+        if not atom.packages.isBundledPackage(name)
+          packages.push({name, version, theme, apmInstallSource})
+      else
+        packages.push({name, version, theme, apmInstallSource})
     _.sortBy(packages, 'name')
 
   _getAvailablePackageMetadataWithoutDuplicates: ->

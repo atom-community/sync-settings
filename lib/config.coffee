@@ -29,47 +29,52 @@ module.exports = {
     type: 'boolean'
     default: true
     order: 6
+  syncCommunityPackagesOnly:
+    description: "Valid only when 'Sync Packages' is selected",
+    type: 'boolean'
+    default: false
+    order: 7
   syncKeymap:
     type: 'boolean'
     default: true
-    order: 7
+    order: 8
   syncStyles:
     type: 'boolean'
     default: true
-    order: 8
+    order: 9
   syncInit:
     type: 'boolean'
     default: true
-    order: 9
+    order: 10
   syncSnippets:
     type: 'boolean'
     default: true
-    order: 10
+    order: 11
   extraFiles:
     description: 'Comma-seperated list of files other than Atom\'s default config files in ~/.atom'
     type: 'array'
     default: []
     items:
       type: 'string'
-    order: 11
+    order: 12
   checkForUpdatedBackup:
     description: 'Check for newer backup on Atom start'
     type: 'boolean'
     default: true
-    order: 12
+    order: 13
   _lastBackupHash:
     type: 'string'
     default: ''
     description: 'Hash of the last backup restored or created'
-    order: 13
+    order: 14
   quietUpdateCheck:
     type: 'boolean'
     default: false
     description: "Mute 'Latest backup is already applied' message"
-    order: 14
+    order: 15
   removeObsoletePackages:
     description: 'Packages installed but not in the backup will be removed when restoring backups'
     type: 'boolean'
     default: false
-    order: 15
+    order: 16
 }
