@@ -295,6 +295,7 @@ SyncSettings =
 
   applySettings: (pref, settings) ->
     for key, value of settings
+      key = key.replace /\./g, "\\."
       keyPath = "#{pref}.#{key}"
       isColor = false
       if _.isObject(value)
