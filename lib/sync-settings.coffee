@@ -1,6 +1,7 @@
 # imports
 {BufferedProcess} = require 'atom'
 fs = require 'fs'
+path = require 'path'
 _ = require 'underscore-plus'
 [GitHubApi, PackageManager] = []
 ForkGistIdInputView = null
@@ -10,6 +11,7 @@ DESCRIPTION = 'Atom configuration storage operated by http://atom.io/packages/sy
 REMOVE_KEYS = [
   'sync-settings.gistId',
   'sync-settings.personalAccessToken',
+  'sync-settings.onlineSyncFolderPath',
   'sync-settings._analyticsUserId',  # keep legacy key in blacklist
   'sync-settings._lastBackupHash',
 ]
@@ -55,19 +57,41 @@ SyncSettings =
       token = token.trim()
     return token
 
+  getOnlineSyncFolderPath: ->
+    path = atom.config.get('sync-settings.onlineSyncFolderPath')
+
+    if path
+      path = path.trim()
+
+    return path
+
   checkMandatorySettings: ->
     missingSettings = []
-    if not @getGistId()
-      missingSettings.push("Gist ID")
-    if not @getPersonalAccessToken()
-      missingSettings.push("GitHub personal access token")
+
+    if not @getOnlineSyncFolderPath()
+      if not @getGistId()
+        missingSettings.push("Gist ID")
+
+      if not @getPersonalAccessToken()
+        missingSettings.push("GitHub personal access token")
+
+      if missingSettings.length isnt 0
+        missingSettings.push("Online sync folder path")
+
     if missingSettings.length
       @notifyMissingMandatorySettings(missingSettings)
+
     return missingSettings.length is 0
+
+  compareBackupHashes: (version) ->
+    if version isnt atom.config.get('sync-settings._lastBackupHash')
+      @notifyNewerBackup()
+    else if not atom.config.get('sync-settings.quietUpdateCheck')
+      @notifyBackupUptodate()
 
   checkForUpdate: (cb=null) ->
     if @getGistId()
-      console.debug('checking latest backup...')
+      console.debug 'checking latest backup from gist ...'
       @createClient().gists.get
         id: @getGistId()
       , (err, res) =>
@@ -86,15 +110,24 @@ SyncSettings =
           atom.notifications.addError "sync-settings: Error retrieving your settings."
           return cb?()
 
-        console.debug("latest backup version #{res.history[0].version}")
-        if res.history[0].version isnt atom.config.get('sync-settings._lastBackupHash')
-          @notifyNewerBackup()
-        else if not atom.config.get('sync-settings.quietUpdateCheck')
-          @notifyBackupUptodate()
+        console.debug "latest backup version #{res.history[0].version}"
+        compareBackupHashes res.history[0].version
 
         cb?()
+    else if @getOnlineSyncFolderPath()
+      console.debug 'checking latest backup from online synced folder ...'
+      folder = @getOnlineSyncFolderPath()
+
+      try
+        version = fs.readFileSync path.join(folder, '_version'), 'utf8'
+        console.debug "latest backup version #{version}"
+        compareBackupHashes version
+      catch err
+        atom.notifications.addError "sync-settings: Error retrieving your settings."
+
+      cb?()
     else
-      @notifyMissingMandatorySettings(["Gist ID"])
+      @notifyMissingMandatorySettings(["Gist ID", "Online sync folder path"])
 
   notifyNewerBackup: ->
     # we need the actual element for dispatching on it
@@ -122,7 +155,6 @@ SyncSettings =
 
   notifyBackupUptodate: ->
     atom.notifications.addSuccess "sync-settings: Latest backup is already applied."
-
 
   notifyMissingMandatorySettings: (missingSettings) ->
     context = this
@@ -164,6 +196,12 @@ SyncSettings =
       files[file] =
         content: (@fileContent atom.config.configDirPath + "/#{file}") ? "#{cmtstart} #{file} (not found) #{cmtend}"
 
+    if not @getOnlineSyncFolderPath()
+      backupToGist(files, cb)
+    else
+      backupToFolder(files, cb)
+
+  backupToGist: (files, cb) ->
     @createClient().gists.edit
       id: @getGistId()
       description: atom.config.get 'sync-settings.gistDescription'
@@ -182,10 +220,32 @@ SyncSettings =
         atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up. <br/><a href='"+res.html_url+"'>Click here to open your Gist.</a>"
       cb?(err, res)
 
+  backupToFolder: (files, cb) ->
+    try
+      # TODO Add file with timestamp
+      timestamp = Math.floor(Date.now() / 1000)
+
+      files['_version'] = content: timestamp
+
+      for file, value of files
+        fs.writeFileSync path.join(@getOnlineSyncFolderPath(), file), value.content, 'utf8'
+
+      atom.config.set('sync-settings._lastBackupHash', timestamp)
+      atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up to a synced folder."
+    catch err
+      console.error "error backing up data: "+err.message, err
+      atom.notifications.addError "sync-settings: Error backing up your settings. (#{err.message})"
+
+    cb?()
+
   viewBackup: ->
     Shell = require 'shell'
-    gistId = @getGistId()
-    Shell.openExternal "https://gist.github.com/#{gistId}"
+    filePath = @getOnlineSyncFolderPath()
+    if not filePath
+      gistId = @getGistId()
+      Shell.openExternal "https://gist.github.com/#{gistId}"
+    else
+      Shell.openItem filePath
 
   getPackages: ->
     packages = []
@@ -209,56 +269,75 @@ SyncSettings =
         console.error('could not correlate package name, path, and metadata')
     packages
 
+  restoreFiles: (files, version, cb) ->
+    callbackAsync = false
+
+    for own filename, file of files
+      switch filename
+        when 'settings.json'
+          @applySettings '', JSON.parse(file.content) if atom.config.get('sync-settings.syncSettings')
+
+        when 'packages.json'
+          if atom.config.get('sync-settings.syncPackages')
+            callbackAsync = true
+            @installMissingPackages JSON.parse(file.content), cb
+
+            if atom.config.get('sync-settings.removeObsoletePackages')
+              @removeObsoletePackages JSON.parse(file.content), cb
+
+        when 'keymap.cson'
+          fs.writeFileSync atom.keymaps.getUserKeymapPath(), file.content if atom.config.get('sync-settings.syncKeymap')
+
+        when 'styles.less'
+          fs.writeFileSync atom.styles.getUserStyleSheetPath(), file.content if atom.config.get('sync-settings.syncStyles')
+
+        when 'init.coffee'
+          fs.writeFileSync atom.config.configDirPath + "/init.coffee", file.content if atom.config.get('sync-settings.syncInit')
+
+        when 'init.js'
+          fs.writeFileSync atom.config.configDirPath + "/init.js", file.content if atom.config.get('sync-settings.syncInit')
+
+        when 'snippets.cson'
+          fs.writeFileSync atom.config.configDirPath + "/snippets.cson", file.content if atom.config.get('sync-settings.syncSnippets')
+
+        else fs.writeFileSync "#{atom.config.configDirPath}/#{filename}", file.content
+
+      atom.config.set('sync-settings._lastBackupHash', version)
+      atom.notifications.addSuccess "sync-settings: Your settings were successfully synchronized."
+
+      cb?() unless callbackAsync
+
   restore: (cb=null) ->
+    if not @getOnlineSyncFolderPath()
+      restoreFromGist(cb)
+    else
+      restoreFromFolder(cb)
+
+  restoreFromGist: (cb=null) ->
     @createClient().gists.get
       id: @getGistId()
     , (err, res) =>
       if err
         console.error "error while retrieving the gist. does it exists?", err
+
         try
           message = JSON.parse(err.message).message
           message = 'Gist ID Not Found' if message is 'Not Found'
         catch SyntaxError
           message = err.message
-        atom.notifications.addError "sync-settings: Error retrieving your settings. ("+message+")"
+
+        atom.notifications.addError "sync-settings: Error retrieving your settings. (#{message})"
         return
 
-      callbackAsync = false
+      restoreFiles res.files, res.history[0].version, cb
 
-      for own filename, file of res.files
-        switch filename
-          when 'settings.json'
-            @applySettings '', JSON.parse(file.content) if atom.config.get('sync-settings.syncSettings')
+  restoreFromFolder: (cb=null) ->
+    folder = @getOnlineSyncFolderPath()
 
-          when 'packages.json'
-            if atom.config.get('sync-settings.syncPackages')
-              callbackAsync = true
-              @installMissingPackages JSON.parse(file.content), cb
-              if atom.config.get('sync-settings.removeObsoletePackages')
-                @removeObsoletePackages JSON.parse(file.content), cb
-
-          when 'keymap.cson'
-            fs.writeFileSync atom.keymaps.getUserKeymapPath(), file.content if atom.config.get('sync-settings.syncKeymap')
-
-          when 'styles.less'
-            fs.writeFileSync atom.styles.getUserStyleSheetPath(), file.content if atom.config.get('sync-settings.syncStyles')
-
-          when 'init.coffee'
-            fs.writeFileSync atom.config.configDirPath + "/init.coffee", file.content if atom.config.get('sync-settings.syncInit')
-
-          when 'init.js'
-            fs.writeFileSync atom.config.configDirPath + "/init.js", file.content if atom.config.get('sync-settings.syncInit')
-
-          when 'snippets.cson'
-            fs.writeFileSync atom.config.configDirPath + "/snippets.cson", file.content if atom.config.get('sync-settings.syncSnippets')
-
-          else fs.writeFileSync "#{atom.config.configDirPath}/#{filename}", file.content
-
-      atom.config.set('sync-settings._lastBackupHash', res.history[0].version)
-
-      atom.notifications.addSuccess "sync-settings: Your settings were successfully synchronized."
-
-      cb?() unless callbackAsync
+    try
+      fs.readFileSync path.join(folder, '_version'), 'utf8'
+    catch err
+      atom.notifications.addError "sync-settings: Error retrieving your settings. (#{err.message})"
 
   createClient: ->
     token = @getPersonalAccessToken()
