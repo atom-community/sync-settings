@@ -14,6 +14,11 @@ module.exports = {
     type: 'string'
     default: 'automatic update by http://atom.io/packages/sync-settings'
     order: 3
+  onlineSyncFolderPath:
+    description: 'The path for the online sync folder'
+    type: 'string'
+    default: '/Users/name/Dropbox/Atom'
+    order: 4
   syncSettings:
     type: 'boolean'
     default: true
