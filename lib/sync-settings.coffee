@@ -197,9 +197,9 @@ SyncSettings =
         content: (@fileContent atom.config.configDirPath + "/#{file}") ? "#{cmtstart} #{file} (not found) #{cmtend}"
 
     if not @getOnlineSyncFolderPath()
-      backupToGist(files, cb)
+      @backupToGist(files, cb)
     else
-      backupToFolder(files, cb)
+      @backupToFolder(files, cb)
 
   backupToGist: (files, cb) ->
     @createClient().gists.edit
