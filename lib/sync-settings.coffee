@@ -111,7 +111,7 @@ SyncSettings =
           return cb?()
 
         console.debug "latest backup version #{res.history[0].version}"
-        compareBackupHashes res.history[0].version
+        @compareBackupHashes res.history[0].version
 
         cb?()
     else if @getOnlineSyncFolderPath()
@@ -121,7 +121,7 @@ SyncSettings =
       try
         version = fs.readFileSync path.join(folder, '_version'), 'utf8'
         console.debug "latest backup version #{version}"
-        compareBackupHashes version
+        @compareBackupHashes version
       catch err
         atom.notifications.addError "sync-settings: Error retrieving your settings."
 
@@ -309,9 +309,9 @@ SyncSettings =
 
   restore: (cb=null) ->
     if not @getOnlineSyncFolderPath()
-      restoreFromGist(cb)
+      @restoreFromGist(cb)
     else
-      restoreFromFolder(cb)
+      @restoreFromFolder(cb)
 
   restoreFromGist: (cb=null) ->
     @createClient().gists.get
@@ -329,7 +329,7 @@ SyncSettings =
         atom.notifications.addError "sync-settings: Error retrieving your settings. (#{message})"
         return
 
-      restoreFiles res.files, res.history[0].version, cb
+      @restoreFiles res.files, res.history[0].version, cb
 
   restoreFromFolder: (cb=null) ->
     folder = @getOnlineSyncFolderPath()
