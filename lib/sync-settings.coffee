@@ -1,5 +1,5 @@
 # imports
-{BufferedProcess} = require 'atom'
+{CompositeDisposable, BufferedProcess} = require 'atom'
 fs = require 'fs'
 _ = require 'underscore-plus'
 [GitHubApi, PackageManager] = []
@@ -18,30 +18,56 @@ SyncSettings =
   config: require('./config.coffee')
 
   activate: ->
+    @tryAutoBackup = _.debounce @tryAutoBackup, 250
+    @handleConfigChanged = _.debounce @handleConfigChanged, 250
+    @lastSettings = @getFilteredSettings()
+    @subscriptions = new CompositeDisposable
+
     # speedup activation by async initializing
     setImmediate =>
       # actual initialization after atom has loaded
       GitHubApi ?= require 'github'
       PackageManager ?= require './package-manager'
 
-      atom.commands.add 'atom-workspace', "sync-settings:backup", =>
+      @subscriptions.add atom.commands.add 'atom-workspace', "sync-settings:backup", =>
         @backup()
-      atom.commands.add 'atom-workspace', "sync-settings:restore", =>
+      @subscriptions.add atom.commands.add 'atom-workspace', "sync-settings:restore", =>
         @restore()
-      atom.commands.add 'atom-workspace', "sync-settings:view-backup", =>
+      @subscriptions.add atom.commands.add 'atom-workspace', "sync-settings:view-backup", =>
         @viewBackup()
-      atom.commands.add 'atom-workspace', "sync-settings:check-backup", =>
+      @subscriptions.add atom.commands.add 'atom-workspace', "sync-settings:check-backup", =>
         @checkForUpdate()
-      atom.commands.add 'atom-workspace', "sync-settings:fork", =>
+      @subscriptions.add atom.commands.add 'atom-workspace', "sync-settings:fork", =>
         @inputForkGistId()
 
+      @subscriptions.add atom.workspace.observeTextEditors (editor) =>
+        @subscriptions.add editor.onDidSave (event) =>
+          @handleSave event.path
+
+      @subscriptions.add atom.config.onDidChange =>
+        @handleConfigChanged()
+
       mandatorySettingsApplied = @checkMandatorySettings()
-      @checkForUpdate() if atom.config.get('sync-settings.checkForUpdatedBackup') and mandatorySettingsApplied
+      return unless mandatorySettingsApplied
+
+      if atom.config.get('sync-settings.checkForUpdatedBackup')
+        @checkForUpdate => @bindToPackageActivation
+      else if atom.packages.hasActivatedInitialPackages()
+        @bindToPackageActivation()
+      # bindToPackageActivation must be wrapped in setImmediate in the last case,
+      # because onDidActivatePackage will trigger a few times even after
+      # onDidActivateInitialPackages has triggered ;) so we just have to wait...
+      else atom.packages.onDidActivateInitialPackages => setImmediate => @bindToPackageActivation
 
   deactivate: ->
+    @subscriptions.dispose()
     @inputView?.destroy()
 
   serialize: ->
+
+  bindToPackageActivation: ->
+    atom.packages.onDidActivatePackage => @tryAutoBackup()
+    atom.packages.onDidDeactivatePackage => @tryAutoBackup()
 
   getGistId: ->
     gistId = atom.config.get 'sync-settings.gistId'
@@ -140,7 +166,9 @@ SyncSettings =
   backup: (cb=null) ->
     files = {}
     if atom.config.get('sync-settings.syncSettings')
-      files["settings.json"] = content: @getFilteredSettings()
+      settings = @getFilteredSettings()
+      files["settings.json"] = content: settings
+      @lastSettings = settings
     if atom.config.get('sync-settings.syncPackages')
       files["packages.json"] = content: JSON.stringify(@getPackages(), null, '\t')
     if atom.config.get('sync-settings.syncKeymap')
@@ -181,6 +209,18 @@ SyncSettings =
         atom.config.set('sync-settings._lastBackupHash', res.history[0].version)
         atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up. <br/><a href='"+res.html_url+"'>Click here to open your Gist.</a>"
       cb?(err, res)
+
+  tryAutoBackup: ->
+    triggerAutoBackup = atom.config.get('sync-settings.automaticallyBackUpChangedConfig')
+    @backup() if triggerAutoBackup
+
+  handleSave: (path) ->
+    savedConfigFile = !!~path.indexOf atom.getConfigDirPath()
+    @tryAutoBackup() if savedConfigFile
+
+  handleConfigChanged: ->
+    changed = @getFilteredSettings() != @lastSettings
+    @tryAutoBackup() if changed
 
   viewBackup: ->
     Shell = require 'shell'
@@ -228,6 +268,7 @@ SyncSettings =
       for own filename, file of res.files
         switch filename
           when 'settings.json'
+            @lastSettings = file.content
             @applySettings '', JSON.parse(file.content) if atom.config.get('sync-settings.syncSettings')
 
           when 'packages.json'

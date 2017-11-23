@@ -72,4 +72,8 @@ module.exports = {
     type: 'boolean'
     default: false
     order: 15
+  automaticallyBackUpChangedConfig:
+    type: 'boolean'
+    default: false
+    order: 16
 }
