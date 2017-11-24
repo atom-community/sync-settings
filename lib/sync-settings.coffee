@@ -219,7 +219,7 @@ SyncSettings =
     @tryAutoBackup() if savedConfigFile
 
   handleConfigChanged: ->
-    changed = @getFilteredSettings() != @lastSettings
+    changed = @getFilteredSettings() isnt @lastSettings
     @tryAutoBackup() if changed
 
   viewBackup: ->
