@@ -141,7 +141,7 @@ SyncSettings =
     files = {}
     if atom.config.get('sync-settings.syncSettings')
       files["settings.json"] = content: @getFilteredSettings()
-    if atom.config.get('sync-settings.syncPackages') || atom.config.get('sync-settings.syncThemes')
+    if atom.config.get('sync-settings.syncPackages') or atom.config.get('sync-settings.syncThemes')
       files["packages.json"] = content: JSON.stringify(@getPackages(), null, '\t')
     if atom.config.get('sync-settings.syncKeymap')
       files["keymap.cson"] = content: (@fileContent atom.keymaps.getUserKeymapPath()) ? "# keymap file (not found)"
@@ -191,7 +191,7 @@ SyncSettings =
     packages = []
     for i, metadata of @_getAvailablePackageMetadataWithoutDuplicates()
       {name, version, theme, apmInstallSource} = metadata
-      if (theme in ['syntax', 'ui'] && atom.config.get('sync-settings.syncThemes')) || ( theme not in ['syntax', 'ui'] && atom.config.get('sync-settings.syncPackages') )
+      if (theme in ['syntax', 'ui'] and atom.config.get('sync-settings.syncThemes')) or ( theme not in ['syntax', 'ui'] and atom.config.get('sync-settings.syncPackages') )
         console.log '-- synced : name: ' + name + ' | theme: ' + theme
         packages.push({name, version, theme, apmInstallSource})
     _.sortBy(packages, 'name')
@@ -374,11 +374,11 @@ SyncSettings =
       available_package = (p for p in available_packages when p.name is pkg.name)
       if available_package.length is 0
         # missing if not yet installed
-        if (pkg.theme in ['syntax', 'ui'] && atom.config.get('sync-settings.syncThemes')) || ( pkg.theme not in ['syntax', 'ui'] && atom.config.get('sync-settings.syncPackages') )
+        if (pkg.theme in ['syntax', 'ui'] and atom.config.get('sync-settings.syncThemes')) or ( pkg.theme not in ['syntax', 'ui'] and atom.config.get('sync-settings.syncPackages') )
           missing_packages.push(pkg)
       else if not(!!pkg.apmInstallSource is !!available_package[0].apmInstallSource)
         # or installed but with different apm install source
-        if (pkg.theme in ['syntax', 'ui'] && atom.config.get('sync-settings.syncThemes')) || ( pkg.theme not in ['syntax', 'ui'] && atom.config.get('sync-settings.syncPackages') )
+        if (pkg.theme in ['syntax', 'ui'] and atom.config.get('sync-settings.syncThemes')) or ( pkg.theme not in ['syntax', 'ui'] and atom.config.get('sync-settings.syncPackages') )
           missing_packages.push(pkg)
     if missing_packages.length is 0
       atom.notifications.addInfo "Sync-settings: no packages to install"
