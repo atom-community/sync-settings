@@ -85,8 +85,9 @@ describe "SyncSettings", ->
           , (err, res) ->
             expect(res.files['settings.json']).not.toBeDefined()
 
-      it "back up the installed packages list", ->
+      it "back up the installed packages and themes list", ->
         atom.config.set('sync-settings.syncPackages', true)
+        atom.config.set('sync-settings.syncThemes', true)
         run (cb) ->
           SyncSettings.backup cb
         , ->
@@ -95,8 +96,9 @@ describe "SyncSettings", ->
           , (err, res) ->
             expect(res.files['packages.json']).toBeDefined()
 
-      it "don't back up the installed packages list", ->
+      it "don't back up the installed packages and themes list", ->
         atom.config.set('sync-settings.syncPackages', false)
+        atom.config.set('sync-settings.syncThemes', false)
         run (cb) ->
           SyncSettings.backup cb
         , ->

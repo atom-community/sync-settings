@@ -141,7 +141,7 @@ SyncSettings =
     files = {}
     if atom.config.get('sync-settings.syncSettings')
       files["settings.json"] = content: @getFilteredSettings()
-    if atom.config.get('sync-settings.syncPackages')
+    if atom.config.get('sync-settings.syncPackages') || atom.config.get('sync-settings.syncThemes')
       files["packages.json"] = content: JSON.stringify(@getPackages(), null, '\t')
     if atom.config.get('sync-settings.syncKeymap')
       files["keymap.cson"] = content: (@fileContent atom.keymaps.getUserKeymapPath()) ? "# keymap file (not found)"
@@ -191,7 +191,9 @@ SyncSettings =
     packages = []
     for i, metadata of @_getAvailablePackageMetadataWithoutDuplicates()
       {name, version, theme, apmInstallSource} = metadata
-      packages.push({name, version, theme, apmInstallSource})
+      if (theme in ['syntax', 'ui'] && atom.config.get('sync-settings.syncThemes')) || ( theme not in ['syntax', 'ui'] && atom.config.get('sync-settings.syncPackages') )
+        console.log '-- synced : name: ' + name + ' | theme: ' + theme
+        packages.push({name, version, theme, apmInstallSource})
     _.sortBy(packages, 'name')
 
   _getAvailablePackageMetadataWithoutDuplicates: ->
@@ -372,10 +374,12 @@ SyncSettings =
       available_package = (p for p in available_packages when p.name is pkg.name)
       if available_package.length is 0
         # missing if not yet installed
-        missing_packages.push(pkg)
+        if (pkg.theme in ['syntax', 'ui'] && atom.config.get('sync-settings.syncThemes')) || ( pkg.theme not in ['syntax', 'ui'] && atom.config.get('sync-settings.syncPackages') )
+          missing_packages.push(pkg)
       else if not(!!pkg.apmInstallSource is !!available_package[0].apmInstallSource)
         # or installed but with different apm install source
-        missing_packages.push(pkg)
+        if (pkg.theme in ['syntax', 'ui'] && atom.config.get('sync-settings.syncThemes')) || ( pkg.theme not in ['syntax', 'ui'] && atom.config.get('sync-settings.syncPackages') )
+          missing_packages.push(pkg)
     if missing_packages.length is 0
       atom.notifications.addInfo "Sync-settings: no packages to install"
       return cb?()
