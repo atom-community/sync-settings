@@ -44,7 +44,7 @@ SyncSettings =
   serialize: ->
 
   getGistId: ->
-    gistId = atom.config.get 'sync-settings.gistId'
+    gistId = atom.config.get('sync-settings.gistId') or process.env.GIST_ID
     if gistId
       gistId = gistId.trim()
     return gistId
