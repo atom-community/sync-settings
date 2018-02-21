@@ -145,7 +145,7 @@ describe "SyncSettings", ->
           , (err, res) ->
             expect(res.files['styles.less']).not.toBeDefined()
 
-      it "back up the user init.coffee file", ->
+      it "back up the user init script file", ->
         atom.config.set('sync-settings.syncInit', true)
         run (cb) ->
           SyncSettings.backup cb
@@ -153,9 +153,9 @@ describe "SyncSettings", ->
           run (cb) =>
             SyncSettings.createClient().gists.get({id: @gistId}, cb)
           , (err, res) ->
-            expect(res.files['init.coffee']).toBeDefined()
+            expect(res.files[path.basename(atom.getUserInitScriptPath())]).toBeDefined()
 
-      it "don't back up the user init.coffee file", ->
+      it "don't back up the user init script file", ->
         atom.config.set('sync-settings.syncInit', false)
         run (cb) ->
           SyncSettings.backup cb
@@ -163,7 +163,7 @@ describe "SyncSettings", ->
           run (cb) =>
             SyncSettings.createClient().gists.get({id: @gistId}, cb)
           , (err, res) ->
-            expect(res.files['init.coffee']).not.toBeDefined()
+            expect(res.files[path.basename(atom.getUserInitScriptPath())]).not.toBeDefined()
 
       it "back up the user snippets", ->
         atom.config.set('sync-settings.syncSnippets', true)
