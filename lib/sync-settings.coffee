@@ -152,7 +152,7 @@ SyncSettings =
       path = require('path')
       files[path.basename(initPath)] = content: (@fileContent initPath) ? "# initialization file (not found)"
     if atom.config.get('sync-settings.syncSnippets')
-      files["snippets.cson"] = content: (@fileContent atom.config.configDirPath + "/snippets.cson") ? "# snippets file (not found)"
+      files["snippets.cson"] = content: (@fileContent atom.getConfigDirPath() + "/snippets.cson") ? "# snippets file (not found)"
 
     for file in atom.config.get('sync-settings.extraFiles') ? []
       ext = file.slice(file.lastIndexOf(".")).toLowerCase()
@@ -162,7 +162,7 @@ SyncSettings =
       cmtend = ""
       cmtend = "*/" if ext in [".css"]
       files[file] =
-        content: (@fileContent atom.config.configDirPath + "/#{file}") ? "#{cmtstart} #{file} (not found) #{cmtend}"
+        content: (@fileContent atom.getConfigDirPath() + "/#{file}") ? "#{cmtstart} #{file} (not found) #{cmtend}"
 
     @createClient().gists.edit
       id: @getGistId()
@@ -244,15 +244,15 @@ SyncSettings =
             fs.writeFileSync atom.styles.getUserStyleSheetPath(), file.content if atom.config.get('sync-settings.syncStyles')
 
           when 'init.coffee'
-            fs.writeFileSync atom.config.configDirPath + "/init.coffee", file.content if atom.config.get('sync-settings.syncInit')
+            fs.writeFileSync atom.getConfigDirPath() + "/init.coffee", file.content if atom.config.get('sync-settings.syncInit')
 
           when 'init.js'
-            fs.writeFileSync atom.config.configDirPath + "/init.js", file.content if atom.config.get('sync-settings.syncInit')
+            fs.writeFileSync atom.getConfigDirPath() + "/init.js", file.content if atom.config.get('sync-settings.syncInit')
 
           when 'snippets.cson'
-            fs.writeFileSync atom.config.configDirPath + "/snippets.cson", file.content if atom.config.get('sync-settings.syncSnippets')
+            fs.writeFileSync atom.getConfigDirPath() + "/snippets.cson", file.content if atom.config.get('sync-settings.syncSnippets')
 
-          else fs.writeFileSync "#{atom.config.configDirPath}/#{filename}", file.content
+          else fs.writeFileSync "#{atom.getConfigDirPath()}/#{filename}", file.content
 
       atom.config.set('sync-settings._lastBackupHash', res.history[0].version)
 

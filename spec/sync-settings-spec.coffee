@@ -252,9 +252,9 @@ describe "SyncSettings", ->
             SyncSettings.restore cb
           , ->
             for file in atom.config.get 'sync-settings.extraFiles'
-              expect(fs.existsSync("#{atom.config.configDirPath}/#{file}")).toBe(true)
-              expect(SyncSettings.fileContent("#{atom.config.configDirPath}/#{file}")).toBe("# #{file} (not found) ")
-              fs.unlink "#{atom.config.configDirPath}/#{file}"
+              expect(fs.existsSync("#{atom.getConfigDirPath()}/#{file}")).toBe(true)
+              expect(SyncSettings.fileContent("#{atom.getConfigDirPath()}/#{file}")).toBe("# #{file} (not found) ")
+              fs.unlink "#{atom.getConfigDirPath()}/#{file}"
 
     describe "::check for update", ->
 
