@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.8.5 (2018-02-22)
+* Fix reading property 'substr' of undefined. Closes [#409](https://github.com/atom-community/sync-settings/pull/410)
+
 ## v0.8.4 (2018-02-21)
 * Support Atom 1.25 and newer. Closes [#403](https://github.com/atom-community/sync-settings/pull/403) and [#405](https://github.com/atom-community/sync-settings/pull/405)
 * Redact parts of the personal access token from debug message. Closes [#395](https://github.com/atom-community/sync-settings/pull/395)
