@@ -262,7 +262,12 @@ SyncSettings =
 
   createClient: ->
     token = @getPersonalAccessToken()
-    console.debug "Creating GitHubApi client with token = #{token.substr(0, 4)}...#{token.substr(-4, 4)}"
+
+    if token
+      console.debug "Creating GitHubApi client with token = #{token.substr(0, 4)}...#{token.substr(-4, 4)}"
+    else
+      console.debug "Creating GitHubApi client without token"
+
     github = new GitHubApi
       version: '3.0.0'
       # debug: true
