@@ -256,7 +256,7 @@ describe "SyncSettings", ->
               expect(SyncSettings.fileContent("#{atom.getConfigDirPath()}/#{file}")).toBe("# #{file} (not found) ")
               fs.unlink "#{atom.getConfigDirPath()}/#{file}"
 
-      fit "skips the restore due to invalid json", ->
+      it "skips the restore due to invalid json", ->
         atom.config.set('sync-settings.syncSettings', true)
         atom.config.set 'sync-settings.extraFiles', ['packages.json']
         atom.config.set "some-dummy", false

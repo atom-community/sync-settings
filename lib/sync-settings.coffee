@@ -223,6 +223,16 @@ SyncSettings =
         atom.notifications.addError "sync-settings: Error retrieving your settings. ("+message+")"
         return
 
+      # check if the JSON files are parsable
+      for own filename, file of res.files
+        if filename is 'settings.json' or filename is 'packages.json'
+          try
+            JSON.parse(file.content)
+          catch e
+            atom.notifications.addError "sync-settings: Error parsing the fetched JSON file '"+filename+"'. ("+e+")"
+            cb?()
+            return
+
       callbackAsync = false
 
       for own filename, file of res.files
