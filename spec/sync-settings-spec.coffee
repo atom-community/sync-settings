@@ -256,6 +256,25 @@ describe "SyncSettings", ->
               expect(SyncSettings.fileContent("#{atom.getConfigDirPath()}/#{file}")).toBe("# #{file} (not found) ")
               fs.unlink "#{atom.getConfigDirPath()}/#{file}"
 
+      fit "skips the restore due to invalid json", ->
+        atom.config.set('sync-settings.syncSettings', true)
+        atom.config.set 'sync-settings.extraFiles', ['packages.json']
+        atom.config.set "some-dummy", false
+        run (cb) ->
+          SyncSettings.backup cb
+        , ->
+          atom.config.set "some-dummy", true
+          atom.notifications.clear()
+
+          run (cb) ->
+            SyncSettings.restore cb
+          , ->
+            expect(atom.notifications.getNotifications().length).toEqual 1
+            expect(atom.notifications.getNotifications()[0].getType()).toBe('error')
+            # the value should not be restored
+            # since the restore valid to parse the input as valid json
+            expect(atom.config.get "some-dummy").toBeTruthy()
+
     describe "::check for update", ->
 
       beforeEach ->
