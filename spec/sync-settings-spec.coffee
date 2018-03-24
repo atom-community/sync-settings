@@ -275,6 +275,21 @@ describe "SyncSettings", ->
             # since the restore valid to parse the input as valid json
             expect(atom.config.get "some-dummy").toBeTruthy()
 
+      it "restores keys with dots", ->
+        atom.config.set('sync-settings.syncSettings', true)
+        atom.config.set 'some\\.key', ['one', 'two']
+        run (cb) ->
+          SyncSettings.backup cb
+        , ->
+          atom.config.set "some\\.key", ['two']
+
+          run (cb) ->
+            SyncSettings.restore cb
+          , ->
+            expect(atom.config.get("some\\.key").length).toBe(2)
+            expect(atom.config.get("some\\.key")[0]).toBe('one')
+            expect(atom.config.get("some\\.key")[1]).toBe('two')
+
     describe "::check for update", ->
 
       beforeEach ->
