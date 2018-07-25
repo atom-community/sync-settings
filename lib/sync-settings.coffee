@@ -123,7 +123,6 @@ SyncSettings =
   notifyBackupUptodate: ->
     atom.notifications.addSuccess "sync-settings: Latest backup is already applied."
 
-
   notifyMissingMandatorySettings: (missingSettings) ->
     context = this
     errorMsg = "sync-settings: Mandatory settings missing: " + missingSettings.join(', ')
@@ -223,52 +222,55 @@ SyncSettings =
         atom.notifications.addError "sync-settings: Error retrieving your settings. ("+message+")"
         return
 
-      # check if the JSON files are parsable
-      for own filename, file of res.files
-        if filename is 'settings.json' or filename is 'packages.json'
-          try
-            JSON.parse(file.content)
-          catch e
-            atom.notifications.addError "sync-settings: Error parsing the fetched JSON file '"+filename+"'. ("+e+")"
-            cb?()
-            return
+      @restoreFiles(res.files, res.history[0].version, cb)
 
-      callbackAsync = false
+  restoreFiles: (files, version, cb=null) ->
+    # check if the JSON files are parsable
+    for own filename, file of files
+      if filename is 'settings.json' or filename is 'packages.json'
+        try
+          JSON.parse(file.content)
+        catch e
+          atom.notifications.addError "sync-settings: Error parsing the fetched JSON file '"+filename+"'. ("+e+")"
+          cb?()
+          return
 
-      for own filename, file of res.files
-        switch filename
-          when 'settings.json'
-            @applySettings '', JSON.parse(file.content) if atom.config.get('sync-settings.syncSettings')
+    callbackAsync = false
 
-          when 'packages.json'
-            if atom.config.get('sync-settings.syncPackages')
-              callbackAsync = true
-              @installMissingPackages JSON.parse(file.content), cb
-              if atom.config.get('sync-settings.removeObsoletePackages')
-                @removeObsoletePackages JSON.parse(file.content), cb
+    for own filename, file of files
+      switch filename
+        when 'settings.json'
+          @applySettings '', JSON.parse(file.content) if atom.config.get('sync-settings.syncSettings')
 
-          when 'keymap.cson'
-            fs.writeFileSync atom.keymaps.getUserKeymapPath(), file.content if atom.config.get('sync-settings.syncKeymap')
+        when 'packages.json'
+          if atom.config.get('sync-settings.syncPackages')
+            callbackAsync = true
+            @installMissingPackages JSON.parse(file.content), cb
+            if atom.config.get('sync-settings.removeObsoletePackages')
+              @removeObsoletePackages JSON.parse(file.content), cb
 
-          when 'styles.less'
-            fs.writeFileSync atom.styles.getUserStyleSheetPath(), file.content if atom.config.get('sync-settings.syncStyles')
+        when 'keymap.cson'
+          fs.writeFileSync atom.keymaps.getUserKeymapPath(), file.content if atom.config.get('sync-settings.syncKeymap')
 
-          when 'init.coffee'
-            fs.writeFileSync atom.getConfigDirPath() + "/init.coffee", file.content if atom.config.get('sync-settings.syncInit')
+        when 'styles.less'
+          fs.writeFileSync atom.styles.getUserStyleSheetPath(), file.content if atom.config.get('sync-settings.syncStyles')
 
-          when 'init.js'
-            fs.writeFileSync atom.getConfigDirPath() + "/init.js", file.content if atom.config.get('sync-settings.syncInit')
+        when 'init.coffee'
+          fs.writeFileSync atom.getConfigDirPath() + "/init.coffee", file.content if atom.config.get('sync-settings.syncInit')
 
-          when 'snippets.cson'
-            fs.writeFileSync atom.getConfigDirPath() + "/snippets.cson", file.content if atom.config.get('sync-settings.syncSnippets')
+        when 'init.js'
+          fs.writeFileSync atom.getConfigDirPath() + "/init.js", file.content if atom.config.get('sync-settings.syncInit')
 
-          else fs.writeFileSync "#{atom.getConfigDirPath()}/#{filename}", file.content
+        when 'snippets.cson'
+          fs.writeFileSync atom.getConfigDirPath() + "/snippets.cson", file.content if atom.config.get('sync-settings.syncSnippets')
 
-      atom.config.set('sync-settings._lastBackupHash', res.history[0].version)
+        else fs.writeFileSync "#{atom.getConfigDirPath()}/#{filename}", file.content
 
-      atom.notifications.addSuccess "sync-settings: Your settings were successfully synchronized."
+    atom.config.set('sync-settings._lastBackupHash', version)
 
-      cb?() unless callbackAsync
+    atom.notifications.addSuccess "sync-settings: Your settings were successfully synchronized."
+
+    cb?() unless callbackAsync
 
   createClient: ->
     token = @getPersonalAccessToken()
