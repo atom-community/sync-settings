@@ -3,16 +3,15 @@
 fs = require 'fs'
 _ = require 'underscore-plus'
 notifyMissingMandatorySettings = require './notify-missing-settings.coffee'
-[PackageManager] = []
+[PackageManager, Plugin] = []
 
 # constants
 DESCRIPTION = 'Atom configuration storage operated by http://atom.io/packages/sync-settings'
 REMOVE_KEYS = [
+  'sync-settings.method',
   'sync-settings._analyticsUserId',  # keep legacy key in blacklist
   'sync-settings._lastBackupHash',
 ]
-
-plugin = require './plugins/folder.coffee'
 
 SyncSettings =
   config: require('./config.coffee')
@@ -22,7 +21,9 @@ SyncSettings =
     setImmediate =>
       # actual initialization after atom has loaded
       PackageManager ?= require './package-manager'
-      plugin.initialize()
+
+      Plugin = require "./plugins/#{atom.config.get('sync-settings.method')}.coffee"
+      Plugin.initialize()
 
       atom.commands.add 'atom-workspace', "sync-settings:backup", =>
         @backup()
@@ -37,19 +38,19 @@ SyncSettings =
       @checkForUpdate() if atom.config.get('sync-settings.checkForUpdatedBackup') and mandatorySettingsApplied
 
   deactivate: ->
-    plugin.deinitialize()
+    Plugin.deinitialize()
 
   serialize: ->
 
   checkMandatorySettings: ->
     missingSettings = []
-    plugin.checkMissing(missingSettings)
+    Plugin.checkMissing(missingSettings)
     if missingSettings.length
       notifyMissingMandatorySettings(missingSettings)
     return missingSettings.length is 0
 
   checkForUpdate: (cb=null) ->
-    plugin.check (version) =>
+    Plugin.check (version) =>
       console.debug("latest backup version #{version}")
       if version isnt atom.config.get('sync-settings._lastBackupHash')
         @notifyNewerBackup()
@@ -116,7 +117,7 @@ SyncSettings =
   backup: (cb=null) ->
     workspaceElement = atom.views.getView(atom.workspace)
 
-    plugin.backup @backupFiles(), (version) =>
+    Plugin.backup @backupFiles(), (version) =>
       atom.config.set('sync-settings._lastBackupHash', version)
       notification = atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up.",
         dismissable: true
@@ -129,7 +130,7 @@ SyncSettings =
       cb?()
 
   viewBackup: ->
-    plugin.view()
+    Plugin.view()
 
   getPackages: ->
     packages = []
@@ -154,7 +155,7 @@ SyncSettings =
     packages
 
   restore: (cb=null) ->
-    plugin.restore (files, version) =>
+    Plugin.restore (files, version) =>
       @restoreFiles(files, version, cb)
 
   restoreFiles: (files, version, cb=null) ->
@@ -209,7 +210,7 @@ SyncSettings =
     # _.clone() doesn't deep clone thus we are using JSON parse trick
     settings = JSON.parse(JSON.stringify(atom.config.settings))
     blacklistedKeys = REMOVE_KEYS.concat(atom.config.get('sync-settings.blacklistedKeys') ? [])
-    plugin.blacklistKeys(blacklistedKeys)
+    Plugin.blacklistKeys(blacklistedKeys)
     for blacklistedKey in blacklistedKeys
       blacklistedKey = blacklistedKey.split(".")
       @_removeProperty(settings, blacklistedKey)

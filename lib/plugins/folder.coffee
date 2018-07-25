@@ -7,7 +7,7 @@ notifyMissingMandatorySettings = require '../notify-missing-settings.coffee'
 
 module.exports =
   getFolderPath: ->
-    folderPath = atom.config.get('sync-settings.folderPath') or process.env.GIST_ID
+    folderPath = atom.config.get('sync-settings.folderPath')
     if folderPath
       folderPath = folderPath.trim()
     return folderPath
@@ -16,7 +16,6 @@ module.exports =
     blacklistedKeys.push('sync-settings.folderPath')
 
   initialize: ->
-    # TODO: Auto backup?
 
   deinitialize: ->
 
