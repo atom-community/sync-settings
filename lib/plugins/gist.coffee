@@ -91,7 +91,7 @@ module.exports =
           message = err.message
         atom.notifications.addError "sync-settings: Error backing up your settings. ("+message+")"
         return
-      cb(res.history[0].version, "<br/><a href='"+res.html_url+"'>Click here to open your Gist.</a>")
+      cb(res.history[0].version)
 
   view: ->
     Shell = require 'shell'

@@ -50,7 +50,7 @@ module.exports =
       console.error "error backing up data: "+err.message, err
       return atom.notifications.addError "sync-settings: Error backing up your settings. (#{err.message})"
 
-    cb("#{timestamp}", "<br/>Folder Path: #{folder}")
+    cb("#{timestamp}")
 
   view: ->
     Shell = require 'shell'

@@ -114,9 +114,18 @@ SyncSettings =
     files
 
   backup: (cb=null) ->
-    plugin.backup @backupFiles(), (version, extraText) =>
+    workspaceElement = atom.views.getView(atom.workspace)
+
+    plugin.backup @backupFiles(), (version) =>
       atom.config.set('sync-settings._lastBackupHash', version)
-      atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up." + extraText
+      notification = atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up.",
+        dismissable: true
+        buttons: [{
+          text: "View backup"
+          onDidClick: ->
+            atom.commands.dispatch workspaceElement, "sync-settings:view-backup"
+            notification.dismiss()
+        }]
       cb?()
 
   viewBackup: ->
