@@ -124,7 +124,7 @@ SyncSettings =
   notifyBackupUptodate: ->
     atom.notifications.addSuccess "sync-settings: Latest backup is already applied."
 
-  backup: (cb=null) ->
+  backupFiles: ->
     files = {}
     if atom.config.get('sync-settings.syncSettings')
       files["settings.json"] = content: @getFilteredSettings()
@@ -151,10 +151,13 @@ SyncSettings =
       files[file] =
         content: (@fileContent atom.getConfigDirPath() + "/#{file}") ? "#{cmtstart} #{file} (not found) #{cmtend}"
 
+    files
+
+  backup: (cb=null) ->
     @createClient().gists.edit
       id: @getGistId()
       description: atom.config.get 'sync-settings.gistDescription'
-      files: files
+      files: @backupFiles()
     , (err, res) ->
       if err
         console.error "error backing up data: "+err.message, err
