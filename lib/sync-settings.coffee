@@ -2,6 +2,7 @@
 {BufferedProcess} = require 'atom'
 fs = require 'fs'
 _ = require 'underscore-plus'
+notifyMissingMandatorySettings = require './notify-missing-settings.coffee'
 [GitHubApi, PackageManager] = []
 ForkGistIdInputView = null
 
@@ -62,7 +63,7 @@ SyncSettings =
     if not @getPersonalAccessToken()
       missingSettings.push("GitHub personal access token")
     if missingSettings.length
-      @notifyMissingMandatorySettings(missingSettings)
+      notifyMissingMandatorySettings(missingSettings)
     return missingSettings.length is 0
 
   checkForUpdate: (cb=null) ->
@@ -94,7 +95,7 @@ SyncSettings =
 
         cb?()
     else
-      @notifyMissingMandatorySettings(["Gist ID"])
+      notifyMissingMandatorySettings(["Gist ID"])
 
   notifyNewerBackup: ->
     # we need the actual element for dispatching on it
@@ -122,19 +123,6 @@ SyncSettings =
 
   notifyBackupUptodate: ->
     atom.notifications.addSuccess "sync-settings: Latest backup is already applied."
-
-  notifyMissingMandatorySettings: (missingSettings) ->
-    context = this
-    errorMsg = "sync-settings: Mandatory settings missing: " + missingSettings.join(', ')
-
-    notification = atom.notifications.addError errorMsg,
-      dismissable: true
-      buttons: [{
-        text: "Package settings"
-        onDidClick: ->
-            context.goToPackageSettings()
-            notification.dismiss()
-      }]
 
   backup: (cb=null) ->
     files = {}
@@ -306,9 +294,6 @@ SyncSettings =
       @_removeProperty(obj[currentKey], key)
     else
       delete obj[currentKey]
-
-  goToPackageSettings: ->
-    atom.workspace.open("atom://config/packages/sync-settings")
 
   applySettings: (pref, settings) ->
     for key, value of settings
