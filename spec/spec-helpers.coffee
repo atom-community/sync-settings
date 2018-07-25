@@ -9,6 +9,9 @@ module.exports =
       for keyPath, value of @originalConfigs
         atom.config.set keyPath, value
 
+  gists: ->
+    require('../lib/plugins/gist.coffee').createClient().gists
+
   callAsync: (timeout, async, next) ->
     if typeof timeout is 'function'
       [async, next] = [timeout, async]

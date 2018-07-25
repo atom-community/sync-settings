@@ -3,17 +3,16 @@
 fs = require 'fs'
 _ = require 'underscore-plus'
 notifyMissingMandatorySettings = require './notify-missing-settings.coffee'
-[GitHubApi, PackageManager] = []
-ForkGistIdInputView = null
+[PackageManager] = []
 
 # constants
 DESCRIPTION = 'Atom configuration storage operated by http://atom.io/packages/sync-settings'
 REMOVE_KEYS = [
-  'sync-settings.gistId',
-  'sync-settings.personalAccessToken',
   'sync-settings._analyticsUserId',  # keep legacy key in blacklist
   'sync-settings._lastBackupHash',
 ]
+
+plugin = require './plugins/gist.coffee'
 
 SyncSettings =
   config: require('./config.coffee')
@@ -22,8 +21,8 @@ SyncSettings =
     # speedup activation by async initializing
     setImmediate =>
       # actual initialization after atom has loaded
-      GitHubApi ?= require 'github'
       PackageManager ?= require './package-manager'
+      plugin.initialize()
 
       atom.commands.add 'atom-workspace', "sync-settings:backup", =>
         @backup()
@@ -33,69 +32,30 @@ SyncSettings =
         @viewBackup()
       atom.commands.add 'atom-workspace', "sync-settings:check-backup", =>
         @checkForUpdate()
-      atom.commands.add 'atom-workspace', "sync-settings:fork", =>
-        @inputForkGistId()
 
       mandatorySettingsApplied = @checkMandatorySettings()
       @checkForUpdate() if atom.config.get('sync-settings.checkForUpdatedBackup') and mandatorySettingsApplied
 
   deactivate: ->
-    @inputView?.destroy()
+    plugin.deinitialize()
 
   serialize: ->
 
-  getGistId: ->
-    gistId = atom.config.get('sync-settings.gistId') or process.env.GIST_ID
-    if gistId
-      gistId = gistId.trim()
-    return gistId
-
-  getPersonalAccessToken: ->
-    token = atom.config.get('sync-settings.personalAccessToken') or process.env.GITHUB_TOKEN
-    if token
-      token = token.trim()
-    return token
-
   checkMandatorySettings: ->
     missingSettings = []
-    if not @getGistId()
-      missingSettings.push("Gist ID")
-    if not @getPersonalAccessToken()
-      missingSettings.push("GitHub personal access token")
+    plugin.checkMissing(missingSettings)
     if missingSettings.length
       notifyMissingMandatorySettings(missingSettings)
     return missingSettings.length is 0
 
   checkForUpdate: (cb=null) ->
-    if @getGistId()
-      console.debug('checking latest backup...')
-      @createClient().gists.get
-        id: @getGistId()
-      , (err, res) =>
-        if err
-          console.error "error while retrieving the gist. does it exists?", err
-          try
-            message = JSON.parse(err.message).message
-            message = 'Gist ID Not Found' if message is 'Not Found'
-          catch SyntaxError
-            message = err.message
-          atom.notifications.addError "sync-settings: Error retrieving your settings. ("+message+")"
-          return cb?()
-
-        if not res?.history?[0]?.version?
-          console.error "could not interpret result:", res
-          atom.notifications.addError "sync-settings: Error retrieving your settings."
-          return cb?()
-
-        console.debug("latest backup version #{res.history[0].version}")
-        if res.history[0].version isnt atom.config.get('sync-settings._lastBackupHash')
-          @notifyNewerBackup()
-        else if not atom.config.get('sync-settings.quietUpdateCheck')
-          @notifyBackupUptodate()
-
-        cb?()
-    else
-      notifyMissingMandatorySettings(["Gist ID"])
+    plugin.check (version) =>
+      console.debug("latest backup version #{version}")
+      if version isnt atom.config.get('sync-settings._lastBackupHash')
+        @notifyNewerBackup()
+      else if not atom.config.get('sync-settings.quietUpdateCheck')
+        @notifyBackupUptodate()
+      cb?()
 
   notifyNewerBackup: ->
     # we need the actual element for dispatching on it
@@ -154,28 +114,13 @@ SyncSettings =
     files
 
   backup: (cb=null) ->
-    @createClient().gists.edit
-      id: @getGistId()
-      description: atom.config.get 'sync-settings.gistDescription'
-      files: @backupFiles()
-    , (err, res) ->
-      if err
-        console.error "error backing up data: "+err.message, err
-        try
-          message = JSON.parse(err.message).message
-          message = 'Gist ID Not Found' if message is 'Not Found'
-        catch SyntaxError
-          message = err.message
-        atom.notifications.addError "sync-settings: Error backing up your settings. ("+message+")"
-      else
-        atom.config.set('sync-settings._lastBackupHash', res.history[0].version)
-        atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up. <br/><a href='"+res.html_url+"'>Click here to open your Gist.</a>"
-      cb?(err, res)
+    plugin.backup @backupFiles(), (version, extraText) =>
+      atom.config.set('sync-settings._lastBackupHash', version)
+      atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up." + extraText
+      cb?()
 
   viewBackup: ->
-    Shell = require 'shell'
-    gistId = @getGistId()
-    Shell.openExternal "https://gist.github.com/#{gistId}"
+    plugin.view()
 
   getPackages: ->
     packages = []
@@ -200,20 +145,8 @@ SyncSettings =
     packages
 
   restore: (cb=null) ->
-    @createClient().gists.get
-      id: @getGistId()
-    , (err, res) =>
-      if err
-        console.error "error while retrieving the gist. does it exists?", err
-        try
-          message = JSON.parse(err.message).message
-          message = 'Gist ID Not Found' if message is 'Not Found'
-        catch SyntaxError
-          message = err.message
-        atom.notifications.addError "sync-settings: Error retrieving your settings. ("+message+")"
-        return
-
-      @restoreFiles(res.files, res.history[0].version, cb)
+    plugin.restore (files, version) =>
+      @restoreFiles(files, version, cb)
 
   restoreFiles: (files, version, cb=null) ->
     # check if the JSON files are parsable
@@ -263,27 +196,11 @@ SyncSettings =
 
     cb?() unless callbackAsync
 
-  createClient: ->
-    token = @getPersonalAccessToken()
-
-    if token
-      console.debug "Creating GitHubApi client with token = #{token.substr(0, 4)}...#{token.substr(-4, 4)}"
-    else
-      console.debug "Creating GitHubApi client without token"
-
-    github = new GitHubApi
-      version: '3.0.0'
-      # debug: true
-      protocol: 'https'
-    github.authenticate
-      type: 'oauth'
-      token: token
-    github
-
   getFilteredSettings: ->
     # _.clone() doesn't deep clone thus we are using JSON parse trick
     settings = JSON.parse(JSON.stringify(atom.config.settings))
     blacklistedKeys = REMOVE_KEYS.concat(atom.config.get('sync-settings.blacklistedKeys') ? [])
+    plugin.blacklistKeys(blacklistedKeys)
     for blacklistedKey in blacklistedKeys
       blacklistedKey = blacklistedKey.split(".")
       @_removeProperty(settings, blacklistedKey)
@@ -439,31 +356,5 @@ SyncSettings =
     catch e
       console.error "Error reading file #{filePath}. Probably doesn't exist.", e
       null
-
-  inputForkGistId: ->
-    ForkGistIdInputView ?= require './fork-gistid-input-view'
-    @inputView = new ForkGistIdInputView()
-    @inputView.setCallbackInstance(this)
-
-  forkGistId: (forkId) ->
-    @createClient().gists.fork
-      id: forkId
-    , (err, res) ->
-      if err
-        try
-          message = JSON.parse(err.message).message
-          message = "Gist ID Not Found" if message is "Not Found"
-        catch SyntaxError
-          message = err.message
-        atom.notifications.addError "sync-settings: Error forking settings. ("+message+")"
-        return cb?()
-
-      if res.id
-        atom.config.set "sync-settings.gistId", res.id
-        atom.notifications.addSuccess "sync-settings: Forked successfully to the new Gist ID " + res.id + " which has been saved to your config."
-      else
-        atom.notifications.addError "sync-settings: Error forking settings"
-
-      cb?()
 
 module.exports = SyncSettings
