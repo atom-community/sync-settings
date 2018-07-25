@@ -12,7 +12,7 @@ REMOVE_KEYS = [
   'sync-settings._lastBackupHash',
 ]
 
-plugin = require './plugins/gist.coffee'
+plugin = require './plugins/folder.coffee'
 
 SyncSettings =
   config: require('./config.coffee')
