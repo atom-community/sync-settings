@@ -117,7 +117,7 @@ SyncSettings =
   backup: (cb=null) ->
     workspaceElement = atom.views.getView(atom.workspace)
 
-    Plugin.backup @backupFiles(), (version) =>
+    Plugin.backup @backupFiles(), (version) ->
       atom.config.set('sync-settings._lastBackupHash', version)
       notification = atom.notifications.addSuccess "sync-settings: Your settings were successfully backed up.",
         dismissable: true
@@ -201,7 +201,6 @@ SyncSettings =
         else fs.writeFileSync "#{atom.getConfigDirPath()}/#{filename}", file.content
 
     atom.config.set('sync-settings._lastBackupHash', version)
-
     atom.notifications.addSuccess "sync-settings: Your settings were successfully synchronized."
 
     cb?() unless callbackAsync

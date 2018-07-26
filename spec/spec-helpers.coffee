@@ -1,4 +1,9 @@
 module.exports =
+  METHOD_CONFIG: 'sync-settings.method'
+  TOKEN_CONFIG: 'sync-settings.personalAccessToken'
+  GIST_ID_CONFIG: 'sync-settings.gistId'
+  FOLDER_CONFIG: 'sync-settings.folderPath'
+
   setConfig: (keyPath, value) ->
     @originalConfigs ?= {}
     @originalConfigs[keyPath] ?= if atom.config.isDefault keyPath then null else atom.config.get keyPath
@@ -23,7 +28,6 @@ module.exports =
       async (args...) ->
         done = true
         nextArgs = args
-
 
     waitsFor ->
       done

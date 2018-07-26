@@ -4,8 +4,8 @@ module.exports = {
     type: 'string'
     default: 'gist'
     enum: [
-      { value: 'folder', description: 'Sync to a folder' }
-      { value: 'gist', description: 'Sync to a gist' }
+      {value: 'folder', description: 'Sync to a folder'}
+      {value: 'gist', description: 'Sync to a gist'}
     ]
     order: 1
   personalAccessToken:

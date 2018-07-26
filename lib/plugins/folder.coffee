@@ -37,14 +37,14 @@ module.exports =
 
   backup: (files, cb) ->
     folder = @getFolderPath()
-    mkdirp(folder)
+    mkdirp.sync folder
 
     try
       timestamp = Math.floor(Date.now() / 1000)
       files['_version'] = content: timestamp
 
       for file, value of files
-        fs.writeFileSync path.join(folder, file), value.content, { encoding: 'utf8' }
+        fs.writeFileSync path.join(folder, file), value.content, {encoding: 'utf8'}
     catch err
       console.error "error backing up data: "+err.message, err
       return atom.notifications.addError "sync-settings: Error backing up your settings. (#{err.message})"
@@ -69,9 +69,9 @@ module.exports =
         throw Error 'Could not find _version file in folder'
 
       for file in existingFiles
-        files[file] = content: fs.readFileSync path.join(folder, file), 'utf8'
+        files[file] = content: fs.readFileSync(path.join(folder, file), 'utf8')
     catch err
-      atom.notifications.addError "sync-settings: Error retrieving your settings. (#{err.message})"
+      return atom.notifications.addError "sync-settings: Error retrieving your settings. (#{err.message})"
 
     version = files['_version'].content
     delete files['_version']

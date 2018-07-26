@@ -13,6 +13,8 @@ module.exports =
     else
       console.debug "Creating GitHubApi client without token"
 
+    GitHubApi ?= require 'github'
+
     github = new GitHubApi
       version: '3.0.0'
       # debug: true
@@ -39,8 +41,6 @@ module.exports =
     blacklistedKeys.push('sync-settings.personalAccessToken')
 
   initialize: ->
-    GitHubApi ?= require 'github'
-
     atom.commands.add 'atom-workspace', "sync-settings:fork", =>
       @inputForkGistId()
 
@@ -54,27 +54,25 @@ module.exports =
       missingSettings.push("GitHub personal access token")
 
   check: (cb) ->
-    if @getGistId()
-      console.debug('checking latest backup from gist...')
-      @createClient().gists.get
-        id: @getGistId()
-      , (err, res) =>
-        if err
-          console.error "error while retrieving the gist. does it exists?", err
-          try
-            message = JSON.parse(err.message).message
-            message = 'Gist ID Not Found' if message is 'Not Found'
-          catch SyntaxError
-            message = err.message
-          atom.notifications.addError "sync-settings: Error retrieving your settings. ("+message+")"
-          return
-        if not res?.history?[0]?.version?
-          console.error "could not interpret result:", res
-          atom.notifications.addError "sync-settings: Error retrieving your settings."
-          return
-        cb(res.history[0].version)
-    else
-      notifyMissingMandatorySettings(["Gist ID"])
+    if not @getGistId()
+      return notifyMissingMandatorySettings(["Gist ID"])
+
+    console.debug('checking latest backup from gist...')
+    @createClient().gists.get
+      id: @getGistId()
+    , (err, res) ->
+      if err
+        console.error "error while retrieving the gist. does it exists?", err
+        try
+          message = JSON.parse(err.message).message
+          message = 'Gist ID Not Found' if message is 'Not Found'
+        catch SyntaxError
+          message = err.message
+        return atom.notifications.addError "sync-settings: Error retrieving your settings. ("+message+")"
+      if not res?.history?[0]?.version?
+        console.error "could not interpret result:", res
+        return atom.notifications.addError "sync-settings: Error retrieving your settings."
+      cb(res.history[0].version)
 
   backup: (files, cb) ->
     @createClient().gists.edit
@@ -89,8 +87,7 @@ module.exports =
           message = 'Gist ID Not Found' if message is 'Not Found'
         catch SyntaxError
           message = err.message
-        atom.notifications.addError "sync-settings: Error backing up your settings. ("+message+")"
-        return
+        return atom.notifications.addError "sync-settings: Error backing up your settings. ("+message+")"
       cb(res.history[0].version)
 
   view: ->
@@ -101,7 +98,7 @@ module.exports =
   restore: (cb) ->
     @createClient().gists.get
       id: @getGistId()
-    , (err, res) =>
+    , (err, res) ->
       if err
         console.error "error while retrieving the gist. does it exists?", err
         try
@@ -109,8 +106,7 @@ module.exports =
           message = 'Gist ID Not Found' if message is 'Not Found'
         catch SyntaxError
           message = err.message
-        atom.notifications.addError "sync-settings: Error retrieving your settings. ("+message+")"
-        return
+        return atom.notifications.addError "sync-settings: Error retrieving your settings. ("+message+")"
       cb(res.files, res.history[0].version)
 
   inputForkGistId: ->

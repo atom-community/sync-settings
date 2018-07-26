@@ -35,6 +35,7 @@
     "underscore-plus": "^1.6.6"
   },
   "devDependencies": {
-    "coffeelint": "^1.15.7"
+    "coffeelint": "^1.15.7",
+    "rimraf": "^2.6.2"
   }
 }
