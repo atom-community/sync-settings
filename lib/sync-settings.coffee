@@ -22,9 +22,6 @@ SyncSettings =
       # actual initialization after atom has loaded
       PackageManager ?= require './package-manager'
 
-      Plugin = require "./plugins/#{atom.config.get('sync-settings.method')}.coffee"
-      Plugin.initialize()
-
       atom.commands.add 'atom-workspace', "sync-settings:backup", =>
         @backup()
       atom.commands.add 'atom-workspace', "sync-settings:restore", =>
@@ -34,8 +31,13 @@ SyncSettings =
       atom.commands.add 'atom-workspace', "sync-settings:check-backup", =>
         @checkForUpdate()
 
-      mandatorySettingsApplied = @checkMandatorySettings()
-      @checkForUpdate() if atom.config.get('sync-settings.checkForUpdatedBackup') and mandatorySettingsApplied
+      atom.config.observe 'sync-settings.method', (value='gist') =>
+        Plugin.deinitialize() if Plugin
+        Plugin = require "./plugins/#{atom.config.get('sync-settings.method')}.coffee"
+        Plugin.initialize()
+
+        mandatorySettingsApplied = @checkMandatorySettings()
+        @checkForUpdate() if atom.config.get('sync-settings.checkForUpdatedBackup') and mandatorySettingsApplied
 
   deactivate: ->
     Plugin.deinitialize()
