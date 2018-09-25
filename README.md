@@ -16,7 +16,7 @@ Synchronize settings, keymaps, user styles, init script, snippets and installed 
 
 ### Note
 
-It currently [does **not** support](https://github.com/atom-community/sync-settings/issues/317) automatic backup - it must be done manually. Only the restore is being triggered automatically.
+It currently [does **not** support](https://github.com/atom-community/sync-settings/issues/317) automatic backup - it must be done manually. Only the restore is being triggered automatically. It also currently [does **not** support](https://github.com/atom-community/sync-settings/issues/289) syncing language-specific settings defined in your config.cson - this feature is currently a work in progress.
 
 ## Installation
 
