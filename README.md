@@ -85,7 +85,7 @@ You can also fork existing settings from a different GitHub user using the follo
 ## Contributing
 
 If you're going to submit a pull request, please try to follow
-[the official contribution guidelines of Atom](https://atom.io/docs/latest/contributing).
+[the official contribution guidelines of Atom](https://flight-manual.atom.io/hacking-atom/sections/contributing-to-official-atom-packages/).
 
 1. [Fork it](https://github.com/atom-community/sync-settings/).
 2. Create your feature branch (`git checkout -b my-new-feature`).
