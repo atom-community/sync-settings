@@ -152,7 +152,13 @@ SyncSettings =
       path = require('path')
       files[path.basename(initPath)] = content: (@fileContent initPath) ? "# initialization file (not found)"
     if atom.config.get('sync-settings.syncSnippets')
-      files["snippets.cson"] = content: (@fileContent atom.getConfigDirPath() + "/snippets.cson") ? "# snippets file (not found)"
+      configPath = atom.getConfigDirPath()
+      if fs.existsSync(configPath + "/snippets.cson")
+        files["snippets.cson"] = content: (@fileContent configPath + "/snippets.cson")
+      else if fs.existsSync(configPath + "/snippets.json")
+        files["snippets.json"] = content: (@fileContent configPath + "/snippets.json")
+      else
+        files["snippets.cson"] = content: "# snippets file (not found)"
 
     for file in atom.config.get('sync-settings.extraFiles') ? []
       ext = file.slice(file.lastIndexOf(".")).toLowerCase()
@@ -261,6 +267,9 @@ SyncSettings =
 
           when 'snippets.cson'
             fs.writeFileSync atom.getConfigDirPath() + "/snippets.cson", file.content if atom.config.get('sync-settings.syncSnippets')
+
+          when 'snippets.json'
+            fs.writeFileSync atom.getConfigDirPath() + "/snippets.json", file.content if atom.config.get('sync-settings.syncSnippets')
 
           else fs.writeFileSync "#{atom.getConfigDirPath()}/#{filename}", file.content
 
