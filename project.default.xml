@@ -1,43 +1,11 @@
 <application>
   <component name="ProjectManager">
     <defaultProject>
-      <component name="DefaultGradleProjectSettings">
-        <option name="testRunner" value="GRADLE" />
-        <option name="delegatedBuild" value="true" />
-      </component>
-      <component name="GradleLocalSettings">
-        <option name="projectSyncType">
-          <map>
-            <entry key="$USER_HOME$/Desktop/Coding/java/Modding/1.12.2/Metallurgy_5" value="PREVIEW" />
-            <entry key="D:/Everything/Coding/java/Projects/JetBrains-Discord-Integration" value="PREVIEW" />
-            <entry key="D:/Everything/MC/Modding/1.12.2/Metallurgy 4 Reforged" value="PREVIEW" />
-            <entry key="D:/Everything/MC/Modding/1.12.2/Mystic Mods" value="PREVIEW" />
-            <entry key="D:/Everything/MC/Modding/1.13.2/MDK" value="PREVIEW" />
-          </map>
-        </option>
-      </component>
       <component name="PropertiesComponent">
-        <property name="android.sdk.path" value="D:/Programmi/Android" />
-        <property name="last_opened_file_path" value="D:/Everything/Coding/java/Projects/JetBrains-Discord-Integration" />
+        <property name="last_opened_file_path" value="D:/Programmi/NodeJS/node.exe" />
         <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
         <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-        <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
-      </component>
-      <component name="masterDetails">
-        <states>
-          <state key="ProjectJDKs.UI">
-            <settings>
-              <last-edited>Android API 28 Platform</last-edited>
-              <splitter-proportions>
-                <option name="proportions">
-                  <list>
-                    <option value="0.2" />
-                  </list>
-                </option>
-              </splitter-proportions>
-            </settings>
-          </state>
-        </states>
+        <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
       </component>
     </defaultProject>
   </component>
