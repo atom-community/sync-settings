@@ -1,0 +1,7 @@
+<application>
+  <component name="UISettings">
+    <option name="HIDE_TABS_IF_NEED" value="false" />
+    <option name="SCROLL_TAB_LAYOUT_IN_EDITOR" value="false" />
+    <option name="SHOW_MAIN_TOOLBAR" value="true" />
+  </component>
+</application>

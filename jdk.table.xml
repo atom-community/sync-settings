@@ -1,0 +1,84 @@
+<application>
+  <component name="ProjectJdkTable">
+    <jdk version="2">
+      <name value="JDK 1.8" />
+      <type value="JavaSDK" />
+      <version value="java version &quot;1.8.0_201&quot;" />
+      <homePath value="C:/Program Files/Java/jdk1.8.0_201" />
+      <roots>
+        <annotationsPath>
+          <root type="composite">
+            <root url="jar://$APPLICATION_HOME_DIR$/lib/jdkAnnotations.jar!/" type="simple" />
+          </root>
+        </annotationsPath>
+        <classPath>
+          <root type="composite">
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/charsets.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/deploy.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/ext/access-bridge-64.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/ext/cldrdata.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/ext/dnsns.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/ext/jaccess.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/ext/jfxrt.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/ext/localedata.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/ext/nashorn.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/ext/sunec.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/ext/sunjce_provider.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/ext/sunmscapi.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/ext/sunpkcs11.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/ext/zipfs.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/javaws.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/jce.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/jfr.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/jfxswt.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/jsse.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/management-agent.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/plugin.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/resources.jar!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/jre/lib/rt.jar!/" type="simple" />
+          </root>
+        </classPath>
+        <javadocPath>
+          <root type="composite" />
+        </javadocPath>
+        <sourcePath>
+          <root type="composite">
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/src.zip!/" type="simple" />
+            <root url="jar://C:/Program Files/Java/jdk1.8.0_201/javafx-src.zip!/" type="simple" />
+          </root>
+        </sourcePath>
+      </roots>
+      <additional />
+    </jdk>
+    <jdk version="2">
+      <name value="Android API 28 Platform" />
+      <type value="Android SDK" />
+      <version value="java version &quot;1.8.0_201&quot;" />
+      <homePath value="D:\Programmi\Android" />
+      <roots>
+        <annotationsPath>
+          <root type="composite">
+            <root url="jar://D:/Programmi/Android/platforms/android-28/data/annotations.zip!/" type="simple" />
+          </root>
+        </annotationsPath>
+        <classPath>
+          <root type="composite">
+            <root url="jar://D:/Programmi/Android/platforms/android-28/android.jar!/" type="simple" />
+            <root url="file://D:/Programmi/Android/platforms/android-28/data/res" type="simple" />
+          </root>
+        </classPath>
+        <javadocPath>
+          <root type="composite">
+            <root url="http://developer.android.com/reference/" type="simple" />
+          </root>
+        </javadocPath>
+        <sourcePath>
+          <root type="composite">
+            <root url="file://D:/Programmi/Android/sources/android-28" type="simple" />
+          </root>
+        </sourcePath>
+      </roots>
+      <additional jdk="JDK 1.8" sdk="android-28" />
+    </jdk>
+  </component>
+</application>

@@ -1,0 +1,18 @@
+<application>
+  <component name="PowerModeII">
+    <option name="blueFrom" value="11" />
+    <option name="blueTo" value="11" />
+    <option name="colorAlpha" value="130" />
+    <option name="customBamImageFolder" value="D:\Programmi\apps\IDEA-U\ch-0\182.5107.16\bin" />
+    <option name="customFlameImageFolder" value="D:\Programmi\apps\IDEA-U\ch-0\182.5107.16\bin" />
+    <option name="flamesEnabled" value="false" />
+    <option name="greenFrom" value="164" />
+    <option name="greenTo" value="164" />
+    <option name="isPowerIndicatorEnabled" value="false" />
+    <option name="redFrom" value="184" />
+    <option name="redTo" value="212" />
+    <option name="shakeRange" value="2" />
+    <option name="soundsFolder" value="D:\Programmi\apps\IDEA-U\ch-0\182.5107.16\bin" />
+    <option name="sparkCount" value="11" />
+  </component>
+</application>

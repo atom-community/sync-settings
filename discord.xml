@@ -1,0 +1,15 @@
+<application>
+  <component name="ApplicationNotificationSettings">
+    <option name="lastUpdateNotification" value="1.0.0-eap-38" />
+  </component>
+  <component name="DiscordApplicationSettings">
+    <option name="timeoutEnabled" value="false" />
+    <option name="timeoutMinutes" value="10" />
+    <option name="applicationDetails" value="CUSTOM" />
+    <option name="applicationDetailsCustom" value="Idling" />
+    <option name="projectStateCustom" value="Idle" />
+    <option name="fileState" value="FILE_NAME" />
+    <option name="fileTime" value="PROJECT" />
+    <option name="newProjectShow" value="SHOW" />
+  </component>
+</application>
