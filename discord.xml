@@ -1,6 +1,6 @@
 <application>
   <component name="ApplicationNotificationSettings">
-    <option name="lastUpdateNotification" value="1.0.0-eap-38" />
+    <option name="lastUpdateNotification" value="1.0.0-eap-47" />
   </component>
   <component name="DiscordApplicationSettings">
     <option name="timeoutMinutes" value="30" />
