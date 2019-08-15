@@ -1,5 +1,7 @@
 <application>
   <component name="UISettings">
+    <option name="EDITOR_TAB_LIMIT" value="30" />
+    <option name="SCROLL_TAB_LAYOUT_IN_EDITOR" value="false" />
     <option name="SHOW_MAIN_TOOLBAR" value="true" />
   </component>
 </application>
