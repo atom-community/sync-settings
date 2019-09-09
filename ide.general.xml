@@ -11,7 +11,7 @@
     <entry key="win.editor.thumb.default.fill.min" value="102" />
     <entry key="win.editor.thumb.default.fill.max" value="150" />
     <entry key="win.editor.thumb.darcula.fill.min" value="102" />
-    <entry key="git.explicit.commit.renames.prohibit.multiple.calls" value="false" />
     <entry key="ide.intellij.laf.enable.animation" value="true" />
+    <entry key="ide.tooltip.initialDelay" value="801" />
   </component>
 </application>
