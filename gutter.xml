@@ -1,0 +1,73 @@
+<application>
+  <component name="LineMarkerSettings">
+    <option name="providers">
+      <map>
+        <entry key="ActionGroovyAnnotator" value="true" />
+        <entry key="ActionJavaAnnotator" value="true" />
+        <entry key="CdiDisposerMethodsClassAnnotator" value="true" />
+        <entry key="CdiInjectionsClassAnnotator" value="true" />
+        <entry key="ConfigurationPropertyRelatedItemLineMarkerProvider" value="true" />
+        <entry key="JspActionAnnotator" value="true" />
+        <entry key="LiveBeansClassLineMarkerProvider" value="true" />
+        <entry key="LiveBeansDomLineMarkerProvider" value="true" />
+        <entry key="LiveRequestMappingLineMarkerProvider" value="true" />
+        <entry key="MessageHandlerLineMarkerProvider" value="true" />
+        <entry key="ModelDependenciesLineMarkerProviderJava" value="true" />
+        <entry key="ModelDependenciesLineMarkerProviderXml" value="true" />
+        <entry key="SpringAopAnnotator" value="true" />
+        <entry key="SpringAutowiredAnnotator" value="true" />
+        <entry key="SpringBeanAnnotator" value="true" />
+        <entry key="SpringCacheableAnnotator" value="true" />
+        <entry key="SpringClassFilesetLineMarkerProvider" value="true" />
+        <entry key="SpringComponentScanAnnotator" value="true" />
+        <entry key="SpringDataProjectionAnnotator" value="true" />
+        <entry key="SpringDataRepositoryAnnotator" value="true" />
+        <entry key="SpringDomAnnotator" value="true" />
+        <entry key="SpringEventListenerAnnotator" value="true" />
+        <entry key="SpringMvcRequestMappingRelatedItemLineMarkerProvider" value="true" />
+        <entry key="SpringPropertiesAnnotator" value="true" />
+        <entry key="SpringSpiRegistrationAnnotator" value="true" />
+        <entry key="SpringTestConfigurationAnnotator" value="true" />
+        <entry key="WebflowRelatedItemLineMarkerProvider" value="true" />
+        <entry key="com.demonwav.mcdev.insight.ListenerLineMarkerProvider" value="true" />
+        <entry key="com.demonwav.mcdev.insight.PluginLineMarkerProvider" value="true" />
+        <entry key="com.demonwav.mcdev.platform.mixin.insight.MixinLineMarkerProvider" value="true" />
+        <entry key="com.demonwav.mcdev.platform.mixin.insight.OverwriteLineMarkerProvider" value="true" />
+        <entry key="com.demonwav.mcdev.platform.mixin.insight.ShadowLineMarkerProvider" value="true" />
+        <entry key="com.intellij.aop.jam.AopJavaAnnotator" value="true" />
+        <entry key="com.intellij.codeInsight.ExternalAnnotationLineMarkerProvider" value="true" />
+        <entry key="com.intellij.codeInsight.InferredAnnotationsLineMarkerProvider" value="true" />
+        <entry key="com.intellij.codeInsight.daemon.impl.IconLineMarkerProvider" value="true" />
+        <entry key="com.intellij.codeInsight.daemon.impl.RecursiveCallLineMarkerProvider" value="true" />
+        <entry key="com.intellij.execution.lineMarker.RunLineMarkerProvider" value="true" />
+        <entry key="com.intellij.lang.javascript.highlighting.JSRecursiveCallLineMarkerProvider" value="true" />
+        <entry key="com.intellij.sql.editor.SqlLineMarkerProvider" value="true" />
+        <entry key="com.intellij.sql.editor.SqlRecursiveCallLineMakerProvider" value="true" />
+        <entry key="com.intellij.ui.ColorLineMarkerProvider" value="true" />
+        <entry key="com.intellij.ws.http.request.codeInsight.HttpRequestDiffLineMarkerProvider" value="true" />
+        <entry key="devkit.beforeAfter" value="true" />
+        <entry key="devkit.description" value="true" />
+        <entry key="java.implemented" value="true" />
+        <entry key="java.implementing" value="true" />
+        <entry key="java.lambda" value="true" />
+        <entry key="java.overridden" value="true" />
+        <entry key="java.overriding" value="true" />
+        <entry key="java.service" value="true" />
+        <entry key="java.sibling.inherited" value="true" />
+        <entry key="js.implemented" value="true" />
+        <entry key="js.implementing" value="true" />
+        <entry key="js.overridden" value="true" />
+        <entry key="js.overriding" value="true" />
+        <entry key="kotlin.actual" value="true" />
+        <entry key="kotlin.dsl" value="true" />
+        <entry key="kotlin.expect" value="true" />
+        <entry key="kotlin.implemented" value="true" />
+        <entry key="kotlin.implementing" value="true" />
+        <entry key="kotlin.overridden" value="true" />
+        <entry key="kotlin.overriding" value="true" />
+        <entry key="org.editorconfig.configmanagement.editor.EditorConfigPreviewMarkerProvider" value="true" />
+        <entry key="org.jetbrains.idea.devkit.navigation.ExtensionDeclarationRelatedItemLineMarkerProvider" value="true" />
+      </map>
+    </option>
+  </component>
+</application>
