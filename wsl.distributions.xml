@@ -74,6 +74,12 @@
           <executable-path>wle.exe</executable-path>
           <presentable-name>Pengwin Enterprise</presentable-name>
         </descriptor>
+        <descriptor>
+          <id>ARCH</id>
+          <microsoft-id>Arch</microsoft-id>
+          <executable-path>Arch.exe</executable-path>
+          <presentable-name>Arch Linux</presentable-name>
+        </descriptor>
       </set>
     </descriptors>
   </component>
