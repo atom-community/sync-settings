@@ -2,4 +2,14 @@
   <component name="ApplicationNotificationSettings">
     <option name="lastUpdateNotification" value="1.0.1" />
   </component>
+  <component name="DiscordApplicationSettings">
+    <option name="timeoutEnabled" value="false" />
+    <option name="timeoutMinutes" value="30" />
+    <option name="applicationDetails" value="CUSTOM" />
+    <option name="applicationDetailsCustom" value="Idling" />
+    <option name="fileState" value="FILE_NAME" />
+    <option name="theme" value="flat" />
+    <option name="newProjectShow" value="SHOW" />
+  </component>
+  <component name="DiscordIntegrationApplicationSettings" hideReadOnlyFiles="false" hideAfterPeriodOfInactivity="false" />
 </application>
