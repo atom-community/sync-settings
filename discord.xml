@@ -1,6 +1,6 @@
 <application>
   <component name="ApplicationNotificationSettings">
-    <option name="lastUpdateNotification" value="1.0.1" />
+    <option name="lastUpdateNotification" value="1.0.1+12" />
   </component>
   <component name="DiscordApplicationSettings">
     <option name="timeoutEnabled" value="false" />
@@ -9,7 +9,7 @@
     <option name="applicationDetailsCustom" value="Idling" />
     <option name="fileState" value="FILE_NAME" />
     <option name="applicationType" value="IDE" />
-    <option name="theme" value="flat" />
+    <option name="theme" value="classic" />
     <option name="newProjectShow" value="SHOW" />
   </component>
   <component name="DiscordIntegrationApplicationSettings" hideReadOnlyFiles="false" hideAfterPeriodOfInactivity="false" />
