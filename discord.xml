@@ -9,7 +9,7 @@
     <option name="applicationDetailsCustom" value="Idling" />
     <option name="fileState" value="FILE_NAME" />
     <option name="applicationType" value="IDE" />
-    <option name="theme" value="classic" />
+    <option name="theme" value="atom" />
     <option name="newProjectShow" value="SHOW" />
   </component>
   <component name="DiscordIntegrationApplicationSettings" hideReadOnlyFiles="false" hideAfterPeriodOfInactivity="false" />
