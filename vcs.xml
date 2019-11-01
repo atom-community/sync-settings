@@ -6,8 +6,13 @@
           <option name="url" value="http://github.com" />
           <option name="userName" value="Davoleo" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/Davoleo/TestMod.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
+    <option name="cloneParentDir" value="D:\Everything\MC\Modding\1.14" />
   </component>
   <component name="Vcs.Log.App.Settings">
     <option name="COLUMN_ORDER">
