@@ -11,7 +11,6 @@
     <option name="isPowerIndicatorEnabled" value="false" />
     <option name="redFrom" value="82" />
     <option name="redTo" value="221" />
-    <option name="shakeEnabled" value="true" />
     <option name="shakeRange" value="2" />
     <option name="soundsFolder" value="C:\WINDOWS\System32" />
     <option name="sparkCount" value="4" />
