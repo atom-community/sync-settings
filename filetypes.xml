@@ -8,8 +8,6 @@
       <mapping ext="blend" type="Native" />
       <mapping pattern="qwe" type="PLAIN_TEXT" />
       <mapping pattern="qweqew" type="PLAIN_TEXT" />
-      <mapping ext="zs" type="PLAIN_TEXT" />
-      <mapping ext="mcmeta" type="PLAIN_TEXT" />
       <mapping ext="scssc" type="PLAIN_TEXT" />
       <mapping ext="mcmeta" type="PLAIN_TEXT" />
       <mapping ext="zs" type="PLAIN_TEXT" />
