@@ -14,5 +14,6 @@
     <entry key="win.editor.thumb.darcula.fill.min" value="102" />
     <entry key="ide.intellij.laf.enable.animation" value="true" />
     <entry key="ide.tooltip.initialDelay" value="801" />
+    <entry key="ide.tree.ui.experimental" value="false" />
   </component>
 </application>
