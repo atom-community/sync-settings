@@ -80,6 +80,12 @@
           <executable-path>Arch.exe</executable-path>
           <presentable-name>Arch Linux</presentable-name>
         </descriptor>
+        <descriptor>
+          <id>OPENSUSE15-1</id>
+          <microsoft-id>openSUSE-Leap-15-1</microsoft-id>
+          <executable-path>openSUSE-Leap-15-1.exe</executable-path>
+          <presentable-name>openSUSE Leap 15.1</presentable-name>
+        </descriptor>
       </set>
     </descriptors>
   </component>
