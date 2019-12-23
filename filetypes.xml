@@ -1,20 +1,19 @@
 <application>
   <component name="FileTypeManager" version="17">
     <extensionMap>
-      <mapping pattern="flint_and_ignatius.json" type="JSON" />
       <mapping pattern="mcmod.info" type="JSON" />
+      <mapping pattern="flint_and_ignatius.json" type="JSON" />
       <mapping pattern="fload_creator" type="JSON" />
       <mapping pattern="generator_powered" type="JSON" />
       <mapping ext="ai" type="Native" />
       <mapping ext="blend" type="Native" />
       <mapping pattern="qwe" type="PLAIN_TEXT" />
       <mapping pattern="qweqew" type="PLAIN_TEXT" />
-      <mapping ext="zs" type="PLAIN_TEXT" />
-      <mapping ext="mcmeta" type="PLAIN_TEXT" />
       <mapping ext="scssc" type="PLAIN_TEXT" />
+      <mapping ext="mcmeta" type="PLAIN_TEXT" />
+      <mapping ext="zs" type="PLAIN_TEXT" />
       <removed_mapping ext="cmd" approved="true" type="PLAIN_TEXT" />
       <removed_mapping ext="bat" approved="true" type="PLAIN_TEXT" />
-      <removed_mapping ext="log" approved="true" type="PLAIN_TEXT" />
       <removed_mapping ext="bat" approved="true" type="PLAIN_TEXT" />
       <removed_mapping ext="log" approved="true" type="PLAIN_TEXT" />
       <removed_mapping ext="dockerfile" approved="true" type="textmate" />
