@@ -1,0 +1,13 @@
+<application>
+  <component name="libraryTable">
+    <library name="jQuery" type="javaScript">
+      <properties>
+        <option name="frameworkName" value="jQuery" />
+      </properties>
+      <CLASSES>
+        <root url="file://D:/Everything/Coding/Web/web-tests/js/lib/jquery-3.4.1.min.js" />
+      </CLASSES>
+      <SOURCES />
+    </library>
+  </component>
+</application>
