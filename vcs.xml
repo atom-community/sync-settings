@@ -10,6 +10,10 @@
           <option name="url" value="https://github.com/Davoleo/TestMod.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="http://bitbucket.org" />
+          <option name="userName" value="Davoleo" />
+        </UrlAndUserName>
       </list>
     </option>
     <option name="cloneParentDir" value="D:\Everything\MC\Modding\1.14" />
