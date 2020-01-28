@@ -1,5 +1,13 @@
 <application>
   <component name="ShowUsagesSettings">
     <option name="GROUP_BY_FILE_STRUCTURE" value="true" />
+    <option name="GROUP_BY_MODULE" value="true" />
+    <option name="GROUP_BY_PACKAGE" value="true" />
+    <option name="GROUP_BY_USAGE_TYPE" value="true" />
+  </component>
+  <component name="UsageViewSettings">
+    <option name="GROUP_BY_MODULE" value="false" />
+    <option name="GROUP_BY_PACKAGE" value="false" />
+    <option name="GROUP_BY_USAGE_TYPE" value="false" />
   </component>
 </application>
