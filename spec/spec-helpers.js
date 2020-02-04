@@ -7,46 +7,45 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 module.exports = {
-  setConfig(keyPath, value) {
-    if (this.originalConfigs == null) { this.originalConfigs = {}; }
-    if (this.originalConfigs[keyPath] == null) { this.originalConfigs[keyPath] = atom.config.isDefault(keyPath) ? null : atom.config.get(keyPath); }
-    return atom.config.set(keyPath, value);
+  setConfig (keyPath, value) {
+    if (this.originalConfigs == null) { this.originalConfigs = {} }
+    if (this.originalConfigs[keyPath] == null) { this.originalConfigs[keyPath] = atom.config.isDefault(keyPath) ? null : atom.config.get(keyPath) }
+    return atom.config.set(keyPath, value)
   },
 
-  restoreConfigs() {
+  restoreConfigs () {
     if (this.originalConfigs) {
       return (() => {
-        const result = [];
-        for (let keyPath in this.originalConfigs) {
-          const value = this.originalConfigs[keyPath];
-          result.push(atom.config.set(keyPath, value));
+        const result = []
+        for (const keyPath in this.originalConfigs) {
+          const value = this.originalConfigs[keyPath]
+          result.push(atom.config.set(keyPath, value))
         }
-        return result;
-      })();
+        return result
+      })()
     }
   },
 
-  callAsync(timeout, async, next) {
+  callAsync (timeout, async, next) {
     if (typeof timeout === 'function') {
-      [async, next] = [timeout, async];
-      timeout = 5000;
+      [async, next] = [timeout, async]
+      timeout = 5000
     }
-    let done = false;
-    let nextArgs = null;
+    let done = false
+    let nextArgs = null
 
-    runs(() => async(function(...args) {
-      done = true;
-      return nextArgs = args;
-    }));
-
+    runs(() => async(function (...args) {
+      done = true
+      nextArgs = args
+    }))
 
     waitsFor(() => done
-    , null, timeout);
+      , null, timeout)
 
     if (next != null) {
-      return runs(function() {
-        return next.apply(this, nextArgs);
-      });
+      return runs(function () {
+        return next.apply(this, nextArgs)
+      })
     }
   }
-};
+}
