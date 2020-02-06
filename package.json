@@ -28,6 +28,7 @@
   "scripts": {
     "lint": "eslint ."
   },
+  "atomTestRunner": "atom-jasmine3-test-runner",
   "dependencies": {
     "@octokit/rest": "^16.43.1",
     "atom-space-pen-views": "^2.2.0",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "@semantic-release/apm-config": "^8.0.0",
+    "atom-jasmine3-test-runner": "^4.3.12",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.20.1",

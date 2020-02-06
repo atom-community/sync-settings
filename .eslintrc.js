@@ -20,6 +20,7 @@ module.exports = {
   },
   rules: {
     "handle-callback-err": "off",
-    camelcase: "off"
+    camelcase: "off",
+    "no-warning-comments": "warn"
   }
 }
