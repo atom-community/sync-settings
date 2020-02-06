@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.0.0 (2020-02-06)
+## v2.0.0 (2020-02-06)
 * Rewrite code in JavaScript and update dependencies [#464](https://github.com/atom-community/sync-settings/pull/464)
 
 ## v0.8.6 (2018-03-26)
