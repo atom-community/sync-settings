@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.0.0 (2020-02-06)
+* Rewrite code in JavaScript and update dependencies [#464](https://github.com/atom-community/sync-settings/pull/464)
+
 ## v0.8.6 (2018-03-26)
 * Fix handling of property names with a dot. Closes [#358](https://github.com/atom-community/sync-settings/pull/424)
 * Ensure fetched files contain valid JSON before using them to restore config. Closes [#315, #362, #368, #384, #413, #416, #417](https://github.com/atom-community/sync-settings/pull/422)
