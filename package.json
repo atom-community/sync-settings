@@ -25,6 +25,9 @@
     "backup",
     "restore"
   ],
+  "scripts": {
+    "lint": "eslint ."
+  },
   "dependencies": {
     "@octokit/rest": "^16.43.1",
     "atom-space-pen-views": "^2.2.0",
