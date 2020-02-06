@@ -1,0 +1,71 @@
+name: "CI"
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+
+  Test:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        channel: [stable, beta]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: UziTech/action-setup-atom@v1
+      with:
+        channel: ${{ matrix.channel }}
+    - name: Atom version
+      run: atom -v
+    - name: APM version
+      run: apm -v
+    - name: Install dependencies
+      run: apm ci
+    - name: Run tests 👩🏾‍💻
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_PAT }}
+      run: atom --test spec
+
+  Lint:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: NPM install
+        run: npm ci
+      - name: Lint ✨
+        run: npm run lint
+
+  Release:
+    needs: [Test, Lint]
+    if: |
+      github.ref == 'refs/heads/master' &&
+      github.event.repository.fork == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: UziTech/action-setup-atom@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: NPM install
+        run: npm ci
+      - name: Release 🎉
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ATOM_ACCESS_TOKEN: ${{ secrets.ATOM_ACCESS_TOKEN }}
+        run: npx semantic-release
+
+  Skip:
+    if: contains(github.event.head_commit.message, '[skip ci]')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip CI 🚫
+        run: echo skip ci
