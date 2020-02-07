@@ -1,4 +1,5 @@
 const SyncSettings = require('../lib/sync-settings')
+const CreateClient = require('./create-client-mock')
 const fs = require('fs')
 const util = require('util')
 const writeFile = util.promisify(fs.writeFile)
@@ -55,7 +56,6 @@ describe('SyncSettings', () => {
 
 			if (!process.env.GITHUB_TOKEN) {
 				console.error('GITHUB_TOKEN does not exist. Mocking API calls.')
-				const CreateClient = require('./create-client-mock')
 				spyOn(SyncSettings, 'createClient').and.returnValue(new CreateClient())
 			}
 
