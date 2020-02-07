@@ -41,14 +41,22 @@ describe('SyncSettings', () => {
   })
 
   describe('high-level', () => {
-    const TOKEN_CONFIG = 'sync-settings.personalAccessToken'
-    const GIST_ID_CONFIG = 'sync-settings.gistId'
+    beforeAll(async () => {
+      SyncSettings.activate()
 
-    SyncSettings.activate()
+      // wait for package to activate
+      await new Promise(resolve => setImmediate(resolve))
+
+      if (!process.env.GITHUB_TOKEN) {
+        console.error('GITHUB_TOKEN does not exist. Mocking API calls.')
+        const createClient = require('./create-client-mock')
+        spyOn(SyncSettings, 'createClient').and.returnValue(createClient)
+      }
+    })
 
     beforeEach(async () => {
-      this.token = process.env.GITHUB_TOKEN || atom.config.get(TOKEN_CONFIG)
-      atom.config.set(TOKEN_CONFIG, this.token)
+      this.token = process.env.GITHUB_TOKEN || atom.config.get('sync-settings.personalAccessToken')
+      atom.config.set('sync-settings.personalAccessToken', this.token)
 
       const gistSettings = {
         public: false,
@@ -60,7 +68,7 @@ describe('SyncSettings', () => {
 
       this.gistId = res.data.id
       console.log(`Using Gist ${this.gistId}`)
-      atom.config.set(GIST_ID_CONFIG, this.gistId)
+      atom.config.set('sync-settings.gistId', this.gistId)
     })
 
     afterEach(async () => {
