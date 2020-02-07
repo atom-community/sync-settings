@@ -2,6 +2,24 @@
 let nonce = 0;
 const gists = {};
 
+function mergeFiles (gistFiles, files) {
+	for (const filename in files) {
+		const file = files[filename];
+		if (file.filename === null) {
+			delete gistFiles[filename];
+		} else if (filename in gistFiles) {
+			gistFiles[filename].content = file.content;
+		} else {
+			gistFiles[filename] = {
+				content: file.content,
+				filename,
+			};
+		}
+	}
+
+	return gistFiles;
+}
+
 module.exports = {
 	gists: {
 		async get ({ gist_id }) {
@@ -25,19 +43,7 @@ module.exports = {
 
 			const gist = gists[gist_id];
 			gist.description = description;
-			for (const filename in files) {
-				const file = files[filename];
-				if (file.filename === null) {
-					delete gist.files[filename];
-				} else if (filename in gist.files) {
-					gist.files[filename].content = file.content;
-				} else {
-					gist.files[filename] = {
-						content: file.content,
-						filename,
-					};
-				}
-			}
+			gist.files = mergeFiles(gist.files, files);
 			gist.history.unshift({ version: `${gist.id}-${++gist.nonce}` });
 
 			return {
@@ -66,17 +72,10 @@ module.exports = {
 				id: gist_id,
 				nonce: 0,
 				description,
-				files: {},
+				files: mergeFiles({}, files),
 				history: [{ version: `${gist_id}-0` }],
 				html_url: `https://${gist_id}`,
 			};
-			for (const filename in files) {
-				const file = files[filename];
-				gist.files[filename] = {
-					constent: file.content,
-					filename,
-				};
-			}
 			gists[gist_id] = gist;
 
 			return {
