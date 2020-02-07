@@ -31,7 +31,6 @@
   "atomTestRunner": "atom-jasmine3-test-runner",
   "dependencies": {
     "@octokit/rest": "^16.43.1",
-    "atom-space-pen-views": "^2.2.0",
     "semver": "^7.1.2",
     "underscore-plus": "^1.7.0"
   },
