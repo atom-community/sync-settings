@@ -1,5 +1,5 @@
 # modified from https://raw.githubusercontent.com/atom/settings-view/master/lib/package-manager.coffee
-# commented out Client on line 8
+# modifications: commented out Client on line 8
 
 _ = require 'underscore-plus'
 {BufferedProcess, CompositeDisposable, Emitter} = require 'atom'

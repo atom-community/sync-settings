@@ -12,6 +12,13 @@ const os = require('os')
 
 describe('SyncSettings', () => {
 	describe('low-level', () => {
+		it('should activate and destroy without error', async () => {
+			await atom.packages.activatePackage('sync-settings')
+			// wait for package to activate
+			await new Promise(resolve => setImmediate(resolve))
+			await atom.packages.deactivatePackage('sync-settings')
+		})
+
 		describe('::fileContent', () => {
 			const tmpPath = path.join(os.tmpdir(), 'atom-sync-settings.tmp')
 
@@ -41,22 +48,19 @@ describe('SyncSettings', () => {
 	})
 
 	describe('high-level', () => {
-		beforeAll(async () => {
-			SyncSettings.activate()
-
+		beforeEach(async () => {
+			await atom.packages.activatePackage('sync-settings')
 			// wait for package to activate
 			await new Promise(resolve => setImmediate(resolve))
 
 			if (!process.env.GITHUB_TOKEN) {
 				console.error('GITHUB_TOKEN does not exist. Mocking API calls.')
-				const createClient = require('./create-client-mock')
-				spyOn(SyncSettings, 'createClient').and.returnValue(createClient)
+				const CreateClient = require('./create-client-mock')
+				spyOn(SyncSettings, 'createClient').and.returnValue(new CreateClient())
 			}
-		})
 
-		beforeEach(async () => {
-			this.token = process.env.GITHUB_TOKEN || atom.config.get('sync-settings.personalAccessToken')
-			atom.config.set('sync-settings.personalAccessToken', this.token)
+			const token = process.env.GITHUB_TOKEN || atom.config.get('sync-settings.personalAccessToken')
+			atom.config.set('sync-settings.personalAccessToken', token)
 
 			const gistSettings = {
 				public: false,
@@ -66,20 +70,20 @@ describe('SyncSettings', () => {
 
 			const res = await SyncSettings.createClient().gists.create(gistSettings)
 
-			this.gistId = res.data.id
-			console.log(`Using Gist ${this.gistId}`)
-			atom.config.set('sync-settings.gistId', this.gistId)
+			console.log(`Using Gist ${res.data.id}`)
+			atom.config.set('sync-settings.gistId', res.data.id)
 		})
 
 		afterEach(async () => {
-			await SyncSettings.createClient().gists.delete({ gist_id: this.gistId })
+			await SyncSettings.createClient().gists.delete({ gist_id: SyncSettings.getGistId() })
+			await await atom.packages.deactivatePackage('sync-settings')
 		})
 
 		describe('::backup', () => {
 			it('back up the settings', async () => {
 				atom.config.set('sync-settings.syncSettings', true)
 				await SyncSettings.backup()
-				const res = await SyncSettings.createClient().gists.get({ gist_id: this.gistId })
+				const res = await SyncSettings.getGist()
 
 				expect(res.data.files['settings.json']).toBeDefined()
 			})
@@ -87,7 +91,7 @@ describe('SyncSettings', () => {
 			it("don't back up the settings", async () => {
 				atom.config.set('sync-settings.syncSettings', false)
 				await SyncSettings.backup()
-				const res = await SyncSettings.createClient().gists.get({ gist_id: this.gistId })
+				const res = await SyncSettings.getGist()
 
 				expect(res.data.files['settings.json']).not.toBeDefined()
 			})
@@ -95,7 +99,7 @@ describe('SyncSettings', () => {
 			it('back up the installed packages list', async () => {
 				atom.config.set('sync-settings.syncPackages', true)
 				await SyncSettings.backup()
-				const res = await SyncSettings.createClient().gists.get({ gist_id: this.gistId })
+				const res = await SyncSettings.getGist()
 
 				expect(res.data.files['packages.json']).toBeDefined()
 			})
@@ -103,7 +107,7 @@ describe('SyncSettings', () => {
 			it("don't back up the installed packages list", async () => {
 				atom.config.set('sync-settings.syncPackages', false)
 				await SyncSettings.backup()
-				const res = await SyncSettings.createClient().gists.get({ gist_id: this.gistId })
+				const res = await SyncSettings.getGist()
 
 				expect(res.data.files['packages.json']).not.toBeDefined()
 			})
@@ -111,7 +115,7 @@ describe('SyncSettings', () => {
 			it('back up the user keymaps', async () => {
 				atom.config.set('sync-settings.syncKeymap', true)
 				await SyncSettings.backup()
-				const res = await SyncSettings.createClient().gists.get({ gist_id: this.gistId })
+				const res = await SyncSettings.getGist()
 
 				expect(res.data.files['keymap.cson']).toBeDefined()
 			})
@@ -119,7 +123,7 @@ describe('SyncSettings', () => {
 			it("don't back up the user keymaps", async () => {
 				atom.config.set('sync-settings.syncKeymap', false)
 				await SyncSettings.backup()
-				const res = await SyncSettings.createClient().gists.get({ gist_id: this.gistId })
+				const res = await SyncSettings.getGist()
 
 				expect(res.data.files['keymap.cson']).not.toBeDefined()
 			})
@@ -127,7 +131,7 @@ describe('SyncSettings', () => {
 			it('back up the user styles', async () => {
 				atom.config.set('sync-settings.syncStyles', true)
 				await SyncSettings.backup()
-				const res = await SyncSettings.createClient().gists.get({ gist_id: this.gistId })
+				const res = await SyncSettings.getGist()
 
 				expect(res.data.files['styles.less']).toBeDefined()
 			})
@@ -135,7 +139,7 @@ describe('SyncSettings', () => {
 			it("don't back up the user styles", async () => {
 				atom.config.set('sync-settings.syncStyles', false)
 				await SyncSettings.backup()
-				const res = await SyncSettings.createClient().gists.get({ gist_id: this.gistId })
+				const res = await SyncSettings.getGist()
 
 				expect(res.data.files['styles.less']).not.toBeDefined()
 			})
@@ -143,7 +147,7 @@ describe('SyncSettings', () => {
 			it('back up the user init script file', async () => {
 				atom.config.set('sync-settings.syncInit', true)
 				await SyncSettings.backup()
-				const res = await SyncSettings.createClient().gists.get({ gist_id: this.gistId })
+				const res = await SyncSettings.getGist()
 
 				expect(res.data.files[path.basename(atom.getUserInitScriptPath())]).toBeDefined()
 			})
@@ -151,7 +155,7 @@ describe('SyncSettings', () => {
 			it("don't back up the user init script file", async () => {
 				atom.config.set('sync-settings.syncInit', false)
 				await SyncSettings.backup()
-				const res = await SyncSettings.createClient().gists.get({ gist_id: this.gistId })
+				const res = await SyncSettings.getGist()
 
 				expect(res.data.files[path.basename(atom.getUserInitScriptPath())]).not.toBeDefined()
 			})
@@ -159,7 +163,7 @@ describe('SyncSettings', () => {
 			it('back up the user snippets', async () => {
 				atom.config.set('sync-settings.syncSnippets', true)
 				await SyncSettings.backup()
-				const res = await SyncSettings.createClient().gists.get({ gist_id: this.gistId })
+				const res = await SyncSettings.getGist()
 
 				expect(res.data.files['snippets.cson']).toBeDefined()
 			})
@@ -167,7 +171,7 @@ describe('SyncSettings', () => {
 			it("don't back up the user snippets", async () => {
 				atom.config.set('sync-settings.syncSnippets', false)
 				await SyncSettings.backup()
-				const res = await SyncSettings.createClient().gists.get({ gist_id: this.gistId })
+				const res = await SyncSettings.getGist()
 
 				expect(res.data.files['snippets.cson']).not.toBeDefined()
 			})
@@ -175,8 +179,7 @@ describe('SyncSettings', () => {
 			it('back up the files defined in config.extraFiles', async () => {
 				atom.config.set('sync-settings.extraFiles', ['test.tmp', 'test2.tmp'])
 				await SyncSettings.backup()
-				const res = await SyncSettings.createClient().gists.get({ gist_id: this.gistId })
-
+				const res = await SyncSettings.getGist()
 				atom.config.get('sync-settings.extraFiles').forEach(file => {
 					expect(res.data.files[file]).toBeDefined()
 				})
@@ -185,9 +188,9 @@ describe('SyncSettings', () => {
 			it("don't back up extra files defined in config.extraFiles", async () => {
 				atom.config.set('sync-settings.extraFiles', undefined)
 				await SyncSettings.backup()
-				const res = await SyncSettings.createClient().gists.get({ gist_id: this.gistId })
+				const res = await SyncSettings.getGist()
 
-				expect(Object.keys(res.data.files).length).toBe(1)
+				expect(Object.keys(res.data.files).length).toBe(7)
 			})
 		})
 

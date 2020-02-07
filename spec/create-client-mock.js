@@ -24,74 +24,79 @@ function randomString (len = 5) {
 	return str.substring(0, len)
 }
 
-const gists = {}
+module.exports = class Client {
+	constructor () {
+		this.gistCache = {}
+	}
 
-module.exports = {
-	gists: {
-		async get ({ gist_id: gistId }) {
-			console.debug('GITHUB_TOKEN does not exist. Mocking API calls.')
+	get gists () {
+		const self = this
+		return {
+			async get ({ gist_id: gistId }) {
+				console.debug('GITHUB_TOKEN does not exist. Mocking API calls.')
 
-			if (!(gistId in gists)) {
-				throw new Error('Not Found')
-			}
+				if (!(gistId in self.gistCache)) {
+					throw new Error(JSON.stringify({ message: 'Not Found' }))
+				}
 
-			return {
-				data: gists[gistId],
-			}
-		},
+				return {
+					data: self.gistCache[gistId],
+				}
+			},
 
-		async update ({ gist_id: gistId, description, files }) {
-			console.debug('GITHUB_TOKEN does not exist. Mocking API calls.')
+			async update ({ gist_id: gistId, description, files }) {
+				console.debug('GITHUB_TOKEN does not exist. Mocking API calls.')
 
-			if (!(gistId in gists)) {
-				throw new Error('Not Found')
-			}
+				if (!(gistId in self.gistCache)) {
+					throw new Error(JSON.stringify({ message: 'Not Found' }))
+				}
 
-			const gist = gists[gistId]
-			gist.description = description
-			gist.files = mergeFiles(gist.files, files)
-			gist.history.unshift({ version: `${gist.id}-${randomString()}` })
+				const gist = self.gistCache[gistId]
+				gist.description = description
+				gist.files = mergeFiles(gist.files, files)
+				gist.history.unshift({ version: `${gist.id}-${randomString()}` })
 
-			return {
-				data: gist,
-			}
-		},
+				return {
+					data: gist,
+				}
+			},
 
-		async fork ({ gist_id: gistId }) {
-			console.debug('GITHUB_TOKEN does not exist. Mocking API calls.')
+			async fork ({ gist_id: gistId }) {
+				console.debug('GITHUB_TOKEN does not exist. Mocking API calls.')
 
-			if (!(gistId in gists)) {
-				throw new Error('Not Found')
-			}
+				if (!(gistId in self.gistCache)) {
+					throw new Error(JSON.stringify({ message: 'Not Found' }))
+				}
 
-			return this.create({
-				description: gists[gistId].description,
-				files: gists[gistId].files,
-			})
-		},
+				return this.create({
+					description: self.gistCache[gistId].description,
+					files: self.gistCache[gistId].files,
+				})
+			},
 
-		async create ({ description, files }) {
-			console.debug('GITHUB_TOKEN does not exist. Mocking API calls.')
+			async create ({ description, files }) {
+				console.debug('GITHUB_TOKEN does not exist. Mocking API calls.')
 
-			const gistId = `mock-${randomString()}`
-			const gist = {
-				id: gistId,
-				description,
-				files: mergeFiles({}, files),
-				history: [{ version: `${gistId}-${randomString()}` }],
-				html_url: `https://${gistId}`,
-			}
-			gists[gistId] = gist
+				const gistId = `mock-${randomString()}`
+				const gist = {
+					id: gistId,
+					description,
+					files: mergeFiles({}, files),
+					history: [{ version: `${gistId}-${randomString()}` }],
+					html_url: `https://${gistId}`,
+				}
+				self.gistCache[gistId] = gist
 
-			return {
-				data: gist,
-			}
-		},
+				return {
+					data: gist,
+				}
+			},
 
-		async delete ({ gist_id: gistId }) {
-			console.debug('GITHUB_TOKEN does not exist. Mocking API calls.')
+			async delete ({ gist_id: gistId }) {
+				console.debug('GITHUB_TOKEN does not exist. Mocking API calls.')
 
-			delete gists[gistId]
-		},
-	},
+				delete self.gistCache[gistId]
+			},
+		}
+	}
 }
