@@ -1,8 +1,5 @@
 module.exports = {
 	env: {
-		browser: true,
-		commonjs: true,
-		es6: true,
 		node: true,
 		jasmine: true,
 		atomtest: true,
@@ -12,8 +9,6 @@ module.exports = {
 	],
 	globals: {
 		atom: 'readonly',
-		Atomics: 'readonly',
-		SharedArrayBuffer: 'readonly',
 	},
 	parserOptions: {
 		ecmaVersion: 2018,
