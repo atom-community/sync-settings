@@ -26,7 +26,7 @@ describe('SyncSettings', () => {
 		await atom.packages.deactivatePackage('sync-settings')
 	})
 
-	if (process.env.GITHUB_TOKEN) {
+	if (process.env.GITHUB_TOKEN && process.platform !== 'linux') {
 		describe('API', () => {
 			beforeEach(async () => {
 				await atom.packages.activatePackage('sync-settings')
