@@ -26,6 +26,7 @@ describe('SyncSettings', () => {
 		await atom.packages.deactivatePackage('sync-settings')
 	})
 
+	// FIXME: not sure why linux api test is timing out
 	if (process.env.GITHUB_TOKEN && process.platform !== 'linux') {
 		describe('API', () => {
 			beforeEach(async () => {
