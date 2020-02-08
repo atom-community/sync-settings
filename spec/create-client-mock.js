@@ -33,8 +33,6 @@ module.exports = class Client {
 		const self = this
 		return {
 			async get ({ gist_id: gistId }) {
-				console.debug('GITHUB_TOKEN does not exist. Mocking API calls.')
-
 				if (!(gistId in self.gistCache)) {
 					throw new Error(JSON.stringify({ message: 'Not Found' }))
 				}
@@ -45,8 +43,6 @@ module.exports = class Client {
 			},
 
 			async update ({ gist_id: gistId, description, files }) {
-				console.debug('GITHUB_TOKEN does not exist. Mocking API calls.')
-
 				if (!(gistId in self.gistCache)) {
 					throw new Error(JSON.stringify({ message: 'Not Found' }))
 				}
@@ -62,8 +58,6 @@ module.exports = class Client {
 			},
 
 			async fork ({ gist_id: gistId }) {
-				console.debug('GITHUB_TOKEN does not exist. Mocking API calls.')
-
 				if (!(gistId in self.gistCache)) {
 					throw new Error(JSON.stringify({ message: 'Not Found' }))
 				}
@@ -75,8 +69,6 @@ module.exports = class Client {
 			},
 
 			async create ({ description, files }) {
-				console.debug('GITHUB_TOKEN does not exist. Mocking API calls.')
-
 				const gistId = `mock-${randomString()}`
 				const gist = {
 					id: gistId,
@@ -93,8 +85,6 @@ module.exports = class Client {
 			},
 
 			async delete ({ gist_id: gistId }) {
-				console.debug('GITHUB_TOKEN does not exist. Mocking API calls.')
-
 				delete self.gistCache[gistId]
 			},
 		}
