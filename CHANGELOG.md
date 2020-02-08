@@ -5,8 +5,6 @@
 
 * remove atom-space-pen-view ([#468](https://github.com/atom-community/sync-settings/issues/468)) ([9732372](https://github.com/atom-community/sync-settings/commit/9732372e4fc093f272ba4327dc38f99ca4e1d7b3))
 
-# Changelog
-
 ## v2.0.0 (2020-02-06)
 * Rewrite code in JavaScript and update dependencies [#464](https://github.com/atom-community/sync-settings/pull/464)
 
