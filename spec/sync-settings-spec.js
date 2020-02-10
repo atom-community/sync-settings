@@ -455,6 +455,25 @@ describe('SyncSettings', () => {
 					expect(atom.notifications.getNotifications().length).toBe(1)
 					expect(atom.notifications.getNotifications()[0].getType()).toBe('success')
 				})
+
+				it('quiets notification on up-to-date backup', async () => {
+					atom.config.set('sync-settings.quietUpdateCheck', true)
+					await SyncSettings.backup()
+					atom.notifications.clear()
+					await SyncSettings.checkForUpdate()
+
+					expect(atom.notifications.getNotifications().length).toBe(0)
+				})
+
+				it('shows notification on command palette check', async () => {
+					atom.config.set('sync-settings.quietUpdateCheck', true)
+					await SyncSettings.backup()
+					atom.notifications.clear()
+					await atom.commands.dispatch(atom.views.getView(atom.workspace), 'sync-settings:check-backup')
+
+					expect(atom.notifications.getNotifications().length).toBe(1)
+					expect(atom.notifications.getNotifications()[0].getType()).toBe('success')
+				})
 			})
 		})
 
