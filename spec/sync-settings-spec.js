@@ -201,6 +201,37 @@ describe('SyncSettings', () => {
 				expect(res.data.files['settings.json']).not.toBeDefined()
 			})
 
+			it("don't back up blacklisted settings", async () => {
+				atom.config.set('sync-settings.blacklistedKeys', ['package.dummy'])
+				atom.config.set('package.dummy', true)
+				atom.config.set('package.dummy2', true)
+				await SyncSettings.backup()
+				const res = await SyncSettings.getGist()
+				const settings = JSON.parse(res.data.files['settings.json'].content)
+
+				expect(settings['*'].package.dummy).not.toBeDefined()
+				expect(settings['*'].package.dummy2).toBe(true)
+			})
+
+			it("back up blacklisted parent if key doesn't exist", async () => {
+				atom.config.set('sync-settings.blacklistedKeys', ['package.dummy.dummy2'])
+				atom.config.set('package.dummy', true)
+				await SyncSettings.backup()
+				const res = await SyncSettings.getGist()
+				const settings = JSON.parse(res.data.files['settings.json'].content)
+
+				expect(settings['*'].package.dummy).toBe(true)
+			})
+
+			it('back up scoped settings', async () => {
+				atom.config.set('package.dummy', true, { scopeSelector: '.dummy.scope' })
+				await SyncSettings.backup()
+				const res = await SyncSettings.getGist()
+				const settings = JSON.parse(res.data.files['settings.json'].content)
+
+				expect(settings['.dummy.scope'].package.dummy).toBe(true)
+			})
+
 			it('back up the installed packages list', async () => {
 				atom.config.set('sync-settings.syncPackages', true)
 				await SyncSettings.backup()
@@ -309,16 +340,53 @@ describe('SyncSettings', () => {
 				atom.config.set('some-dummy', false)
 				await SyncSettings.restore()
 
-				expect(atom.config.get('some-dummy')).toBeTruthy()
+				expect(atom.config.get('some-dummy')).toBe(true)
 			})
 
 			it("doesn't updates settings", async () => {
 				atom.config.set('sync-settings.syncSettings', false)
 				atom.config.set('some-dummy', true)
 				await SyncSettings.backup()
+				atom.config.set('some-dummy', false)
 				await SyncSettings.restore()
 
-				expect(atom.config.get('some-dummy')).toBeTruthy()
+				expect(atom.config.get('some-dummy')).toBe(false)
+			})
+
+			it('removes unset settings', async () => {
+				await SyncSettings.backup()
+				atom.config.set('package.dummy', true)
+				await SyncSettings.restore()
+
+				expect(atom.config.get('package.dummy')).not.toBeDefined()
+			})
+
+			it('restores unset settings', async () => {
+				atom.config.set('package.dummy', true)
+				await SyncSettings.backup()
+				atom.config.unset('package.dummy')
+				await SyncSettings.restore()
+
+				expect(atom.config.get('package.dummy')).toBe(true)
+			})
+
+			it('does not remove blacklisted settings', async () => {
+				atom.config.set('sync-settings.blacklistedKeys', ['package.dummy'])
+				await SyncSettings.backup()
+				atom.config.set('package.dummy', true)
+				await SyncSettings.restore()
+
+				expect(atom.config.get('package.dummy')).toBe(true)
+			})
+
+			it('restores scoped settings', async () => {
+				const scopeSelector = '.dummy.scope'
+				atom.config.set('package.dummy', true, { scopeSelector })
+				await SyncSettings.backup()
+				atom.config.set('package.dummy', false, { scopeSelector })
+				await SyncSettings.restore()
+
+				expect(atom.config.get('package.dummy', { scope: [scopeSelector] })).toBe(true)
 			})
 
 			it('overrides keymap.cson', async () => {
