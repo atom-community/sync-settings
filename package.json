@@ -29,6 +29,13 @@
     "lint": "eslint ."
   },
   "atomTestRunner": "atom-jasmine3-test-runner",
+  "consumedServices": {
+    "atom-ide-busy-signal": {
+      "versions": {
+        "0.1.0": "busySignalService"
+      }
+    }
+  },
   "dependencies": {
     "@octokit/rest": "^16.43.1",
     "semver": "^7.1.2",
