@@ -299,6 +299,32 @@ describe('SyncSettings', () => {
 
 				expect(Object.keys(res.data.files).length).toBe(7)
 			})
+
+			it('should warn about backing up config.cson', async () => {
+				atom.config.set('sync-settings.extraFiles', ['config.cson'])
+				atom.config.set('sync-settings.personalAccessToken', 'token')
+				atom.notifications.clear()
+				await SyncSettings.backup()
+				const gist = await SyncSettings.getGist()
+
+				expect(atom.notifications.getNotifications().length).toBe(1)
+				expect(atom.notifications.getNotifications()[0].getType()).toBe('warning')
+				expect(Object.keys(gist.data.files)).not.toContain('config.cson')
+			})
+
+			it('should not warn and back up config.cson', async () => {
+				atom.config.set('sync-settings.extraFiles', ['config.cson'])
+				await writeFile(path.join(atom.getConfigDirPath(), 'config.cson'), 'config.cson')
+				atom.config.set('sync-settings.personalAccessToken', 'token')
+				atom.config.set('sync-settings.warnBackupConfig', false)
+				atom.notifications.clear()
+				await SyncSettings.backup()
+				const gist = await SyncSettings.getGist()
+
+				expect(atom.notifications.getNotifications().length).toBe(1)
+				expect(atom.notifications.getNotifications()[0].getType()).toBe('success')
+				expect(Object.keys(gist.data.files)).toContain('config.cson')
+			})
 		})
 
 		describe('::restore', () => {
