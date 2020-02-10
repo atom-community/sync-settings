@@ -1,3 +1,13 @@
+## [2.0.2](https://github.com/atom-community/sync-settings/compare/v2.0.1...v2.0.2) (2020-02-10)
+
+
+### Bug Fixes
+
+* back up settings ([ff0ac1b](https://github.com/atom-community/sync-settings/commit/ff0ac1be5afada83e4f3b91dc60626a05ccd033c))
+* mark files with only whitespace as not found ([343c43c](https://github.com/atom-community/sync-settings/commit/343c43ce614edc5ff7ca0f2cc52429122b7a8054))
+* notify backup up to date ([abe8298](https://github.com/atom-community/sync-settings/commit/abe8298a9a705b114829ef6d57ab44ae59964d1b))
+* warn about backing up config.cson ([cb8ea45](https://github.com/atom-community/sync-settings/commit/cb8ea4521588f629f9c42a0a9d8560b86ebe9636))
+
 ## [2.0.1](https://github.com/atom-community/sync-settings/compare/v2.0.0...v2.0.1) (2020-02-08)
 
 
