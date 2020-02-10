@@ -147,6 +147,43 @@ describe('SyncSettings', () => {
 		})
 	})
 
+	describe('::getPackages', () => {
+		beforeEach(async () => {
+			await atom.packages.activatePackage('sync-settings')
+			// wait for package to activate
+			await new Promise(resolve => setImmediate(resolve))
+		})
+
+		afterEach(async () => {
+			await atom.packages.deactivatePackage('sync-settings')
+		})
+		it('returns packages and themes', () => {
+			const json = SyncSettings.getPackages()
+			const packages = json.filter(p => !p.theme)
+			const themes = json.filter(p => p.theme)
+			expect(packages.length > 0).toBe(true)
+			expect(themes.length > 0).toBe(true)
+		})
+
+		it('returns packages and not themes', () => {
+			atom.config.set('sync-settings.syncThemes', false)
+			const json = SyncSettings.getPackages()
+			const packages = json.filter(p => !p.theme)
+			const themes = json.filter(p => p.theme)
+			expect(packages.length > 0).toBe(true)
+			expect(themes.length > 0).toBe(false)
+		})
+
+		it('returns not packages and themes', () => {
+			atom.config.set('sync-settings.syncPackages', false)
+			const json = SyncSettings.getPackages()
+			const packages = json.filter(p => !p.theme)
+			const themes = json.filter(p => p.theme)
+			expect(packages.length > 0).toBe(false)
+			expect(themes.length > 0).toBe(true)
+		})
+	})
+
 	describe('mocks', () => {
 		beforeEach(async () => {
 			await atom.packages.activatePackage('sync-settings')
@@ -218,16 +255,37 @@ describe('SyncSettings', () => {
 				expect(settings['.dummy.scope'].package.dummy).toBe(true)
 			})
 
-			it('back up the installed packages list', async () => {
+			it('only back up the installed packages list', async () => {
 				atom.config.set('sync-settings.syncPackages', true)
+				atom.config.set('sync-settings.syncThemes', false)
 				await SyncSettings.backup()
 				const res = await SyncSettings.getGist()
 
 				expect(res.data.files['packages.json']).toBeDefined()
+				const json = JSON.parse(res.data.files['packages.json'].content)
+				const packages = json.filter(p => !p.theme)
+				const themes = json.filter(p => p.theme)
+				expect(packages.length > 0).toBe(true)
+				expect(themes.length > 0).toBe(false)
+			})
+
+			it('only back up the installed theme list', async () => {
+				atom.config.set('sync-settings.syncPackages', false)
+				atom.config.set('sync-settings.syncThemes', true)
+				await SyncSettings.backup()
+				const res = await SyncSettings.getGist()
+
+				expect(res.data.files['packages.json']).toBeDefined()
+				const json = JSON.parse(res.data.files['packages.json'].content)
+				const packages = json.filter(p => !p.theme)
+				const themes = json.filter(p => p.theme)
+				expect(packages.length > 0).toBe(false)
+				expect(themes.length > 0).toBe(true)
 			})
 
 			it("don't back up the installed packages list", async () => {
 				atom.config.set('sync-settings.syncPackages', false)
+				atom.config.set('sync-settings.syncThemes', false)
 				await SyncSettings.backup()
 				const res = await SyncSettings.getGist()
 
@@ -399,6 +457,38 @@ describe('SyncSettings', () => {
 				await SyncSettings.restore()
 
 				expect(atom.config.get('package.dummy', { scope: [scopeSelector] })).toBe(true)
+			})
+
+			it('restores only themes', async () => {
+				atom.config.set('sync-settings.blacklistedKeys', ['sync-settings.syncPackages', 'sync-settings.syncThemes'])
+				spyOn(SyncSettings, 'installMissingPackages')
+				atom.config.set('sync-settings.syncPackages', true)
+				atom.config.set('sync-settings.syncThemes', true)
+				await SyncSettings.backup()
+				atom.config.set('sync-settings.syncPackages', false)
+				await SyncSettings.restore()
+				const json = SyncSettings.installMissingPackages.calls.first().args[0]
+				const packages = json.filter(p => !p.theme)
+				const themes = json.filter(p => p.theme)
+
+				expect(packages.length > 0).toBe(false)
+				expect(themes.length > 0).toBe(true)
+			})
+
+			it('restores only packages', async () => {
+				atom.config.set('sync-settings.blacklistedKeys', ['sync-settings.syncPackages', 'sync-settings.syncThemes'])
+				spyOn(SyncSettings, 'installMissingPackages')
+				atom.config.set('sync-settings.syncPackages', true)
+				atom.config.set('sync-settings.syncThemes', true)
+				await SyncSettings.backup()
+				atom.config.set('sync-settings.syncThemes', false)
+				await SyncSettings.restore()
+				const json = SyncSettings.installMissingPackages.calls.first().args[0]
+				const packages = json.filter(p => !p.theme)
+				const themes = json.filter(p => p.theme)
+
+				expect(packages.length > 0).toBe(true)
+				expect(themes.length > 0).toBe(false)
 			})
 
 			it('overrides keymap.cson', async () => {
