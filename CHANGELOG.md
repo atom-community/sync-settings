@@ -1,3 +1,10 @@
+## [2.0.3](https://github.com/atom-community/sync-settings/compare/v2.0.2...v2.0.3) (2020-02-10)
+
+
+### Bug Fixes
+
+* remove correct packages ([ab1e54b](https://github.com/atom-community/sync-settings/commit/ab1e54bb58ecaa2d47ebf4fc9a986fbdc2032185))
+
 ## [2.0.2](https://github.com/atom-community/sync-settings/compare/v2.0.1...v2.0.2) (2020-02-10)
 
 
