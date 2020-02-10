@@ -333,7 +333,7 @@ describe('SyncSettings', () => {
 				atom.config.set('sync-settings.extraFiles', ['config.cson'])
 				await writeFile(path.join(atom.getConfigDirPath(), 'config.cson'), 'config.cson')
 				atom.config.set('sync-settings.personalAccessToken', 'token')
-				atom.config.set('sync-settings.warnBackupConfig', false)
+				atom.config.set('sync-settings.hiddenSettings._warnBackupConfig', false)
 				atom.notifications.clear()
 				await SyncSettings.backup()
 				const gist = await SyncSettings.getGist()
@@ -474,19 +474,19 @@ describe('SyncSettings', () => {
 
 		describe('::check for update', () => {
 			beforeEach(() => {
-				atom.config.unset('sync-settings._lastBackupHash')
+				atom.config.unset('sync-settings.hiddenSettings._lastBackupHash')
 			})
 
 			it('updates last hash on backup', async () => {
 				await SyncSettings.backup()
 
-				expect(atom.config.get('sync-settings._lastBackupHash')).toBeDefined()
+				expect(atom.config.get('sync-settings.hiddenSettings._lastBackupHash')).toBeDefined()
 			})
 
 			it('updates last hash on restore', async () => {
 				await SyncSettings.restore()
 
-				expect(atom.config.get('sync-settings._lastBackupHash')).toBeDefined()
+				expect(atom.config.get('sync-settings.hiddenSettings._lastBackupHash')).toBeDefined()
 			})
 
 			describe('::notification', () => {
