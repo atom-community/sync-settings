@@ -1,3 +1,16 @@
+# [2.1.0](https://github.com/atom-community/sync-settings/compare/v2.0.3...v2.1.0) (2020-02-10)
+
+
+### Bug Fixes
+
+* use busy-signal if available ([#475](https://github.com/atom-community/sync-settings/issues/475)) ([058de3e](https://github.com/atom-community/sync-settings/commit/058de3efd5b207142650a4211606f3c667a50499))
+
+
+### Features
+
+* add setting to install latest version of packages ([#478](https://github.com/atom-community/sync-settings/issues/478)) ([b3c1f0c](https://github.com/atom-community/sync-settings/commit/b3c1f0cd623b8df7bdaa096259ebf8d1c9b39114))
+* add syncThemes setting ([#479](https://github.com/atom-community/sync-settings/issues/479)) ([9ca9177](https://github.com/atom-community/sync-settings/commit/9ca91774eccb40b2400ca24aa155b58d310f8bb5))
+
 ## [2.0.3](https://github.com/atom-community/sync-settings/compare/v2.0.2...v2.0.3) (2020-02-10)
 
 
