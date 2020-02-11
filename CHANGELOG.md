@@ -1,3 +1,15 @@
+# [2.2.0](https://github.com/atom-community/sync-settings/compare/v2.1.0...v2.2.0) (2020-02-11)
+
+
+### Bug Fixes
+
+* use key-path-helper ([#482](https://github.com/atom-community/sync-settings/issues/482)) ([46c0007](https://github.com/atom-community/sync-settings/commit/46c000754dae98b3580baa5382a91033114644f2))
+
+
+### Features
+
+* add only sync community packages setting ([#480](https://github.com/atom-community/sync-settings/issues/480)) ([bb11814](https://github.com/atom-community/sync-settings/commit/bb11814abc7b9521eedcb5e6df1fc55e5903b7e5))
+
 # [2.1.0](https://github.com/atom-community/sync-settings/compare/v2.0.3...v2.1.0) (2020-02-10)
 
 
