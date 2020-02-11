@@ -161,6 +161,7 @@ describe('SyncSettings', () => {
 			const json = SyncSettings.getPackages()
 			const packages = json.filter(p => !p.theme)
 			const themes = json.filter(p => p.theme)
+
 			expect(packages.length > 0).toBe(true)
 			expect(themes.length > 0).toBe(true)
 		})
@@ -170,6 +171,7 @@ describe('SyncSettings', () => {
 			const json = SyncSettings.getPackages()
 			const packages = json.filter(p => !p.theme)
 			const themes = json.filter(p => p.theme)
+
 			expect(packages.length > 0).toBe(true)
 			expect(themes.length > 0).toBe(false)
 		})
@@ -179,8 +181,21 @@ describe('SyncSettings', () => {
 			const json = SyncSettings.getPackages()
 			const packages = json.filter(p => !p.theme)
 			const themes = json.filter(p => p.theme)
+
 			expect(packages.length > 0).toBe(false)
 			expect(themes.length > 0).toBe(true)
+		})
+
+		it('returns community packages and themes', () => {
+			// atom test environment only has bundled packages. We are pretending that `about` is not a bundled package
+			spyOn(atom.packages, 'isBundledPackage').and.callFake(name => name !== 'about')
+			atom.config.set('sync-settings.onlySyncCommunityPackages', true)
+			const json = SyncSettings.getPackages()
+			const community = json.filter(p => !atom.packages.isBundledPackage(p.name))
+			const bundled = json.filter(p => atom.packages.isBundledPackage(p.name))
+
+			expect(community.length > 0).toBe(true)
+			expect(bundled.length > 0).toBe(false)
 		})
 	})
 
@@ -523,6 +538,42 @@ describe('SyncSettings', () => {
 
 				expect(packages.length > 0).toBe(true)
 				expect(themes.length > 0).toBe(false)
+			})
+
+			it('restores only community packages', async () => {
+				// atom test environment only has bundled packages. We are pretending that `about` is not a bundled package
+				spyOn(atom.packages, 'isBundledPackage').and.callFake(name => name !== 'about')
+				spyOn(SyncSettings, 'installMissingPackages')
+				atom.config.set('sync-settings.blacklistedKeys', ['sync-settings.onlySyncCommunityPackages'])
+				atom.config.set('sync-settings.onlySyncCommunityPackages', false)
+				await SyncSettings.backup()
+				atom.config.set('sync-settings.onlySyncCommunityPackages', true)
+				await SyncSettings.restore()
+				const json = SyncSettings.installMissingPackages.calls.first().args[0]
+				const community = json.filter(p => !atom.packages.isBundledPackage(p.name))
+				const bundled = json.filter(p => atom.packages.isBundledPackage(p.name))
+
+				expect(community.length > 0).toBe(true)
+				expect(bundled.length > 0).toBe(false)
+			})
+
+			it('installs apmInstallSource from git', async function () {
+				spyOn(SyncSettings.packageManager, 'install').and.callFake((pkg, cb) => cb())
+				spyOn(SyncSettings, 'getPackages')
+				SyncSettings.getPackages.and.returnValue([
+					{ name: 'test1' },
+					{
+						name: 'test',
+						version: '1.0.0',
+						apmInstallSource: { source: 'repo/test' },
+					},
+				])
+				await SyncSettings.backup()
+				SyncSettings.getPackages.and.returnValue([{ name: 'test1' }])
+				await SyncSettings.restore()
+				const packageName = SyncSettings.packageManager.install.calls.mostRecent().args[0].name
+
+				expect(packageName).toBe('repo/test')
 			})
 
 			it('overrides keymap.cson', async () => {
