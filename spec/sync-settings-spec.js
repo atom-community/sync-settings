@@ -184,6 +184,40 @@ describe('SyncSettings', () => {
 		})
 	})
 
+	describe('::addFilteredSettings', () => {
+		it('adds blacklisted keys', function () {
+			atom.config.set('sync-settings.blacklistedKeys', ['dummy', 'package.dummy', 'package.setting\\.with\\.dots', 'packge.very.nested.setting'])
+			atom.config.set('dummy', false)
+			atom.config.set('package.dummy', 0)
+			atom.config.set('package.setting\\.with\\.dots', '')
+			atom.config.set('packge.very.nested.setting', true)
+
+			const settings = SyncSettings.addFilteredSettings({ '*': {} })
+
+			expect(settings['*'].dummy).toBe(false)
+			expect(settings['*'].package.dummy).toBe(0)
+			expect(settings['*'].package['setting.with.dots']).toBe('')
+			expect(settings['*'].packge.very.nested.setting).toBe(true)
+		})
+	})
+
+	describe('::getFilteredSettings', () => {
+		it('remove blacklisted keys', function () {
+			atom.config.set('sync-settings.blacklistedKeys', ['dummy', 'package.dummy', 'package.setting\\.with\\.dots', 'packge.very.nested.setting'])
+			atom.config.set('dummy', false)
+			atom.config.set('package.dummy', 0)
+			atom.config.set('package.setting\\.with\\.dots', '')
+			atom.config.set('packge.very.nested.setting', true)
+
+			const settings = SyncSettings.getFilteredSettings()
+
+			expect(settings['*'].dummy).not.toBeDefined()
+			expect(settings['*'].package.dummy).not.toBeDefined()
+			expect(settings['*'].package['setting.with.dots']).not.toBeDefined()
+			expect(settings['*'].packge.very.nested.setting).not.toBeDefined()
+		})
+	})
+
 	describe('mocks', () => {
 		beforeEach(async () => {
 			await atom.packages.activatePackage('sync-settings')
