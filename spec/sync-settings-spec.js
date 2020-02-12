@@ -449,6 +449,8 @@ describe('SyncSettings', () => {
 				expect(atom.notifications.getNotifications()[0].getType()).toBe('success')
 				expect(Object.keys(gist.data.files)).toContain('config.cson')
 			})
+
+			// TODO: test globs here
 		})
 
 		describe('::restore', () => {
