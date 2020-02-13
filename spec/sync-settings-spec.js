@@ -108,6 +108,24 @@ describe('SyncSettings', () => {
 				await SyncSettings.restore()
 			}, 60 * 1000)
 
+			it('backs up and restores paths with slash', async () => {
+				atom.config.set('sync-settings.extraFiles', ['../test.tmp'])
+				const tmpPath = path.resolve(atom.getConfigDirPath(), '../test.tmp')
+				await writeFile(tmpPath, 'test.tmp')
+				try {
+					await SyncSettings.backup()
+					const gist = await SyncSettings.getGist()
+					await unlink(tmpPath)
+					await SyncSettings.restore()
+					const content2 = await SyncSettings.fileContent(tmpPath)
+
+					expect(gist.data.files['..\\test.tmp']).toBeDefined()
+					expect(content2).toBe('test.tmp')
+				} finally {
+					await unlink(tmpPath)
+				}
+			}, 60 * 1000)
+
 			it('does not delete a file with only whitespace', async () => {
 				atom.config.set('sync-settings.extraFiles', ['README'])
 				await writeFile(path.resolve(atom.getConfigDirPath(), 'README'), '\n \t')
