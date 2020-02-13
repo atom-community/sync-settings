@@ -424,6 +424,29 @@ describe('SyncSettings', () => {
 				expect(Object.keys(res.data.files).length).toBe(7)
 			})
 
+			it('back up the files defined in config.extraFilesGlob', async () => {
+				atom.config.set('sync-settings.extraFilesGlob', ['*.tmp'])
+				await writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
+				await writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
+				await SyncSettings.backup()
+				const res = await SyncSettings.getGist()
+
+				expect(res.data.files['test.tmp']).toBeDefined()
+				expect(res.data.files['test2.tmp']).toBeDefined()
+			})
+
+			it('ignore files defined in config.ignoreFilesGlob', async () => {
+				atom.config.set('sync-settings.extraFilesGlob', ['*.tmp'])
+				atom.config.set('sync-settings.ignoreFilesGlob', ['*2*'])
+				await writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
+				await writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
+				await SyncSettings.backup()
+				const res = await SyncSettings.getGist()
+
+				expect(res.data.files['test.tmp']).toBeDefined()
+				expect(res.data.files['test2.tmp']).not.toBeDefined()
+			})
+
 			it('should warn about backing up config.cson', async () => {
 				atom.config.set('sync-settings.extraFiles', ['config.cson'])
 				atom.config.set('sync-settings.personalAccessToken', 'token')
@@ -449,8 +472,6 @@ describe('SyncSettings', () => {
 				expect(atom.notifications.getNotifications()[0].getType()).toBe('success')
 				expect(Object.keys(gist.data.files)).toContain('config.cson')
 			})
-
-			// TODO: test globs here
 		})
 
 		describe('::restore', () => {
@@ -621,10 +642,12 @@ describe('SyncSettings', () => {
 
 			it('skips the restore due to invalid json', async () => {
 				atom.config.set('sync-settings.syncSettings', true)
-				atom.config.set('sync-settings.extraFiles', ['packages.json'])
-				await writeFile(path.join(atom.getConfigDirPath(), 'packages.json'), 'packages.json')
 				atom.config.set('some-dummy', false)
 				await SyncSettings.backup()
+				await SyncSettings.createClient().gists.update({
+					gist_id: SyncSettings.getGistId(),
+					files: { 'packages.json': { content: 'packages.json' } },
+				})
 				atom.config.set('some-dummy', true)
 				atom.notifications.clear()
 				await SyncSettings.restore()
