@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/atom-community/sync-settings/compare/v2.2.0...v2.3.0) (2020-02-14)
+
+
+### Features
+
+* add extra file glob settings ([#483](https://github.com/atom-community/sync-settings/issues/483)) ([426ea4d](https://github.com/atom-community/sync-settings/commit/426ea4d4a1046eeca2b94fdc981ae2914e2807c1))
+
 # [2.2.0](https://github.com/atom-community/sync-settings/compare/v2.1.0...v2.2.0) (2020-02-11)
 
 
