@@ -1,3 +1,10 @@
+## [2.3.1](https://github.com/atom-community/sync-settings/compare/v2.3.0...v2.3.1) (2020-02-17)
+
+
+### Bug Fixes
+
+* fix fork gist ([#485](https://github.com/atom-community/sync-settings/issues/485)) ([0c34d95](https://github.com/atom-community/sync-settings/commit/0c34d954507490f1900208ed6cf2ffb88f6aba23))
+
 # [2.3.0](https://github.com/atom-community/sync-settings/compare/v2.2.0...v2.3.0) (2020-02-14)
 
 
