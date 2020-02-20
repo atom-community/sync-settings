@@ -28,7 +28,7 @@
   "scripts": {
     "lint": "eslint ."
   },
-  "atomTestRunner": "./spec/runner.js",
+  "atomTestRunner": "atom-jasmine3-test-runner",
   "consumedServices": {
     "atom-ide-busy-signal": {
       "versions": {
