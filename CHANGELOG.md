@@ -1,3 +1,23 @@
+# [3.0.0](https://github.com/atom-community/sync-settings/compare/v2.3.1...v3.0.0) (2020-02-20)
+
+
+### Features
+
+* modularize and add tests ([#489](https://github.com/atom-community/sync-settings/issues/489)) ([fa05d5a](https://github.com/atom-community/sync-settings/commit/fa05d5a4d6ed2749f53546ee700bed38718c8ad0))
+
+
+### BREAKING CHANGES
+
+* rewrite code into modules
+
+* create input-view
+
+* create github-api
+
+* add notify specs
+
+* add integration tests
+
 ## [2.3.1](https://github.com/atom-community/sync-settings/compare/v2.3.0...v2.3.1) (2020-02-17)
 
 
