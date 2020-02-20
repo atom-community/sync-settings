@@ -31,9 +31,9 @@ describe('InputView', () => {
 		view.resolve()
 	})
 
-	it('detail', () => {
-		const view = new InputView({ detail: 'detail' })
-		expect(view.element.querySelector('.input-view-detail').innerHTML).toBe('<p>detail</p>\n')
+	it('description', () => {
+		const view = new InputView({ description: 'description' })
+		expect(view.element.querySelector('.input-view-description').innerHTML).toBe('<p>description</p>\n')
 		view.resolve()
 	})
 

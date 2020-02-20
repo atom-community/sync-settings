@@ -84,6 +84,7 @@ describe('githubApi', () => {
 
 	describe('invalidRes', () => {
 		it('checks properties', () => {
+			spyOn(console, 'error')
 			expect(githubApi.invalidRes(null)).toBe(true)
 			expect(githubApi.invalidRes({})).toBe(false)
 			expect(githubApi.invalidRes({}, [['data']])).toBe(true)
