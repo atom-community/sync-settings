@@ -1,7 +1,7 @@
 # Sync Settings for Atom
 
 [![Join the chat at https://gitter.im/atom-community/sync-settings](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/atom-community/sync-settings?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Build Status](https://travis-ci.org/atom-community/sync-settings.svg?branch=master)](https://travis-ci.org/atom-community/sync-settings)
+![CI](https://github.com/atom-community/sync-settings/workflows/CI/badge.svg)
 
 Synchronize settings, keymaps, user styles, init script, snippets and installed packages across [Atom](http://atom.io) instances.
 
@@ -25,7 +25,7 @@ It currently [does **not** support](https://github.com/atom-community/sync-setti
 ## Setup
 
 1. Open **Sync Settings** configuration in [Atom Settings](atom://config).
-2. Create a [new personal access token](https://github.com/settings/tokens/new) which has the `gist` scope and be sure to **activate permissions**: Gist -> create gists.
+2. Create a [new personal access token](https://github.com/settings/tokens/new?scopes=gist) which has the `gist` scope and be sure to **activate permissions**: Gist -> create gists.
 3. Copy the access token to **Sync Settings** configuration or set it as an environmental variable **GITHUB_TOKEN**.
 4. Create a [new gist](https://gist.github.com/):
 

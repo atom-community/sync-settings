@@ -1,8 +1,4 @@
 const InputView = require('../lib/input-view')
-// Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
-//
-// To run a specific `it` or `describe` block add an `f` to the front (e.g. `fit`
-// or `fdescribe`). Remove the `f` to unfocus the block.
 
 describe('InputView', () => {
 	it('confirm', async () => {
@@ -29,23 +25,28 @@ describe('InputView', () => {
 		expect(view.destroy).toHaveBeenCalled()
 	})
 
-	it('title', async () => {
+	it('title', () => {
 		const view = new InputView({ title: 'title' })
 		expect(view.element.querySelector('.input-view-title').textContent).toBe('title')
+		view.resolve()
 	})
 
-	it('detail', async () => {
+	it('detail', () => {
 		const view = new InputView({ detail: 'detail' })
 		expect(view.element.querySelector('.input-view-detail').innerHTML).toBe('<p>detail</p>\n')
+		view.resolve()
 	})
 
-	it('placeholder', async () => {
+	it('placeholder', () => {
 		const view = new InputView({ placeholder: 'placeholder' })
 		expect(view.editor.placeholderText).toBe('placeholder')
+		view.resolve()
 	})
 
 	it('value', async () => {
 		const view = new InputView({ value: 'value' })
-		expect(view.editor.getText()).toBe('value')
+		view.confirm()
+		const output = await view.getInput()
+		expect(output).toBe('value')
 	})
 })

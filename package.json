@@ -1,6 +1,6 @@
 {
   "name": "sync-settings",
-  "main": "./lib/sync-settings",
+  "main": "./lib/main",
   "version": "2.3.1",
   "description": "Synchronize package settings, keymap and installed packages",
   "repository": {

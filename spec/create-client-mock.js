@@ -16,10 +16,10 @@ function mergeFiles (gistFiles, files) {
 	return gistFiles
 }
 
-function randomString (len = 5) {
+function randomHexString (len = 32) {
 	let str = ''
 	while (str.length < len) {
-		str += Math.random().toString(36).substr(2)
+		str += Math.random().toString(16).substr(2)
 	}
 	return str.substring(0, len)
 }
@@ -50,7 +50,7 @@ module.exports = class Client {
 				const gist = self.gistCache[gistId]
 				gist.description = description
 				gist.files = mergeFiles(gist.files, files)
-				gist.history.unshift({ version: `${gist.id}-${randomString()}` })
+				gist.history.unshift({ version: randomHexString() })
 
 				return {
 					data: gist,
@@ -69,12 +69,12 @@ module.exports = class Client {
 			},
 
 			async create ({ description, files }) {
-				const gistId = `mock-${randomString()}`
+				const gistId = `mock-${randomHexString()}`
 				const gist = {
 					id: gistId,
 					description,
 					files: mergeFiles({}, files),
-					history: [{ version: `${gistId}-${randomString()}` }],
+					history: [{ version: randomHexString() }],
 					html_url: `https://${gistId}`,
 				}
 				self.gistCache[gistId] = gist

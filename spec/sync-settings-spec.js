@@ -1,4 +1,4 @@
-const SyncSettings = require('../lib/sync-settings')
+const syncSettings = require('../lib/sync-settings')
 const CreateClient = require('./create-client-mock')
 const fs = require('fs')
 const util = require('util')
@@ -11,7 +11,7 @@ const os = require('os')
 // To run a specific `it` or `describe` block add an `f` to the front (e.g. `fit`
 // or `fdescribe`). Remove the `f` to unfocus the block.
 
-describe('SyncSettings', () => {
+describe('syncSettings', () => {
 	beforeEach(async () => {
 		await writeFile(atom.keymaps.getUserKeymapPath(), '# keymap')
 		await writeFile(atom.styles.getUserStyleSheetPath(), '// stylesheet')
@@ -22,7 +22,7 @@ describe('SyncSettings', () => {
 	it('should activate and destroy without error', async () => {
 		await atom.packages.activatePackage('sync-settings')
 		// wait for package to activate
-		await new Promise(resolve => setImmediate(resolve))
+		await syncSettings.activationPromise
 		await atom.packages.deactivatePackage('sync-settings')
 	})
 
@@ -106,7 +106,7 @@ describe('SyncSettings', () => {
 					}),
 				}))
 				await SyncSettings.restore()
-			}, 60 * 1000)
+			}, 10 * 1000)
 
 			it('backs up and restores paths with slash', async () => {
 				atom.config.set('sync-settings.extraFiles', ['../test.tmp'])
@@ -124,7 +124,7 @@ describe('SyncSettings', () => {
 				} finally {
 					await unlink(tmpPath)
 				}
-			}, 60 * 1000)
+			}, 10 * 1000)
 
 			it('does not delete a file with only whitespace', async () => {
 				atom.config.set('sync-settings.extraFiles', ['README'])
@@ -133,7 +133,7 @@ describe('SyncSettings', () => {
 				const gist = await SyncSettings.getGist()
 				expect('README' in gist.data.files).toBe(true)
 				expect(gist.data.files.README.content).toContain('(not found)')
-			}, 60 * 1000)
+			}, 10 * 1000)
 		})
 	}
 
@@ -142,13 +142,13 @@ describe('SyncSettings', () => {
 
 		it('returns null for not existing file', async () => {
 			spyOn(console, 'error')
-			expect(await SyncSettings.fileContent(tmpPath)).toBeNull()
+			expect(await syncSettings.fileContent(tmpPath)).toBeNull()
 		})
 
 		it('returns null for empty file', async () => {
 			await writeFile(tmpPath, '')
 			try {
-				expect(await SyncSettings.fileContent(tmpPath)).toBeNull()
+				expect(await syncSettings.fileContent(tmpPath)).toBeNull()
 			} finally {
 				await unlink(tmpPath)
 			}
@@ -158,7 +158,7 @@ describe('SyncSettings', () => {
 			const text = 'alabala portocala'
 			await writeFile(tmpPath, text)
 			try {
-				expect(await SyncSettings.fileContent(tmpPath)).toEqual(text)
+				expect(await syncSettings.fileContent(tmpPath)).toEqual(text)
 			} finally {
 				await unlink(tmpPath)
 			}
@@ -166,17 +166,13 @@ describe('SyncSettings', () => {
 	})
 
 	describe('::getPackages', () => {
-		beforeEach(async () => {
-			await atom.packages.activatePackage('sync-settings')
-			// wait for package to activate
-			await new Promise(resolve => setImmediate(resolve))
+		beforeAll((done) => {
+			syncSettings.activate()
+			setImmediate(done)
 		})
 
-		afterEach(async () => {
-			await atom.packages.deactivatePackage('sync-settings')
-		})
 		it('returns packages and themes', () => {
-			const json = SyncSettings.getPackages()
+			const json = syncSettings.getPackages()
 			const packages = json.filter(p => !p.theme)
 			const themes = json.filter(p => p.theme)
 
@@ -186,7 +182,7 @@ describe('SyncSettings', () => {
 
 		it('returns packages and not themes', () => {
 			atom.config.set('sync-settings.syncThemes', false)
-			const json = SyncSettings.getPackages()
+			const json = syncSettings.getPackages()
 			const packages = json.filter(p => !p.theme)
 			const themes = json.filter(p => p.theme)
 
@@ -196,7 +192,7 @@ describe('SyncSettings', () => {
 
 		it('returns not packages and themes', () => {
 			atom.config.set('sync-settings.syncPackages', false)
-			const json = SyncSettings.getPackages()
+			const json = syncSettings.getPackages()
 			const packages = json.filter(p => !p.theme)
 			const themes = json.filter(p => p.theme)
 
@@ -208,7 +204,7 @@ describe('SyncSettings', () => {
 			// atom test environment only has bundled packages. We are pretending that `about` is not a bundled package
 			spyOn(atom.packages, 'isBundledPackage').and.callFake(name => name !== 'about')
 			atom.config.set('sync-settings.onlySyncCommunityPackages', true)
-			const json = SyncSettings.getPackages()
+			const json = syncSettings.getPackages()
 			const community = json.filter(p => !atom.packages.isBundledPackage(p.name))
 			const bundled = json.filter(p => atom.packages.isBundledPackage(p.name))
 
@@ -225,7 +221,7 @@ describe('SyncSettings', () => {
 			atom.config.set('package.setting\\.with\\.dots', '')
 			atom.config.set('packge.very.nested.setting', true)
 
-			const settings = SyncSettings.addFilteredSettings({ '*': {} })
+			const settings = syncSettings.addFilteredSettings({ '*': {} })
 
 			expect(settings['*'].dummy).toBe(false)
 			expect(settings['*'].package.dummy).toBe(0)
@@ -242,7 +238,7 @@ describe('SyncSettings', () => {
 			atom.config.set('package.setting\\.with\\.dots', '')
 			atom.config.set('packge.very.nested.setting', true)
 
-			const settings = SyncSettings.getFilteredSettings()
+			const settings = syncSettings.getFilteredSettings()
 
 			expect(settings['*'].dummy).not.toBeDefined()
 			expect(settings['*'].package.dummy).not.toBeDefined()
@@ -257,7 +253,7 @@ describe('SyncSettings', () => {
 			// wait for package to activate
 			await new Promise(resolve => setImmediate(resolve))
 
-			spyOn(SyncSettings, 'createClient').and.returnValue(new CreateClient())
+			spyOn(syncSettings, 'createClient').and.returnValue(new CreateClient())
 
 			const gistSettings = {
 				public: false,
@@ -265,28 +261,28 @@ describe('SyncSettings', () => {
 				files: { README: { content: '# Generated by Sync Settings for Atom https://github.com/atom-community/sync-settings' } },
 			}
 
-			const res = await SyncSettings.createClient().gists.create(gistSettings)
+			const res = await syncSettings.createClient().gists.create(gistSettings)
 			atom.config.set('sync-settings.gistId', res.data.id)
 		})
 
 		afterEach(async () => {
-			await SyncSettings.createClient().gists.delete({ gist_id: SyncSettings.getGistId() })
+			await syncSettings.createClient().gists.delete({ gist_id: syncSettings.getGistId() })
 			await await atom.packages.deactivatePackage('sync-settings')
 		})
 
 		describe('::backup', () => {
 			it('back up the settings', async () => {
 				atom.config.set('sync-settings.syncSettings', true)
-				await SyncSettings.backup()
-				const res = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const res = await syncSettings.getGist()
 
 				expect(res.data.files['settings.json']).toBeDefined()
 			})
 
 			it("don't back up the settings", async () => {
 				atom.config.set('sync-settings.syncSettings', false)
-				await SyncSettings.backup()
-				const res = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const res = await syncSettings.getGist()
 
 				expect(res.data.files['settings.json']).not.toBeDefined()
 			})
@@ -295,8 +291,8 @@ describe('SyncSettings', () => {
 				atom.config.set('sync-settings.blacklistedKeys', ['package.dummy'])
 				atom.config.set('package.dummy', true)
 				atom.config.set('package.dummy2', true)
-				await SyncSettings.backup()
-				const res = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const res = await syncSettings.getGist()
 				const settings = JSON.parse(res.data.files['settings.json'].content)
 
 				expect(settings['*'].package.dummy).not.toBeDefined()
@@ -306,8 +302,8 @@ describe('SyncSettings', () => {
 			it("back up blacklisted parent if key doesn't exist", async () => {
 				atom.config.set('sync-settings.blacklistedKeys', ['package.dummy.dummy2'])
 				atom.config.set('package.dummy', true)
-				await SyncSettings.backup()
-				const res = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const res = await syncSettings.getGist()
 				const settings = JSON.parse(res.data.files['settings.json'].content)
 
 				expect(settings['*'].package.dummy).toBe(true)
@@ -315,8 +311,8 @@ describe('SyncSettings', () => {
 
 			it('back up scoped settings', async () => {
 				atom.config.set('package.dummy', true, { scopeSelector: '.dummy.scope' })
-				await SyncSettings.backup()
-				const res = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const res = await syncSettings.getGist()
 				const settings = JSON.parse(res.data.files['settings.json'].content)
 
 				expect(settings['.dummy.scope'].package.dummy).toBe(true)
@@ -325,8 +321,8 @@ describe('SyncSettings', () => {
 			it('only back up the installed packages list', async () => {
 				atom.config.set('sync-settings.syncPackages', true)
 				atom.config.set('sync-settings.syncThemes', false)
-				await SyncSettings.backup()
-				const res = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const res = await syncSettings.getGist()
 
 				expect(res.data.files['packages.json']).toBeDefined()
 				const json = JSON.parse(res.data.files['packages.json'].content)
@@ -339,8 +335,8 @@ describe('SyncSettings', () => {
 			it('only back up the installed theme list', async () => {
 				atom.config.set('sync-settings.syncPackages', false)
 				atom.config.set('sync-settings.syncThemes', true)
-				await SyncSettings.backup()
-				const res = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const res = await syncSettings.getGist()
 
 				expect(res.data.files['packages.json']).toBeDefined()
 				const json = JSON.parse(res.data.files['packages.json'].content)
@@ -353,72 +349,72 @@ describe('SyncSettings', () => {
 			it("don't back up the installed packages list", async () => {
 				atom.config.set('sync-settings.syncPackages', false)
 				atom.config.set('sync-settings.syncThemes', false)
-				await SyncSettings.backup()
-				const res = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const res = await syncSettings.getGist()
 
 				expect(res.data.files['packages.json']).not.toBeDefined()
 			})
 
 			it('back up the user keymaps', async () => {
 				atom.config.set('sync-settings.syncKeymap', true)
-				await SyncSettings.backup()
-				const res = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const res = await syncSettings.getGist()
 
 				expect(res.data.files['keymap.cson']).toBeDefined()
 			})
 
 			it("don't back up the user keymaps", async () => {
 				atom.config.set('sync-settings.syncKeymap', false)
-				await SyncSettings.backup()
-				const res = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const res = await syncSettings.getGist()
 
 				expect(res.data.files['keymap.cson']).not.toBeDefined()
 			})
 
 			it('back up the user styles', async () => {
 				atom.config.set('sync-settings.syncStyles', true)
-				await SyncSettings.backup()
-				const res = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const res = await syncSettings.getGist()
 
 				expect(res.data.files['styles.less']).toBeDefined()
 			})
 
 			it("don't back up the user styles", async () => {
 				atom.config.set('sync-settings.syncStyles', false)
-				await SyncSettings.backup()
-				const res = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const res = await syncSettings.getGist()
 
 				expect(res.data.files['styles.less']).not.toBeDefined()
 			})
 
 			it('back up the user init script file', async () => {
 				atom.config.set('sync-settings.syncInit', true)
-				await SyncSettings.backup()
-				const res = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const res = await syncSettings.getGist()
 
 				expect(res.data.files[path.basename(atom.getUserInitScriptPath())]).toBeDefined()
 			})
 
 			it("don't back up the user init script file", async () => {
 				atom.config.set('sync-settings.syncInit', false)
-				await SyncSettings.backup()
-				const res = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const res = await syncSettings.getGist()
 
 				expect(res.data.files[path.basename(atom.getUserInitScriptPath())]).not.toBeDefined()
 			})
 
 			it('back up the user snippets', async () => {
 				atom.config.set('sync-settings.syncSnippets', true)
-				await SyncSettings.backup()
-				const res = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const res = await syncSettings.getGist()
 
 				expect(res.data.files['snippets.cson']).toBeDefined()
 			})
 
 			it("don't back up the user snippets", async () => {
 				atom.config.set('sync-settings.syncSnippets', false)
-				await SyncSettings.backup()
-				const res = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const res = await syncSettings.getGist()
 
 				expect(res.data.files['snippets.cson']).not.toBeDefined()
 			})
@@ -427,8 +423,8 @@ describe('SyncSettings', () => {
 				atom.config.set('sync-settings.extraFiles', ['test.tmp', 'test2.tmp'])
 				await writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
 				await writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
-				await SyncSettings.backup()
-				const res = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const res = await syncSettings.getGist()
 				atom.config.get('sync-settings.extraFiles').forEach(file => {
 					expect(res.data.files[file]).toBeDefined()
 				})
@@ -436,8 +432,8 @@ describe('SyncSettings', () => {
 
 			it("don't back up extra files defined in config.extraFiles", async () => {
 				atom.config.set('sync-settings.extraFiles', undefined)
-				await SyncSettings.backup()
-				const res = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const res = await syncSettings.getGist()
 
 				expect(Object.keys(res.data.files).length).toBe(7)
 			})
@@ -446,8 +442,8 @@ describe('SyncSettings', () => {
 				atom.config.set('sync-settings.extraFilesGlob', ['*.tmp'])
 				await writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
 				await writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
-				await SyncSettings.backup()
-				const res = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const res = await syncSettings.getGist()
 
 				expect(res.data.files['test.tmp']).toBeDefined()
 				expect(res.data.files['test2.tmp']).toBeDefined()
@@ -458,8 +454,8 @@ describe('SyncSettings', () => {
 				atom.config.set('sync-settings.ignoreFilesGlob', ['*2*'])
 				await writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
 				await writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
-				await SyncSettings.backup()
-				const res = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const res = await syncSettings.getGist()
 
 				expect(res.data.files['test.tmp']).toBeDefined()
 				expect(res.data.files['test2.tmp']).not.toBeDefined()
@@ -469,8 +465,8 @@ describe('SyncSettings', () => {
 				atom.config.set('sync-settings.extraFiles', ['config.cson'])
 				atom.config.set('sync-settings.personalAccessToken', 'token')
 				atom.notifications.clear()
-				await SyncSettings.backup()
-				const gist = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const gist = await syncSettings.getGist()
 
 				expect(atom.notifications.getNotifications().length).toBe(1)
 				expect(atom.notifications.getNotifications()[0].getType()).toBe('warning')
@@ -483,8 +479,8 @@ describe('SyncSettings', () => {
 				atom.config.set('sync-settings.personalAccessToken', 'token')
 				atom.config.set('sync-settings.hiddenSettings._warnBackupConfig', false)
 				atom.notifications.clear()
-				await SyncSettings.backup()
-				const gist = await SyncSettings.getGist()
+				await syncSettings.backup()
+				const gist = await syncSettings.getGist()
 
 				expect(atom.notifications.getNotifications().length).toBe(1)
 				expect(atom.notifications.getNotifications()[0].getType()).toBe('success')
@@ -496,9 +492,9 @@ describe('SyncSettings', () => {
 			it('updates settings', async () => {
 				atom.config.set('sync-settings.syncSettings', true)
 				atom.config.set('some-dummy', true)
-				await SyncSettings.backup()
+				await syncSettings.backup()
 				atom.config.set('some-dummy', false)
-				await SyncSettings.restore()
+				await syncSettings.restore()
 
 				expect(atom.config.get('some-dummy')).toBe(true)
 			})
@@ -506,35 +502,35 @@ describe('SyncSettings', () => {
 			it("doesn't updates settings", async () => {
 				atom.config.set('sync-settings.syncSettings', false)
 				atom.config.set('some-dummy', true)
-				await SyncSettings.backup()
+				await syncSettings.backup()
 				atom.config.set('some-dummy', false)
-				await SyncSettings.restore()
+				await syncSettings.restore()
 
 				expect(atom.config.get('some-dummy')).toBe(false)
 			})
 
 			it('removes unset settings', async () => {
-				await SyncSettings.backup()
+				await syncSettings.backup()
 				atom.config.set('package.dummy', true)
-				await SyncSettings.restore()
+				await syncSettings.restore()
 
 				expect(atom.config.get('package.dummy')).not.toBeDefined()
 			})
 
 			it('restores unset settings', async () => {
 				atom.config.set('package.dummy', true)
-				await SyncSettings.backup()
+				await syncSettings.backup()
 				atom.config.unset('package.dummy')
-				await SyncSettings.restore()
+				await syncSettings.restore()
 
 				expect(atom.config.get('package.dummy')).toBe(true)
 			})
 
 			it('does not remove blacklisted settings', async () => {
 				atom.config.set('sync-settings.blacklistedKeys', ['package.dummy'])
-				await SyncSettings.backup()
+				await syncSettings.backup()
 				atom.config.set('package.dummy', true)
-				await SyncSettings.restore()
+				await syncSettings.restore()
 
 				expect(atom.config.get('package.dummy')).toBe(true)
 			})
@@ -542,22 +538,22 @@ describe('SyncSettings', () => {
 			it('restores scoped settings', async () => {
 				const scopeSelector = '.dummy.scope'
 				atom.config.set('package.dummy', true, { scopeSelector })
-				await SyncSettings.backup()
+				await syncSettings.backup()
 				atom.config.set('package.dummy', false, { scopeSelector })
-				await SyncSettings.restore()
+				await syncSettings.restore()
 
 				expect(atom.config.get('package.dummy', { scope: [scopeSelector] })).toBe(true)
 			})
 
 			it('restores only themes', async () => {
 				atom.config.set('sync-settings.blacklistedKeys', ['sync-settings.syncPackages', 'sync-settings.syncThemes'])
-				spyOn(SyncSettings, 'installMissingPackages')
+				spyOn(syncSettings, 'installMissingPackages')
 				atom.config.set('sync-settings.syncPackages', true)
 				atom.config.set('sync-settings.syncThemes', true)
-				await SyncSettings.backup()
+				await syncSettings.backup()
 				atom.config.set('sync-settings.syncPackages', false)
-				await SyncSettings.restore()
-				const json = SyncSettings.installMissingPackages.calls.first().args[0]
+				await syncSettings.restore()
+				const json = syncSettings.installMissingPackages.calls.first().args[0]
 				const packages = json.filter(p => !p.theme)
 				const themes = json.filter(p => p.theme)
 
@@ -567,13 +563,13 @@ describe('SyncSettings', () => {
 
 			it('restores only packages', async () => {
 				atom.config.set('sync-settings.blacklistedKeys', ['sync-settings.syncPackages', 'sync-settings.syncThemes'])
-				spyOn(SyncSettings, 'installMissingPackages')
+				spyOn(syncSettings, 'installMissingPackages')
 				atom.config.set('sync-settings.syncPackages', true)
 				atom.config.set('sync-settings.syncThemes', true)
-				await SyncSettings.backup()
+				await syncSettings.backup()
 				atom.config.set('sync-settings.syncThemes', false)
-				await SyncSettings.restore()
-				const json = SyncSettings.installMissingPackages.calls.first().args[0]
+				await syncSettings.restore()
+				const json = syncSettings.installMissingPackages.calls.first().args[0]
 				const packages = json.filter(p => !p.theme)
 				const themes = json.filter(p => p.theme)
 
@@ -584,13 +580,13 @@ describe('SyncSettings', () => {
 			it('restores only community packages', async () => {
 				// atom test environment only has bundled packages. We are pretending that `about` is not a bundled package
 				spyOn(atom.packages, 'isBundledPackage').and.callFake(name => name !== 'about')
-				spyOn(SyncSettings, 'installMissingPackages')
+				spyOn(syncSettings, 'installMissingPackages')
 				atom.config.set('sync-settings.blacklistedKeys', ['sync-settings.onlySyncCommunityPackages'])
 				atom.config.set('sync-settings.onlySyncCommunityPackages', false)
-				await SyncSettings.backup()
+				await syncSettings.backup()
 				atom.config.set('sync-settings.onlySyncCommunityPackages', true)
-				await SyncSettings.restore()
-				const json = SyncSettings.installMissingPackages.calls.first().args[0]
+				await syncSettings.restore()
+				const json = syncSettings.installMissingPackages.calls.first().args[0]
 				const community = json.filter(p => !atom.packages.isBundledPackage(p.name))
 				const bundled = json.filter(p => atom.packages.isBundledPackage(p.name))
 
@@ -599,9 +595,9 @@ describe('SyncSettings', () => {
 			})
 
 			it('installs apmInstallSource from git', async function () {
-				spyOn(SyncSettings.packageManager, 'install').and.callFake((pkg, cb) => cb())
-				spyOn(SyncSettings, 'getPackages')
-				SyncSettings.getPackages.and.returnValue([
+				spyOn(syncSettings.packageManager, 'install').and.callFake((pkg, cb) => cb())
+				spyOn(syncSettings, 'getPackages')
+				syncSettings.getPackages.and.returnValue([
 					{ name: 'test1' },
 					{
 						name: 'test',
@@ -609,26 +605,26 @@ describe('SyncSettings', () => {
 						apmInstallSource: { source: 'repo/test' },
 					},
 				])
-				await SyncSettings.backup()
-				SyncSettings.getPackages.and.returnValue([{ name: 'test1' }])
-				await SyncSettings.restore()
-				const packageName = SyncSettings.packageManager.install.calls.mostRecent().args[0].name
+				await syncSettings.backup()
+				syncSettings.getPackages.and.returnValue([{ name: 'test1' }])
+				await syncSettings.restore()
+				const packageName = syncSettings.packageManager.install.calls.mostRecent().args[0].name
 
 				expect(packageName).toBe('repo/test')
 			})
 
 			it('overrides keymap.cson', async () => {
 				atom.config.set('sync-settings.syncKeymap', true)
-				let original = await SyncSettings.fileContent(atom.keymaps.getUserKeymapPath())
+				let original = await syncSettings.fileContent(atom.keymaps.getUserKeymapPath())
 				if (!original) {
 					original = '# keymap file (not found)'
 				}
 
 				try {
-					await SyncSettings.backup()
+					await syncSettings.backup()
 					await writeFile(atom.keymaps.getUserKeymapPath(), `${original}\n# modified by sync setting spec`)
-					await SyncSettings.restore()
-					const content = await SyncSettings.fileContent(atom.keymaps.getUserKeymapPath())
+					await syncSettings.restore()
+					const content = await syncSettings.fileContent(atom.keymaps.getUserKeymapPath())
 
 					expect(content).toEqual(original)
 				} finally {
@@ -644,12 +640,12 @@ describe('SyncSettings', () => {
 						await writeFile(path.join(atom.getConfigDirPath(), file), file)
 					}
 
-					await SyncSettings.backup()
-					await SyncSettings.restore()
+					await syncSettings.backup()
+					await syncSettings.restore()
 
 					for (const file of files) {
 						expect(fs.existsSync(`${atom.getConfigDirPath()}/${file}`)).toBe(true)
-						expect(await SyncSettings.fileContent(`${atom.getConfigDirPath()}/${file}`)).toBe(file)
+						expect(await syncSettings.fileContent(`${atom.getConfigDirPath()}/${file}`)).toBe(file)
 					}
 				} finally {
 					for (const file of files) {
@@ -661,14 +657,14 @@ describe('SyncSettings', () => {
 			it('skips the restore due to invalid json', async () => {
 				atom.config.set('sync-settings.syncSettings', true)
 				atom.config.set('some-dummy', false)
-				await SyncSettings.backup()
-				await SyncSettings.createClient().gists.update({
-					gist_id: SyncSettings.getGistId(),
+				await syncSettings.backup()
+				await syncSettings.createClient().gists.update({
+					gist_id: syncSettings.getGistId(),
 					files: { 'packages.json': { content: 'packages.json' } },
 				})
 				atom.config.set('some-dummy', true)
 				atom.notifications.clear()
-				await SyncSettings.restore()
+				await syncSettings.restore()
 
 				expect(atom.notifications.getNotifications().length).toEqual(1)
 				expect(atom.notifications.getNotifications()[0].getType()).toBe('error')
@@ -680,9 +676,9 @@ describe('SyncSettings', () => {
 			it('restores keys with dots', async () => {
 				atom.config.set('sync-settings.syncSettings', true)
 				atom.config.set('some\\.key', ['one', 'two'])
-				await SyncSettings.backup()
+				await syncSettings.backup()
 				atom.config.set('some\\.key', ['two'])
-				await SyncSettings.restore()
+				await syncSettings.restore()
 
 				expect(atom.config.get('some\\.key').length).toBe(2)
 				expect(atom.config.get('some\\.key')[0]).toBe('one')
@@ -696,13 +692,13 @@ describe('SyncSettings', () => {
 			})
 
 			it('updates last hash on backup', async () => {
-				await SyncSettings.backup()
+				await syncSettings.backup()
 
 				expect(atom.config.get('sync-settings.hiddenSettings._lastBackupHash')).toBeDefined()
 			})
 
 			it('updates last hash on restore', async () => {
-				await SyncSettings.restore()
+				await syncSettings.restore()
 
 				expect(atom.config.get('sync-settings.hiddenSettings._lastBackupHash')).toBeDefined()
 			})
@@ -713,16 +709,16 @@ describe('SyncSettings', () => {
 				})
 
 				it('displays on newer backup', async () => {
-					await SyncSettings.checkForUpdate()
+					await syncSettings.checkForUpdate()
 
 					expect(atom.notifications.getNotifications().length).toBe(1)
 					expect(atom.notifications.getNotifications()[0].getType()).toBe('warning')
 				})
 
 				it('ignores on up-to-date backup', async () => {
-					await SyncSettings.backup()
+					await syncSettings.backup()
 					atom.notifications.clear()
-					await SyncSettings.checkForUpdate()
+					await syncSettings.checkForUpdate()
 
 					expect(atom.notifications.getNotifications().length).toBe(1)
 					expect(atom.notifications.getNotifications()[0].getType()).toBe('success')
@@ -730,16 +726,16 @@ describe('SyncSettings', () => {
 
 				it('quiets notification on up-to-date backup', async () => {
 					atom.config.set('sync-settings.quietUpdateCheck', true)
-					await SyncSettings.backup()
+					await syncSettings.backup()
 					atom.notifications.clear()
-					await SyncSettings.checkForUpdate()
+					await syncSettings.checkForUpdate()
 
 					expect(atom.notifications.getNotifications().length).toBe(0)
 				})
 
 				it('shows notification on command palette check', async () => {
 					atom.config.set('sync-settings.quietUpdateCheck', true)
-					await SyncSettings.backup()
+					await syncSettings.backup()
 					atom.notifications.clear()
 					await atom.commands.dispatch(atom.views.getView(atom.workspace), 'sync-settings:check-backup')
 
@@ -751,10 +747,10 @@ describe('SyncSettings', () => {
 
 		describe('::fork gist', () => {
 			it('forks gist', async () => {
-				const gistId = SyncSettings.getGist()
-				await SyncSettings.forkGistId(gistId)
+				const gistId = syncSettings.getGist()
+				await syncSettings.forkGistId(gistId)
 
-				expect(gistId).not.toBe(SyncSettings.getGistId())
+				expect(gistId).not.toBe(syncSettings.getGistId())
 			})
 
 			describe('::notification', () => {
@@ -763,7 +759,7 @@ describe('SyncSettings', () => {
 				})
 
 				it('displays success', async () => {
-					await SyncSettings.forkGistId(SyncSettings.getGistId())
+					await syncSettings.forkGistId(syncSettings.getGistId())
 
 					expect(atom.notifications.getNotifications().length).toBe(1)
 					expect(atom.notifications.getNotifications()[0].getType()).toBe('success')
