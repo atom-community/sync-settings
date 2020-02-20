@@ -208,8 +208,8 @@ describe('notify', () => {
 			expect(atom.notifications.getNotifications()[0].getType()).toBe('error')
 		})
 
-		it('shows missingPersonalAccessToken', () => {
-			notify.missingPersonalAccessToken()
+		it('shows invalidPersonalAccessToken', () => {
+			notify.invalidPersonalAccessToken()
 
 			expect(atom.notifications.getNotifications().length).toBe(1)
 			expect(atom.notifications.getNotifications()[0].getType()).toBe('error')
