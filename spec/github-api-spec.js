@@ -81,17 +81,4 @@ describe('githubApi', () => {
 			expect(message).toBe('message')
 		})
 	})
-
-	describe('invalidRes', () => {
-		it('checks properties', () => {
-			spyOn(console, 'error')
-			expect(githubApi.invalidRes(null)).toBe(true)
-			expect(githubApi.invalidRes({})).toBe(false)
-			expect(githubApi.invalidRes({}, [['data']])).toBe(true)
-			expect(githubApi.invalidRes({ data: {} }, [['data']])).toBe(false)
-			expect(githubApi.invalidRes({ data: {} }, [['data'], ['data', 'id']])).toBe(true)
-			expect(githubApi.invalidRes({ data: { history: [] } }, [['data', 'history', 0]])).toBe(true)
-			expect(githubApi.invalidRes({ data: { history: [{ version: '1' }] } }, [['data', 'history', 0, 'version']])).toBe(false)
-		})
-	})
 })

@@ -26,6 +26,7 @@
     "restore"
   ],
   "scripts": {
+    "test": "atom --test ./spec",
     "lint": "eslint ."
   },
   "atomTestRunner": "atom-jasmine3-test-runner",
@@ -37,11 +38,14 @@
     }
   },
   "dependencies": {
-    "@octokit/rest": "^16.43.1",
+    "@octokit/rest": "^17.0.0",
+    "deep-object-diff": "^1.1.0",
+    "diff": "^4.0.2",
     "etch": "^0.14.0",
     "glob": "^7.1.6",
     "key-path-helpers": "^0.4.0",
     "marked": "^0.8.0",
+    "minimatch": "^3.0.4",
     "semver": "^7.1.3",
     "underscore-plus": "^1.7.0"
   },
