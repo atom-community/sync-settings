@@ -1,0 +1,34 @@
+@import 'ui-variables';
+
+.sync-settings-diff-view {
+	overflow: auto;
+
+	ul {
+		padding-left: 0;
+
+		li {
+			list-style: none;
+			margin: .5em 0;
+		}
+	}
+
+	.diff-view-section {
+		padding-left: 1em;
+
+		.diff-view-section-body {
+			margin-left: 1em;
+		}
+	}
+
+	.removed {
+		color: @text-color-error;
+	}
+
+	.added {
+		color: @text-color-success;
+	}
+
+	.updated {
+		color: @text-color-warning;
+	}
+}
