@@ -5,7 +5,6 @@ function elementsExist (view) {
 		error: !!view.element.querySelector('.diff-view-error'),
 		loading: !!view.element.querySelector('.diff-view-loading'),
 		none: !!view.element.querySelector('.diff-view-none'),
-		time: !!view.element.querySelector('.diff-view-time'),
 		settings: !!view.element.querySelector('.diff-view-settings'),
 		packages: !!view.element.querySelector('.diff-view-packages'),
 		files: !!view.element.querySelector('.diff-view-files'),
@@ -23,7 +22,6 @@ describe('DiffView', () => {
 			error: false,
 			loading: true,
 			none: false,
-			time: false,
 			settings: false,
 			packages: false,
 			files: false,
@@ -36,20 +34,6 @@ describe('DiffView', () => {
 			error: false,
 			loading: false,
 			none: true,
-			time: false,
-			settings: false,
-			packages: false,
-			files: false,
-		})
-	})
-
-	it('should show time', async () => {
-		await view.update({ diff: { localTime: 'time', backupTime: '' }, error: null })
-		expect(elementsExist(view)).toEqual({
-			error: false,
-			loading: false,
-			none: false,
-			time: true,
 			settings: false,
 			packages: false,
 			files: false,
@@ -62,7 +46,6 @@ describe('DiffView', () => {
 			error: true,
 			loading: false,
 			none: false,
-			time: false,
 			settings: false,
 			packages: false,
 			files: false,
@@ -77,7 +60,6 @@ describe('DiffView', () => {
 			error: false,
 			loading: false,
 			none: false,
-			time: false,
 			settings: true,
 			packages: false,
 			files: false,
@@ -90,7 +72,6 @@ describe('DiffView', () => {
 			error: false,
 			loading: false,
 			none: false,
-			time: false,
 			settings: false,
 			packages: true,
 			files: false,
@@ -103,7 +84,6 @@ describe('DiffView', () => {
 			error: false,
 			loading: false,
 			none: false,
-			time: false,
 			settings: false,
 			packages: false,
 			files: true,
