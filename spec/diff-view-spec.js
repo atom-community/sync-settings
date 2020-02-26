@@ -97,6 +97,9 @@ describe('DiffView', () => {
 					get () {
 						return {
 							data: {
+								history: [{
+									committed_at: new Date().toISOString(),
+								}],
 								files: 'files',
 							},
 						}
@@ -115,7 +118,13 @@ describe('DiffView', () => {
 			expect(view.syncSettings.getLocalData).toHaveBeenCalled()
 			expect(view.syncSettings.getDiffData).toHaveBeenCalled()
 			expect(view.update).toHaveBeenCalledWith({ diff: null, error: null })
-			expect(view.update).toHaveBeenCalledWith({ diff: {}, error: null })
+			expect(view.update).toHaveBeenCalledWith({
+				diff: jasmine.objectContaining({
+					localTime: jasmine.any(String),
+					backupTime: jasmine.any(String),
+				}),
+				error: null,
+			})
 		})
 	})
 

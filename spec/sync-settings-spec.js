@@ -849,19 +849,19 @@ describe('syncSettings', () => {
 
 		describe('check for update', () => {
 			beforeEach(() => {
-				atom.config.unset('sync-settings.hiddenSettings._lastBackupHash')
+				atom.config.unset('sync-settings.hiddenSettings._lastBackupTime')
 			})
 
-			it('updates last hash on backup', async () => {
+			it('updates last time on backup', async () => {
 				await syncSettings.backup()
 
-				expect(atom.config.get('sync-settings.hiddenSettings._lastBackupHash')).toBeDefined()
+				expect(atom.config.get('sync-settings.hiddenSettings._lastBackupTime')).toBeDefined()
 			})
 
-			it('updates last hash on restore', async () => {
+			it('updates last time on restore', async () => {
 				await syncSettings.restore()
 
-				expect(atom.config.get('sync-settings.hiddenSettings._lastBackupHash')).toBeDefined()
+				expect(atom.config.get('sync-settings.hiddenSettings._lastBackupTime')).toBeDefined()
 			})
 
 			describe('notifications', () => {
