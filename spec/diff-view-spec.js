@@ -54,6 +54,20 @@ describe('DiffView', () => {
 		expect(error).toBe('test')
 	})
 
+	it('should show error', async () => {
+		await view.update({ diff: { settings: { added: 1 } }, error: null })
+		expect(elementsExist(view)).toEqual({
+			error: true,
+			loading: false,
+			none: false,
+			settings: false,
+			packages: false,
+			files: false,
+		})
+		const error = view.element.querySelector('.diff-view-error pre').textContent
+		expect(error).toContain('not a function')
+	})
+
 	it('should show settings', async () => {
 		await view.update({ diff: { settings: {}, localTime: '', backupTime: '' } })
 		expect(elementsExist(view)).toEqual({
