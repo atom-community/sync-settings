@@ -592,6 +592,261 @@ describe('syncSettings', () => {
 			})
 		})
 
+		describe('diff', () => {
+			it('diffs settings', async () => {
+				atom.config.set('updated-package.updated-setting', true)
+				atom.config.set('updated-package.added-setting', true)
+				atom.config.set('deleted-package.some-setting', true)
+				const diffData = await syncSettings.getDiffData({
+					settings: {
+						'*': {
+							'updated-package': {
+								'updated-setting': true,
+								'added-setting': true,
+							},
+							'deleted-package': {
+								'some-setting': true,
+							},
+						},
+					},
+					packages: {
+						'updated-package': {
+							version: '1.0.0',
+						},
+						'deleted-package': {
+							version: '1.0.0',
+						},
+					},
+					files: {
+						deleted: { content: 'deleted\n' },
+						updated: { content: 'updated\n' },
+					},
+				}, {
+					settings: {
+						'*': {
+							'updated-package': {
+								'updated-setting': false,
+								'remove-setting': false,
+							},
+							'added-package': {
+								'some-setting': false,
+							},
+						},
+					},
+					packages: {
+						'updated-package': {
+							version: '2.0.0',
+						},
+						'added-package': {
+							version: '1.0.0',
+						},
+					},
+					files: {
+						updated: { content: 'updated file\n' },
+						added: { content: 'added\n' },
+					},
+				})
+				expect(diffData).toEqual({
+					settings: {
+						added: [
+							{
+								keyPath: 'updated-package.remove-setting',
+								value: false,
+							},
+							{
+								keyPath: 'added-package.some-setting',
+								value: false,
+							},
+						],
+						updated: [
+							{
+								keyPath: 'updated-package.updated-setting',
+								value: false,
+								oldValue: true,
+							},
+						],
+						deleted: [
+							{
+								keyPath: 'updated-package.added-setting',
+								value: true,
+							},
+							{
+								keyPath: 'deleted-package.some-setting',
+								value: true,
+							},
+						],
+					},
+					packages: {
+						added: {
+							'added-package': {
+								version: '1.0.0',
+							},
+						},
+						updated: {
+							'updated-package': {
+								backup: {
+									version: '2.0.0',
+								},
+								local: {
+									version: '1.0.0',
+								},
+							},
+						},
+						deleted: {
+							'deleted-package': { version: '1.0.0' },
+						},
+					},
+					files: {
+						added: {
+							added: {
+								content: 'added\n',
+							},
+						},
+						deleted: {
+							deleted: {
+								content: 'deleted\n',
+							},
+						},
+						updated: {
+							updated: {
+								content: `===================================================================
+--- local
++++ backup
+@@ -1,1 +1,1 @@
+-updated
++updated file
+`,
+							},
+						},
+					},
+				})
+			})
+
+			it('diffs settings', async () => {
+				const diffData = await syncSettings.getDiffData({
+					settings: {
+						'*': {
+							'updated-package': {
+								'updated-setting': true,
+								'added-setting': true,
+							},
+							'deleted-package': {
+								'some-setting': true,
+							},
+						},
+					},
+					packages: {
+						'updated-package': {
+							version: '1.0.0',
+						},
+						'deleted-package': {
+							version: '1.0.0',
+						},
+					},
+					files: {
+						deleted: { content: 'deleted\n' },
+						updated: { content: 'updated\n' },
+					},
+				}, {})
+				expect(diffData).toEqual({
+					settings: {
+						deleted: [
+							{
+								keyPath: 'updated-package.updated-setting',
+								value: true,
+							},
+							{
+								keyPath: 'updated-package.added-setting',
+								value: true,
+							},
+							{
+								keyPath: 'deleted-package.some-setting',
+								value: true,
+							},
+						],
+					},
+					packages: {
+						deleted: {
+							'updated-package': { version: '1.0.0' },
+							'deleted-package': { version: '1.0.0' },
+						},
+					},
+					files: {
+						deleted: {
+							updated: {
+								content: 'updated\n',
+							},
+							deleted: {
+								content: 'deleted\n',
+							},
+						},
+					},
+				})
+			})
+
+			it('diffs settings', async () => {
+				const diffData = await syncSettings.getDiffData({}, {
+					settings: {
+						'*': {
+							'updated-package': {
+								'updated-setting': true,
+								'added-setting': true,
+							},
+							'added-package': {
+								'some-setting': true,
+							},
+						},
+					},
+					packages: {
+						'updated-package': {
+							version: '1.0.0',
+						},
+						'added-package': {
+							version: '1.0.0',
+						},
+					},
+					files: {
+						added: { content: 'added\n' },
+						updated: { content: 'updated\n' },
+					},
+				})
+				expect(diffData).toEqual({
+					settings: {
+						added: [
+							{
+								keyPath: 'updated-package.updated-setting',
+								value: true,
+							},
+							{
+								keyPath: 'updated-package.added-setting',
+								value: true,
+							},
+							{
+								keyPath: 'added-package.some-setting',
+								value: true,
+							},
+						],
+					},
+					packages: {
+						added: {
+							'updated-package': { version: '1.0.0' },
+							'added-package': { version: '1.0.0' },
+						},
+					},
+					files: {
+						added: {
+							updated: {
+								content: 'updated\n',
+							},
+							added: {
+								content: 'added\n',
+							},
+						},
+					},
+				})
+			})
+		})
+
 		describe('check for update', () => {
 			beforeEach(() => {
 				atom.config.unset('sync-settings.hiddenSettings._lastBackupHash')
