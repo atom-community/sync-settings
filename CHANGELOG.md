@@ -1,3 +1,17 @@
+# [4.0.0](https://github.com/atom-community/sync-settings/compare/v3.0.0...v4.0.0) (2020-02-27)
+
+
+### Features
+
+* Diff View ([#490](https://github.com/atom-community/sync-settings/issues/490)) ([eafb4db](https://github.com/atom-community/sync-settings/commit/eafb4db0fa63c086ee55712e35b653a50f61422b))
+
+
+### BREAKING CHANGES
+
+* * check-backup uses diff
+
+* change lastBackupHash to lastBackupTime
+
 # [3.0.0](https://github.com/atom-community/sync-settings/compare/v2.3.1...v3.0.0) (2020-02-20)
 
 
