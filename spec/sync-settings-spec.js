@@ -41,10 +41,10 @@ describe('syncSettings', () => {
 
 	afterEach(async () => {
 		await backupLocation.delete()
-		await unlink(atom.keymaps.getUserKeymapPath())
-		await unlink(atom.styles.getUserStyleSheetPath())
-		await unlink(atom.getUserInitScriptPath())
-		await unlink(path.join(atom.getConfigDirPath(), 'snippets.cson'))
+		await tryUnlink(atom.keymaps.getUserKeymapPath())
+		await tryUnlink(atom.styles.getUserStyleSheetPath())
+		await tryUnlink(atom.getUserInitScriptPath())
+		await tryUnlink(path.join(atom.getConfigDirPath(), 'snippets.cson'))
 	})
 
 	describe('backup', () => {
@@ -498,16 +498,12 @@ describe('syncSettings', () => {
 				original = '# keymap file (not found)'
 			}
 
-			try {
-				await syncSettings.backup()
-				await writeFile(atom.keymaps.getUserKeymapPath(), `${original}\n# modified by sync setting spec`)
-				await syncSettings.restore()
-				const content = await utils.fileContent(atom.keymaps.getUserKeymapPath())
+			await syncSettings.backup()
+			await writeFile(atom.keymaps.getUserKeymapPath(), `${original}\n# modified by sync setting spec`)
+			await syncSettings.restore()
+			const content = await utils.fileContent(atom.keymaps.getUserKeymapPath())
 
-				expect(content).toEqual(original)
-			} finally {
-				await writeFile(atom.keymaps.getUserKeymapPath(), original)
-			}
+			expect(content).toEqual(original)
 		})
 
 		it('does not remove files not in backup', async () => {
@@ -997,6 +993,52 @@ describe('syncSettings', () => {
 			it('shows notification on command palette check', async () => {
 				atom.config.set('sync-settings.quietUpdateCheck', true)
 				await syncSettings.backup()
+				atom.notifications.clear()
+				await syncSettings.checkBackup()
+
+				expect(atom.notifications.getNotifications().length).toBe(1)
+				expect(atom.notifications.getNotifications()[0].getType()).toBe('success')
+			})
+
+			it('checks for removed files on backup', async () => {
+				atom.config.set('sync-settings.extraFilesGlob', ['*'])
+				await syncSettings.backup()
+				await writeFile(path.join(atom.getConfigDirPath(), 'test.txt'), 'test')
+				atom.notifications.clear()
+				await syncSettings.checkBackup()
+
+				expect(atom.notifications.getNotifications().length).toBe(1)
+				expect(atom.notifications.getNotifications()[0].getType()).toBe('warning')
+			})
+
+			it('ignores removed files on backup', async () => {
+				atom.config.set('sync-settings.extraFilesGlob', ['*'])
+				atom.config.set('sync-settings.ignoreUnfamiliarFiles', true)
+				await syncSettings.backup()
+				await writeFile(path.join(atom.getConfigDirPath(), 'test.txt'), 'test')
+				atom.notifications.clear()
+				await syncSettings.checkBackup()
+
+				expect(atom.notifications.getNotifications().length).toBe(1)
+				expect(atom.notifications.getNotifications()[0].getType()).toBe('success')
+			})
+
+			it('checks for removed files on local', async () => {
+				atom.config.set('sync-settings.extraFilesGlob', ['*'])
+				await syncSettings.backup()
+				await unlink(path.join(atom.getConfigDirPath(), 'snippets.cson'))
+				atom.notifications.clear()
+				await syncSettings.checkBackup()
+
+				expect(atom.notifications.getNotifications().length).toBe(1)
+				expect(atom.notifications.getNotifications()[0].getType()).toBe('warning')
+			})
+
+			it('ignores removed files on local', async () => {
+				atom.config.set('sync-settings.extraFilesGlob', ['*'])
+				atom.config.set('sync-settings.ignoreUnfamiliarFiles', true)
+				await syncSettings.backup()
+				await unlink(path.join(atom.getConfigDirPath(), 'snippets.cson'))
 				atom.notifications.clear()
 				await syncSettings.checkBackup()
 
