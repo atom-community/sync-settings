@@ -1,9 +1,8 @@
 # Sync Settings for Atom
 
-[![Join the chat at https://gitter.im/atom-community/sync-settings](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/atom-community/sync-settings?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ![CI](https://github.com/atom-community/sync-settings/workflows/CI/badge.svg)
 
-Synchronize settings, keymaps, user styles, init script, snippets and installed packages across [Atom](http://atom.io) instances.
+Synchronize settings, keymaps, user styles, init script, snippets and installed packages across [Atom](https://atom.io) instances.
 
 ## Features
 * Sync Atom's and package settings
@@ -13,10 +12,6 @@ Synchronize settings, keymaps, user styles, init script, snippets and installed 
 * Sync user init script
 * Sync snippets
 * Sync user defined text files
-
-### Note
-
-It currently [does **not** support](https://github.com/atom-community/sync-settings/issues/317) automatic backup - it must be done manually. Only the restore is being triggered automatically.
 
 ## Installation
 
