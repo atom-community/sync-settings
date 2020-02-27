@@ -338,11 +338,105 @@ describe('syncSettings', () => {
 			})
 
 			it("doesn't back up extra files defined in config.extraFiles", async () => {
-				atom.config.set('sync-settings.extraFiles', undefined)
+				atom.config.unset('sync-settings.extraFiles')
 				await syncSettings.backup()
 				const res = await syncSettings.gist.get(token, { gist_id: gistId })
 
 				expect(Object.keys(res.data.files).length).toBe(7)
+			})
+
+			it('does not remove files not in local folder', async () => {
+				const files = ['test.tmp', 'test2.tmp']
+				atom.config.set('sync-settings.extraFilesGlob', ['*.tmp'])
+				try {
+					for (const file of files) {
+						await writeFile(path.join(atom.getConfigDirPath(), file), file)
+					}
+					await syncSettings.backup()
+					await unlink(path.join(atom.getConfigDirPath(), 'test2.tmp'))
+					await syncSettings.backup()
+					const res = await syncSettings.gist.get(token, { gist_id: gistId })
+
+					expect(res.data.files['test.tmp']).toBeDefined()
+					expect(res.data.files['test2.tmp']).toBeDefined()
+				} finally {
+					try {
+						for (const file of files) {
+							await unlink(`${atom.getConfigDirPath()}/${file}`)
+						}
+					} catch (ex) {}
+				}
+			})
+
+			it('does not remove files not in local folder config.extraFiles', async () => {
+				const files = ['test.tmp', 'test2.tmp']
+				atom.config.set('sync-settings.extraFiles', files)
+				try {
+					for (const file of files) {
+						await writeFile(path.join(atom.getConfigDirPath(), file), file)
+					}
+					await syncSettings.backup()
+					await unlink(path.join(atom.getConfigDirPath(), 'test2.tmp'))
+					await syncSettings.backup()
+					const res = await syncSettings.gist.get(token, { gist_id: gistId })
+
+					expect(res.data.files['test.tmp']).toBeDefined()
+					expect(res.data.files['test2.tmp']).toBeDefined()
+				} finally {
+					try {
+						for (const file of files) {
+							await unlink(`${atom.getConfigDirPath()}/${file}`)
+						}
+					} catch (ex) {}
+				}
+			})
+
+			it('removes files not in local folder', async () => {
+				const files = ['test.tmp', 'test2.tmp']
+				atom.config.set('sync-settings.removeUnfamiliarFiles', true)
+				atom.config.set('sync-settings.extraFilesGlob', ['*.tmp'])
+				try {
+					for (const file of files) {
+						await writeFile(path.join(atom.getConfigDirPath(), file), file)
+					}
+					await syncSettings.backup()
+					await unlink(path.join(atom.getConfigDirPath(), 'test2.tmp'))
+					await syncSettings.backup()
+					const res = await syncSettings.gist.get(token, { gist_id: gistId })
+
+					expect(res.data.files['test.tmp']).toBeDefined()
+					expect(res.data.files['test2.tmp']).not.toBeDefined()
+				} finally {
+					try {
+						for (const file of files) {
+							await unlink(`${atom.getConfigDirPath()}/${file}`)
+						}
+					} catch (ex) {}
+				}
+			})
+
+			it('removes files not in local folder config.extraFiles', async () => {
+				const files = ['test.tmp', 'test2.tmp']
+				atom.config.set('sync-settings.removeUnfamiliarFiles', true)
+				atom.config.set('sync-settings.extraFiles', files)
+				try {
+					for (const file of files) {
+						await writeFile(path.join(atom.getConfigDirPath(), file), file)
+					}
+					await syncSettings.backup()
+					await unlink(path.join(atom.getConfigDirPath(), 'test2.tmp'))
+					await syncSettings.backup()
+					const res = await syncSettings.gist.get(token, { gist_id: gistId })
+
+					expect(res.data.files['test.tmp']).toBeDefined()
+					expect(res.data.files['test2.tmp']).not.toBeDefined()
+				} finally {
+					try {
+						for (const file of files) {
+							await unlink(`${atom.getConfigDirPath()}/${file}`)
+						}
+					} catch (ex) {}
+				}
 			})
 
 			it('back up the files defined in config.extraFilesGlob', async () => {
@@ -535,6 +629,88 @@ describe('syncSettings', () => {
 					expect(content).toEqual(original)
 				} finally {
 					await writeFile(atom.keymaps.getUserKeymapPath(), original)
+				}
+			})
+
+			it('does not remove files not in backup', async () => {
+				const files = ['test.tmp', 'test2.tmp']
+				atom.config.set('sync-settings.extraFilesGlob', ['*.tmp'])
+				try {
+					await writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
+					await syncSettings.backup()
+					await writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
+					await syncSettings.restore()
+
+					for (const file of files) {
+						expect(fs.existsSync(`${atom.getConfigDirPath()}/${file}`)).toBe(true)
+					}
+				} finally {
+					for (const file of files) {
+						await unlink(`${atom.getConfigDirPath()}/${file}`)
+					}
+				}
+			})
+
+			it('does not remove files not in backup config.extraFiles', async () => {
+				const files = ['test.tmp', 'test2.tmp']
+				atom.config.set('sync-settings.extraFiles', ['test.tmp'])
+				try {
+					await writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
+					await syncSettings.backup()
+					atom.config.set('sync-settings.extraFiles', files)
+					await writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
+					await syncSettings.restore()
+
+					for (const file of files) {
+						expect(fs.existsSync(`${atom.getConfigDirPath()}/${file}`)).toBe(true)
+					}
+				} finally {
+					for (const file of files) {
+						await unlink(`${atom.getConfigDirPath()}/${file}`)
+					}
+				}
+			})
+
+			it('removes files not in backup', async () => {
+				const files = ['test.tmp', 'test2.tmp']
+				atom.config.set('sync-settings.removeUnfamiliarFiles', true)
+				atom.config.set('sync-settings.extraFilesGlob', ['*.tmp'])
+				try {
+					await writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
+					await syncSettings.backup()
+					await writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
+					await syncSettings.restore()
+
+					expect(fs.existsSync(`${atom.getConfigDirPath()}/test.tmp`)).toBe(true)
+					expect(fs.existsSync(`${atom.getConfigDirPath()}/test2.tmp`)).toBe(false)
+				} finally {
+					try {
+						for (const file of files) {
+							await unlink(`${atom.getConfigDirPath()}/${file}`)
+						}
+					} catch (ex) {}
+				}
+			})
+
+			it('removes files not in backup config.extraFiles', async () => {
+				const files = ['test.tmp', 'test2.tmp']
+				atom.config.set('sync-settings.removeUnfamiliarFiles', true)
+				atom.config.set('sync-settings.extraFiles', ['test.tmp'])
+				try {
+					await writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
+					await syncSettings.backup()
+					atom.config.set('sync-settings.extraFiles', files)
+					await writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
+					await syncSettings.restore()
+
+					expect(fs.existsSync(`${atom.getConfigDirPath()}/test.tmp`)).toBe(true)
+					expect(fs.existsSync(`${atom.getConfigDirPath()}/test2.tmp`)).toBe(false)
+				} finally {
+					try {
+						for (const file of files) {
+							await unlink(`${atom.getConfigDirPath()}/${file}`)
+						}
+					} catch (ex) {}
 				}
 			})
 
