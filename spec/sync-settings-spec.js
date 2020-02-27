@@ -5,6 +5,7 @@ const fs = require('fs')
 const util = require('util')
 const writeFile = util.promisify(fs.writeFile)
 const unlink = util.promisify(fs.unlink)
+const tryUnlink = (...args) => unlink(...args).catch(() => {})
 const path = require('path')
 const os = require('os')
 
@@ -47,7 +48,7 @@ describe('syncSettings', () => {
 			try {
 				expect(await syncSettings.fileContent(tmpPath)).toBeNull()
 			} finally {
-				await unlink(tmpPath)
+				await tryUnlink(tmpPath)
 			}
 		})
 
@@ -57,7 +58,7 @@ describe('syncSettings', () => {
 			try {
 				expect(await syncSettings.fileContent(tmpPath)).toEqual(text)
 			} finally {
-				await unlink(tmpPath)
+				await tryUnlink(tmpPath)
 			}
 		})
 	})
@@ -360,11 +361,9 @@ describe('syncSettings', () => {
 					expect(res.data.files['test.tmp']).toBeDefined()
 					expect(res.data.files['test2.tmp']).toBeDefined()
 				} finally {
-					try {
-						for (const file of files) {
-							await unlink(`${atom.getConfigDirPath()}/${file}`)
-						}
-					} catch (ex) {}
+					for (const file of files) {
+						await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					}
 				}
 			})
 
@@ -383,11 +382,9 @@ describe('syncSettings', () => {
 					expect(res.data.files['test.tmp']).toBeDefined()
 					expect(res.data.files['test2.tmp']).toBeDefined()
 				} finally {
-					try {
-						for (const file of files) {
-							await unlink(`${atom.getConfigDirPath()}/${file}`)
-						}
-					} catch (ex) {}
+					for (const file of files) {
+						await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					}
 				}
 			})
 
@@ -407,11 +404,9 @@ describe('syncSettings', () => {
 					expect(res.data.files['test.tmp']).toBeDefined()
 					expect(res.data.files['test2.tmp']).not.toBeDefined()
 				} finally {
-					try {
-						for (const file of files) {
-							await unlink(`${atom.getConfigDirPath()}/${file}`)
-						}
-					} catch (ex) {}
+					for (const file of files) {
+						await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					}
 				}
 			})
 
@@ -431,11 +426,9 @@ describe('syncSettings', () => {
 					expect(res.data.files['test.tmp']).toBeDefined()
 					expect(res.data.files['test2.tmp']).not.toBeDefined()
 				} finally {
-					try {
-						for (const file of files) {
-							await unlink(`${atom.getConfigDirPath()}/${file}`)
-						}
-					} catch (ex) {}
+					for (const file of files) {
+						await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					}
 				}
 			})
 
@@ -646,7 +639,7 @@ describe('syncSettings', () => {
 					}
 				} finally {
 					for (const file of files) {
-						await unlink(`${atom.getConfigDirPath()}/${file}`)
+						await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
 					}
 				}
 			})
@@ -666,7 +659,7 @@ describe('syncSettings', () => {
 					}
 				} finally {
 					for (const file of files) {
-						await unlink(`${atom.getConfigDirPath()}/${file}`)
+						await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
 					}
 				}
 			})
@@ -684,11 +677,9 @@ describe('syncSettings', () => {
 					expect(fs.existsSync(`${atom.getConfigDirPath()}/test.tmp`)).toBe(true)
 					expect(fs.existsSync(`${atom.getConfigDirPath()}/test2.tmp`)).toBe(false)
 				} finally {
-					try {
-						for (const file of files) {
-							await unlink(`${atom.getConfigDirPath()}/${file}`)
-						}
-					} catch (ex) {}
+					for (const file of files) {
+						await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					}
 				}
 			})
 
@@ -706,11 +697,9 @@ describe('syncSettings', () => {
 					expect(fs.existsSync(`${atom.getConfigDirPath()}/test.tmp`)).toBe(true)
 					expect(fs.existsSync(`${atom.getConfigDirPath()}/test2.tmp`)).toBe(false)
 				} finally {
-					try {
-						for (const file of files) {
-							await unlink(`${atom.getConfigDirPath()}/${file}`)
-						}
-					} catch (ex) {}
+					for (const file of files) {
+						await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					}
 				}
 			})
 
@@ -731,7 +720,7 @@ describe('syncSettings', () => {
 					}
 				} finally {
 					for (const file of files) {
-						await unlink(`${atom.getConfigDirPath()}/${file}`)
+						await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
 					}
 				}
 			})
