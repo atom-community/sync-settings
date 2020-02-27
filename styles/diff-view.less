@@ -1,0 +1,43 @@
+@import 'ui-variables';
+
+.sync-settings-diff-view {
+	overflow: auto;
+	padding: 0.5em 0.3em;
+
+	ul {
+		padding-left: 0;
+
+		li {
+			list-style: none;
+			margin: .5em 0;
+		}
+	}
+
+	.diff-view-title {
+		margin-top: 0;
+	}
+
+	.diff-view-buttons {
+		margin-bottom: 1.5em;
+	}
+
+	.diff-view-error pre {
+		color: @text-color-error;
+	}
+
+	.diff-view-section {
+		margin-left: 1em;
+	}
+
+	.local {
+		color: @text-color-error;
+	}
+
+	.backup {
+		color: @text-color-success;
+	}
+
+	.line-number {
+		color: @text-color-warning;
+	}
+}

@@ -47,7 +47,10 @@ module.exports = class GistClient {
 		const gist = this.gistCache[gistId]
 		gist.description = description
 		gist.files = mergeFiles(gist.files, files)
-		gist.history.unshift({ version: randomHexString() })
+		gist.history.unshift({
+			version: randomHexString(),
+			committed_at: new Date().toISOString(),
+		})
 
 		return {
 			data: gist,
@@ -71,7 +74,10 @@ module.exports = class GistClient {
 			id: gistId,
 			description,
 			files: mergeFiles({}, files),
-			history: [{ version: randomHexString() }],
+			history: [{
+				version: randomHexString(),
+				committed_at: new Date().toISOString(),
+			}],
 			html_url: `https://${gistId}`,
 		}
 		this.gistCache[gistId] = gist

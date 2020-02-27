@@ -65,33 +65,33 @@ describe('syncSettings', () => {
 	describe('getPackages', () => {
 		it('returns packages and themes', () => {
 			const json = syncSettings.getPackages()
-			const packages = json.filter(p => !p.theme)
-			const themes = json.filter(p => p.theme)
+			const packages = syncSettings.filterObject(json, ([k, v]) => !v.theme)
+			const themes = syncSettings.filterObject(json, ([k, v]) => v.theme)
 
-			expect(packages.length).toBeGreaterThan(0)
-			expect(themes.length).toBeGreaterThan(0)
+			expect(packages).not.toEqual({})
+			expect(themes).not.toEqual({})
 		})
 
 		it('returns packages and not themes', () => {
 			atom.config.set('sync-settings.syncThemes', false)
 
 			const json = syncSettings.getPackages()
-			const packages = json.filter(p => !p.theme)
-			const themes = json.filter(p => p.theme)
+			const packages = syncSettings.filterObject(json, ([k, v]) => !v.theme)
+			const themes = syncSettings.filterObject(json, ([k, v]) => v.theme)
 
-			expect(packages.length).toBeGreaterThan(0)
-			expect(themes.length).not.toBeGreaterThan(0)
+			expect(packages).not.toEqual({})
+			expect(themes).toEqual({})
 		})
 
 		it('returns not packages and themes', () => {
 			atom.config.set('sync-settings.syncPackages', false)
 
 			const json = syncSettings.getPackages()
-			const packages = json.filter(p => !p.theme)
-			const themes = json.filter(p => p.theme)
+			const packages = syncSettings.filterObject(json, ([k, v]) => !v.theme)
+			const themes = syncSettings.filterObject(json, ([k, v]) => v.theme)
 
-			expect(packages.length).not.toBeGreaterThan(0)
-			expect(themes.length).toBeGreaterThan(0)
+			expect(packages).toEqual({})
+			expect(themes).not.toEqual({})
 		})
 
 		it('returns community packages and themes', () => {
@@ -100,11 +100,11 @@ describe('syncSettings', () => {
 			atom.config.set('sync-settings.onlySyncCommunityPackages', true)
 
 			const json = syncSettings.getPackages()
-			const community = json.filter(p => !atom.packages.isBundledPackage(p.name))
-			const bundled = json.filter(p => atom.packages.isBundledPackage(p.name))
+			const community = syncSettings.filterObject(json, ([k, v]) => !atom.packages.isBundledPackage(k))
+			const bundled = syncSettings.filterObject(json, ([k, v]) => atom.packages.isBundledPackage(k))
 
-			expect(community.length).toBeGreaterThan(0)
-			expect(bundled.length).not.toBeGreaterThan(0)
+			expect(community).not.toEqual({})
+			expect(bundled).toEqual({})
 		})
 	})
 
@@ -139,6 +139,21 @@ describe('syncSettings', () => {
 			expect(settings['*'].package.dummy).not.toBeDefined()
 			expect(settings['*'].package['setting.with.dots']).not.toBeDefined()
 			expect(settings['*'].packge.very.nested.setting).not.toBeDefined()
+		})
+	})
+
+	describe('invalidRes', () => {
+		it('checks properties', () => {
+			spyOn(console, 'error')
+			expect(syncSettings.invalidRes(null)).toBe(true)
+			expect(syncSettings.invalidRes({})).toBe(false)
+			expect(syncSettings.invalidRes({}, 'data')).toBe(true)
+			expect(syncSettings.invalidRes({}, ['data'])).toBe(true)
+			expect(syncSettings.invalidRes({ data: {} }, 'data')).toBe(false)
+			expect(syncSettings.invalidRes({ data: {} }, ['data'])).toBe(false)
+			expect(syncSettings.invalidRes({ data: {} }, ['data'], ['data', 'id'])).toBe(true)
+			expect(syncSettings.invalidRes({ data: { history: [] } }, ['data', 'history', 0])).toBe(true)
+			expect(syncSettings.invalidRes({ data: { history: [{ version: '1' }] } }, ['data', 'history', 0, 'version'])).toBe(false)
 		})
 	})
 
@@ -218,10 +233,10 @@ describe('syncSettings', () => {
 
 				expect(res.data.files['packages.json']).toBeDefined()
 				const json = JSON.parse(res.data.files['packages.json'].content)
-				const packages = json.filter(p => !p.theme)
-				const themes = json.filter(p => p.theme)
-				expect(packages.length > 0).toBe(true)
-				expect(themes.length > 0).toBe(false)
+				const packages = syncSettings.filterObject(json, ([k, v]) => !v.theme)
+				const themes = syncSettings.filterObject(json, ([k, v]) => v.theme)
+				expect(packages).not.toEqual({})
+				expect(themes).toEqual({})
 			})
 
 			it('only back up the installed theme list', async () => {
@@ -232,10 +247,10 @@ describe('syncSettings', () => {
 
 				expect(res.data.files['packages.json']).toBeDefined()
 				const json = JSON.parse(res.data.files['packages.json'].content)
-				const packages = json.filter(p => !p.theme)
-				const themes = json.filter(p => p.theme)
-				expect(packages.length > 0).toBe(false)
-				expect(themes.length > 0).toBe(true)
+				const packages = syncSettings.filterObject(json, ([k, v]) => !v.theme)
+				const themes = syncSettings.filterObject(json, ([k, v]) => v.theme)
+				expect(packages).toEqual({})
+				expect(themes).not.toEqual({})
 			})
 
 			it("doesn't back up the installed packages list", async () => {
@@ -444,11 +459,11 @@ describe('syncSettings', () => {
 				atom.config.set('sync-settings.syncPackages', false)
 				await syncSettings.restore()
 				const json = syncSettings.installMissingPackages.calls.first().args[0]
-				const packages = json.filter(p => !p.theme)
-				const themes = json.filter(p => p.theme)
+				const packages = syncSettings.filterObject(json, ([k, v]) => !v.theme)
+				const themes = syncSettings.filterObject(json, ([k, v]) => v.theme)
 
-				expect(packages.length > 0).toBe(false)
-				expect(themes.length > 0).toBe(true)
+				expect(packages).toEqual({})
+				expect(themes).not.toEqual({})
 			})
 
 			it('restores only packages', async () => {
@@ -460,11 +475,11 @@ describe('syncSettings', () => {
 				atom.config.set('sync-settings.syncThemes', false)
 				await syncSettings.restore()
 				const json = syncSettings.installMissingPackages.calls.first().args[0]
-				const packages = json.filter(p => !p.theme)
-				const themes = json.filter(p => p.theme)
+				const packages = syncSettings.filterObject(json, ([k, v]) => !v.theme)
+				const themes = syncSettings.filterObject(json, ([k, v]) => v.theme)
 
-				expect(packages.length > 0).toBe(true)
-				expect(themes.length > 0).toBe(false)
+				expect(packages).not.toEqual({})
+				expect(themes).toEqual({})
 			})
 
 			it('restores only community packages', async () => {
@@ -477,11 +492,11 @@ describe('syncSettings', () => {
 				atom.config.set('sync-settings.onlySyncCommunityPackages', true)
 				await syncSettings.restore()
 				const json = syncSettings.installMissingPackages.calls.first().args[0]
-				const community = json.filter(p => !atom.packages.isBundledPackage(p.name))
-				const bundled = json.filter(p => atom.packages.isBundledPackage(p.name))
+				const community = syncSettings.filterObject(json, ([k, v]) => !atom.packages.isBundledPackage(k))
+				const bundled = syncSettings.filterObject(json, ([k, v]) => atom.packages.isBundledPackage(k))
 
-				expect(community.length > 0).toBe(true)
-				expect(bundled.length > 0).toBe(false)
+				expect(community).not.toEqual({})
+				expect(bundled).toEqual({})
 			})
 
 			it('installs apmInstallSource from git', async function () {
@@ -577,21 +592,276 @@ describe('syncSettings', () => {
 			})
 		})
 
+		describe('diff', () => {
+			it('diffs settings', async () => {
+				atom.config.set('updated-package.updated-setting', true)
+				atom.config.set('updated-package.added-setting', true)
+				atom.config.set('deleted-package.some-setting', true)
+				const diffData = await syncSettings.getDiffData({
+					settings: {
+						'*': {
+							'updated-package': {
+								'updated-setting': true,
+								'added-setting': true,
+							},
+							'deleted-package': {
+								'some-setting': true,
+							},
+						},
+					},
+					packages: {
+						'updated-package': {
+							version: '1.0.0',
+						},
+						'deleted-package': {
+							version: '1.0.0',
+						},
+					},
+					files: {
+						deleted: { content: 'deleted\n' },
+						updated: { content: 'updated\n' },
+					},
+				}, {
+					settings: {
+						'*': {
+							'updated-package': {
+								'updated-setting': false,
+								'remove-setting': false,
+							},
+							'added-package': {
+								'some-setting': false,
+							},
+						},
+					},
+					packages: {
+						'updated-package': {
+							version: '2.0.0',
+						},
+						'added-package': {
+							version: '1.0.0',
+						},
+					},
+					files: {
+						updated: { content: 'updated file\n' },
+						added: { content: 'added\n' },
+					},
+				})
+				expect(diffData).toEqual({
+					settings: {
+						added: [
+							{
+								keyPath: 'updated-package.remove-setting',
+								value: false,
+							},
+							{
+								keyPath: 'added-package.some-setting',
+								value: false,
+							},
+						],
+						updated: [
+							{
+								keyPath: 'updated-package.updated-setting',
+								value: false,
+								oldValue: true,
+							},
+						],
+						deleted: [
+							{
+								keyPath: 'updated-package.added-setting',
+								value: true,
+							},
+							{
+								keyPath: 'deleted-package.some-setting',
+								value: true,
+							},
+						],
+					},
+					packages: {
+						added: {
+							'added-package': {
+								version: '1.0.0',
+							},
+						},
+						updated: {
+							'updated-package': {
+								backup: {
+									version: '2.0.0',
+								},
+								local: {
+									version: '1.0.0',
+								},
+							},
+						},
+						deleted: {
+							'deleted-package': { version: '1.0.0' },
+						},
+					},
+					files: {
+						added: {
+							added: {
+								content: 'added\n',
+							},
+						},
+						deleted: {
+							deleted: {
+								content: 'deleted\n',
+							},
+						},
+						updated: {
+							updated: {
+								content: `===================================================================
+--- local
++++ backup
+@@ -1,1 +1,1 @@
+-updated
++updated file
+`,
+							},
+						},
+					},
+				})
+			})
+
+			it('diffs settings', async () => {
+				const diffData = await syncSettings.getDiffData({
+					settings: {
+						'*': {
+							'updated-package': {
+								'updated-setting': true,
+								'added-setting': true,
+							},
+							'deleted-package': {
+								'some-setting': true,
+							},
+						},
+					},
+					packages: {
+						'updated-package': {
+							version: '1.0.0',
+						},
+						'deleted-package': {
+							version: '1.0.0',
+						},
+					},
+					files: {
+						deleted: { content: 'deleted\n' },
+						updated: { content: 'updated\n' },
+					},
+				}, {})
+				expect(diffData).toEqual({
+					settings: {
+						deleted: [
+							{
+								keyPath: 'updated-package.updated-setting',
+								value: true,
+							},
+							{
+								keyPath: 'updated-package.added-setting',
+								value: true,
+							},
+							{
+								keyPath: 'deleted-package.some-setting',
+								value: true,
+							},
+						],
+					},
+					packages: {
+						deleted: {
+							'updated-package': { version: '1.0.0' },
+							'deleted-package': { version: '1.0.0' },
+						},
+					},
+					files: {
+						deleted: {
+							updated: {
+								content: 'updated\n',
+							},
+							deleted: {
+								content: 'deleted\n',
+							},
+						},
+					},
+				})
+			})
+
+			it('diffs settings', async () => {
+				const diffData = await syncSettings.getDiffData({}, {
+					settings: {
+						'*': {
+							'updated-package': {
+								'updated-setting': true,
+								'added-setting': true,
+							},
+							'added-package': {
+								'some-setting': true,
+							},
+						},
+					},
+					packages: {
+						'updated-package': {
+							version: '1.0.0',
+						},
+						'added-package': {
+							version: '1.0.0',
+						},
+					},
+					files: {
+						added: { content: 'added\n' },
+						updated: { content: 'updated\n' },
+					},
+				})
+				expect(diffData).toEqual({
+					settings: {
+						added: [
+							{
+								keyPath: 'updated-package.updated-setting',
+								value: true,
+							},
+							{
+								keyPath: 'updated-package.added-setting',
+								value: true,
+							},
+							{
+								keyPath: 'added-package.some-setting',
+								value: true,
+							},
+						],
+					},
+					packages: {
+						added: {
+							'updated-package': { version: '1.0.0' },
+							'added-package': { version: '1.0.0' },
+						},
+					},
+					files: {
+						added: {
+							updated: {
+								content: 'updated\n',
+							},
+							added: {
+								content: 'added\n',
+							},
+						},
+					},
+				})
+			})
+		})
+
 		describe('check for update', () => {
 			beforeEach(() => {
-				atom.config.unset('sync-settings.hiddenSettings._lastBackupHash')
+				atom.config.unset('sync-settings.hiddenSettings._lastBackupTime')
 			})
 
-			it('updates last hash on backup', async () => {
+			it('updates last time on backup', async () => {
 				await syncSettings.backup()
 
-				expect(atom.config.get('sync-settings.hiddenSettings._lastBackupHash')).toBeDefined()
+				expect(atom.config.get('sync-settings.hiddenSettings._lastBackupTime')).toBeDefined()
 			})
 
-			it('updates last hash on restore', async () => {
+			it('updates last time on restore', async () => {
 				await syncSettings.restore()
 
-				expect(atom.config.get('sync-settings.hiddenSettings._lastBackupHash')).toBeDefined()
+				expect(atom.config.get('sync-settings.hiddenSettings._lastBackupTime')).toBeDefined()
 			})
 
 			describe('notifications', () => {

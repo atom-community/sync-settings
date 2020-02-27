@@ -24,7 +24,7 @@ module.exports = {
 	rules: {
 		'no-warning-comments': 'warn',
 		'comma-dangle': ['error', 'always-multiline'],
-		indent: ['error', 'tab'],
+		indent: ['error', 'tab', { "SwitchCase": 1 }],
 		'no-tabs': ['error', { allowIndentationTabs: true }],
 
 		'react/jsx-uses-react': 'error',
