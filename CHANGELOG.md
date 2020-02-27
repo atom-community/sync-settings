@@ -1,3 +1,10 @@
+# [4.1.0](https://github.com/atom-community/sync-settings/compare/v4.0.0...v4.1.0) (2020-02-27)
+
+
+### Features
+
+* Add remove unfamiliar files setting ([#491](https://github.com/atom-community/sync-settings/issues/491)) ([1671345](https://github.com/atom-community/sync-settings/commit/16713457be734916fca035c4cbf25ee1c912dea0))
+
 # [4.0.0](https://github.com/atom-community/sync-settings/compare/v3.0.0...v4.0.0) (2020-02-27)
 
 
