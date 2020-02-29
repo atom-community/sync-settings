@@ -1,4 +1,4 @@
-const notify = require('../lib/notify')
+const notify = require('../lib/utils/notify')
 const BusySignal = require('./busy-signal-mock')
 
 describe('notify', () => {
@@ -199,20 +199,6 @@ describe('notify', () => {
 
 			expect(atom.notifications.getNotifications().length).toBe(1)
 			expect(atom.notifications.getNotifications()[0].getType()).toBe('warning')
-		})
-
-		it('shows invalidGistId', () => {
-			notify.invalidGistId()
-
-			expect(atom.notifications.getNotifications().length).toBe(1)
-			expect(atom.notifications.getNotifications()[0].getType()).toBe('error')
-		})
-
-		it('shows invalidPersonalAccessToken', () => {
-			notify.invalidPersonalAccessToken()
-
-			expect(atom.notifications.getNotifications().length).toBe(1)
-			expect(atom.notifications.getNotifications()[0].getType()).toBe('error')
 		})
 
 		it('shows newerBackup', () => {

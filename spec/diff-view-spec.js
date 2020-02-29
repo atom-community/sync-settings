@@ -1,4 +1,4 @@
-const DiffView = require('../lib/diff-view')
+const DiffView = require('../lib/views/diff-view')
 
 function elementsExist (view) {
 	return {
@@ -107,25 +107,18 @@ describe('DiffView', () => {
 	describe('refresh', () => {
 		it('load diff', async () => {
 			view.syncSettings = {
-				gist: {
+				backupLocation: {
 					get () {
 						return {
-							data: {
-								history: [{
-									committed_at: new Date().toISOString(),
-								}],
-								files: 'files',
-							},
+							time: new Date().toISOString(),
+							files: 'files',
 						}
 					},
 				},
-				invalidRes: jasmine.createSpy('invalidRes').and.returnValue(false),
 				getBackupData: jasmine.createSpy('getBackupData').and.returnValue({}),
 				getLocalData: jasmine.createSpy('getLocalData').and.returnValue({}),
 				getDiffData: jasmine.createSpy('getDiffData').and.returnValue({}),
 			}
-			atom.config.set('sync-settings.personalAccessToken', 'pat')
-			atom.config.set('sync-settings.gistId', 'gid')
 			spyOn(view, 'update')
 			await view.refresh()
 			expect(view.syncSettings.getBackupData).toHaveBeenCalled()
