@@ -113,12 +113,18 @@ Packages can provide a location service using Atom's [Service's API](https://fli
 
 ### Example:
 
-Add the `providedServices` property to your `package.json` file.
+Add the keywords `sync-settings` and `location` and add the `providedServices` property to your `package.json` file.
 
 ```json
 // package.json
   ...
-  "main": "./main.js"
+  "main": "./main.js",
+  ...
+  "keywords": [
+    ...
+    "sync-settings",
+    "location"
+  ],
   ...
   "providedServices": {
     "sync-settings-location": {
@@ -130,7 +136,7 @@ Add the `providedServices` property to your `package.json` file.
   ...
 ```
 
-Then add the `provideLocationService` function to your `main.js` file (where your `activate` function is for Atom to activate your function)
+Then add the `provideLocationService` function to your `main.js` file (where your `activate` function is for Atom to activate your package)
 
 ```js
 // main.js
@@ -161,7 +167,7 @@ module.exports = {
 
   /**
    * Create new backup location
-   * @return {Promise} Returns empty object on success. Falsey value on silent error
+   * @return {Object} Returns empty object on success. Falsey value on silent error
    */
   async create () {
     ...
@@ -169,13 +175,13 @@ module.exports = {
 
   /**
    * Get backup files and time
-   * @return {Promise} Returns object with `files` and `time` on success. Falsey value on silent error
+   * @return {Object} Returns object with `files` and `time` on success. Falsey value on silent error
    */
   async get () {
     ...
     return {
       files: {
-        'filename1.txt': {
+        'filename.txt': {
           content: '...'
         }
       },
@@ -185,7 +191,7 @@ module.exports = {
 
   /**
    * Delete backup
-   * @return {Promise} Returns empty object on success. Falsey value on silent error
+   * @return {Object} Returns empty object on success. Falsey value on silent error
    */
   async delete () {
     ...
@@ -193,8 +199,8 @@ module.exports = {
 
   /**
    * Update backup and get time
-   * @param  {object[]} files Files to update
-   * @return {Promise} Returns object with `time` on success. Falsey value on silent error
+   * @param  {Object} files Files to update
+   * @return {Object} Returns object with `time` on success. Falsey value on silent error
    */
   async update (files) {
     ...
@@ -205,7 +211,7 @@ module.exports = {
 
   /**
    * Fork backup
-   * @return {Promise} Returns empty object on success. Falsey value on silent error
+   * @return {Object} Returns empty object on success. Falsey value on silent error
    */
   async fork () {
     ...
