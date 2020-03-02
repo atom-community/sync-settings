@@ -22,6 +22,11 @@ Synchronize settings, keymaps, user styles, init script, snippets and installed 
 By default your backup will be stored in a [gist](https://gist.github.com),
 but you may also install [other location packages](https://atom.io/packages/search?q=sync-settings+location).
 
+Some other locations:
+
+- Local Folder: [sync-settings-folder-location](https://atom.io/packages/sync-settings-folder-location)
+- Git Repo: [sync-settings-git-location](https://atom.io/packages/sync-settings-git-location)
+
 ### Gist Setup
 
 1. Open **Sync Settings** configuration in [Atom Settings](atom://config).
