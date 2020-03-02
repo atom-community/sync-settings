@@ -1,3 +1,17 @@
+# [4.2.0](https://github.com/atom-community/sync-settings/compare/v4.1.0...v4.2.0) (2020-03-02)
+
+
+### Bug Fixes
+
+* add backup button after created ([047ffc8](https://github.com/atom-community/sync-settings/commit/047ffc8465c3afe92ed2e0902c655c64c7a147c6))
+* confirm on delete ([75b2553](https://github.com/atom-community/sync-settings/commit/75b2553ad4f2594f2d603285cfc933acc8c48415))
+
+
+### Features
+
+* add create and delete commands ([20014a1](https://github.com/atom-community/sync-settings/commit/20014a1651e95b8e5031fe38feeadf4955f43c7f))
+* add location service consumer ([821681a](https://github.com/atom-community/sync-settings/commit/821681a52b4896f55a2ec21573883dd5ac130d5c))
+
 # [4.1.0](https://github.com/atom-community/sync-settings/compare/v4.0.0...v4.1.0) (2020-02-27)
 
 
