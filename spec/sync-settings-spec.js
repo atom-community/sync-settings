@@ -46,6 +46,15 @@ describe('syncSettings', () => {
 	})
 
 	describe('backup', () => {
+		it('calls update', async () => {
+			const backupLocation = syncSettings.getBackupLocation()
+			spyOn(backupLocation, 'update').and.callThrough()
+
+			await syncSettings.backup()
+
+			expect(backupLocation.update).toHaveBeenCalled()
+		})
+
 		it('backs up the settings', async () => {
 			atom.config.set('sync-settings.syncSettings', true)
 			await syncSettings.backup()
@@ -348,6 +357,15 @@ describe('syncSettings', () => {
 	})
 
 	describe('restore', () => {
+		it('calls get', async () => {
+			const backupLocation = syncSettings.getBackupLocation()
+			spyOn(backupLocation, 'get').and.callThrough()
+
+			await syncSettings.restore()
+
+			expect(backupLocation.get).toHaveBeenCalled()
+		})
+
 		it('updates settings', async () => {
 			atom.config.set('sync-settings.syncSettings', true)
 			atom.config.set('some-dummy', true)
@@ -881,6 +899,15 @@ describe('syncSettings', () => {
 			atom.config.unset('sync-settings.hiddenSettings._lastBackupTime')
 		})
 
+		it('calls get', async () => {
+			const backupLocation = syncSettings.getBackupLocation()
+			spyOn(backupLocation, 'get').and.callThrough()
+
+			await syncSettings.checkBackup()
+
+			expect(backupLocation.get).toHaveBeenCalled()
+		})
+
 		it('updates last time on backup', async () => {
 			await syncSettings.backup()
 
@@ -935,6 +962,43 @@ describe('syncSettings', () => {
 		})
 	})
 
+	describe('create', () => {
+		it('calls create', async () => {
+			const backupLocation = syncSettings.getBackupLocation()
+			spyOn(backupLocation, 'create').and.callThrough()
+
+			await syncSettings.createBackup()
+
+			expect(backupLocation.create).toHaveBeenCalled()
+		})
+	})
+
+	describe('delete', () => {
+		it('confirms and calls delete', async () => {
+			// eslint-disable-next-line standard/no-callback-literal
+			spyOn(atom, 'confirm').and.callFake((opts, cb) => cb(0))
+			const backupLocation = syncSettings.getBackupLocation()
+			spyOn(backupLocation, 'delete').and.callThrough()
+
+			await syncSettings.deleteBackup()
+
+			expect(atom.confirm).toHaveBeenCalled()
+			expect(backupLocation.delete).toHaveBeenCalled()
+		})
+
+		it('cancel does not call delete', async () => {
+			// eslint-disable-next-line standard/no-callback-literal
+			spyOn(atom, 'confirm').and.callFake((opts, cb) => cb(1))
+			const backupLocation = syncSettings.getBackupLocation()
+			spyOn(backupLocation, 'delete').and.callThrough()
+
+			await syncSettings.deleteBackup()
+
+			expect(atom.confirm).toHaveBeenCalled()
+			expect(backupLocation.delete).not.toHaveBeenCalled()
+		})
+	})
+
 	describe('fork gist', () => {
 		it('forks gist', async () => {
 			const gistId = atom.config.get('sync-settings.gistId')
@@ -942,6 +1006,15 @@ describe('syncSettings', () => {
 
 			expect(atom.config.get('sync-settings.gistId')).toBeTruthy()
 			expect(gistId).not.toBe(atom.config.get('sync-settings.gistId'))
+		})
+
+		it('calls fork', async () => {
+			const backupLocation = syncSettings.getBackupLocation()
+			spyOn(backupLocation, 'fork').and.callThrough()
+
+			await syncSettings.fork()
+
+			expect(backupLocation.fork).toHaveBeenCalled()
 		})
 
 		describe('notifications', () => {
