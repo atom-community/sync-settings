@@ -35,6 +35,11 @@
       "versions": {
         "0.1.0": "busySignalService"
       }
+    },
+    "sync-settings-location": {
+      "versions": {
+        "1.0.0": "syncSettingslocationService"
+      }
     }
   },
   "dependencies": {

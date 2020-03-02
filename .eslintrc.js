@@ -26,7 +26,17 @@ module.exports = {
 		'comma-dangle': ['error', 'always-multiline'],
 		indent: ['error', 'tab', { "SwitchCase": 1 }],
 		'no-tabs': ['error', { allowIndentationTabs: true }],
-
+		'no-restricted-globals': [
+            'error',
+            {
+                name: 'fit',
+                message: 'Do not commit focused tests.'
+            },
+            {
+                name: 'fdescribe',
+                message: 'Do not commit focused tests.'
+            },
+        ],
 		'react/jsx-uses-react': 'error',
 		'react/jsx-uses-vars': 'error',
 		'react/jsx-indent': ['error', 'tab'],

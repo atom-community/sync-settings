@@ -1,4 +1,6 @@
-const DiffView = require('../lib/diff-view')
+const DiffView = require('../lib/views/diff-view')
+const SyncSettings = require('../lib/sync-settings')
+const gistApi = require('./gist-api-mock')
 
 function elementsExist (view) {
 	return {
@@ -106,26 +108,16 @@ describe('DiffView', () => {
 
 	describe('refresh', () => {
 		it('load diff', async () => {
-			view.syncSettings = {
-				gist: {
-					get () {
-						return {
-							data: {
-								history: [{
-									committed_at: new Date().toISOString(),
-								}],
-								files: 'files',
-							},
-						}
-					},
-				},
-				invalidRes: jasmine.createSpy('invalidRes').and.returnValue(false),
-				getBackupData: jasmine.createSpy('getBackupData').and.returnValue({}),
-				getLocalData: jasmine.createSpy('getLocalData').and.returnValue({}),
-				getDiffData: jasmine.createSpy('getDiffData').and.returnValue({}),
-			}
-			atom.config.set('sync-settings.personalAccessToken', 'pat')
-			atom.config.set('sync-settings.gistId', 'gid')
+			await gistApi.create()
+			atom.config.set('sync-settings.checkForUpdatedBackup', false)
+			atom.config.set('sync-settings.useOtherLocation', true)
+			atom.config.set('sync-settings.syncSettings', true)
+			atom.config.set('sync-settings.hiddenSettings._lastBackupTime', '1111-11-11T11:11:11.111Z')
+			view.syncSettings = new SyncSettings()
+			view.syncSettings.useLocationService(gistApi)
+			spyOn(view.syncSettings, 'getBackupData').and.callThrough()
+			spyOn(view.syncSettings, 'getLocalData').and.callThrough()
+			spyOn(view.syncSettings, 'getDiffData').and.callThrough()
 			spyOn(view, 'update')
 			await view.refresh()
 			expect(view.syncSettings.getBackupData).toHaveBeenCalled()
@@ -134,8 +126,9 @@ describe('DiffView', () => {
 			expect(view.update).toHaveBeenCalledWith({ diff: null, error: null })
 			expect(view.update).toHaveBeenCalledWith({
 				diff: jasmine.objectContaining({
-					localTime: jasmine.any(String),
-					backupTime: jasmine.any(String),
+					settings: jasmine.any(Object),
+					localTime: jasmine.stringMatching(/^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d.\d\d\dZ$/),
+					backupTime: jasmine.stringMatching(/^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d.\d\d\dZ$/),
 				}),
 				error: null,
 			})

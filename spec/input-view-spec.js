@@ -1,4 +1,4 @@
-const InputView = require('../lib/input-view')
+const InputView = require('../lib/views/input-view')
 
 describe('InputView', () => {
 	it('confirm', async () => {
@@ -33,7 +33,7 @@ describe('InputView', () => {
 
 	it('description', () => {
 		const view = new InputView({ description: 'description' })
-		expect(view.element.querySelector('.input-view-description').innerHTML).toBe('<p>description</p>\n')
+		expect(view.element.querySelector('.input-view-description').innerHTML).toBe('description')
 		view.resolve()
 	})
 
