@@ -15,7 +15,7 @@
     "url": "https://github.com/atom-community/sync-settings/commit"
   },
   "engines": {
-    "atom": ">=1.0.0 <2.0.0"
+    "atom": ">=1.41.0 <2.0.0"
   },
   "keywords": [
     "settings",
@@ -50,6 +50,7 @@
     "glob": "^7.1.6",
     "is-binary-path": "^2.1.0",
     "key-path-helpers": "^0.4.0",
+    "keytar": "^4.13.0",
     "marked": "^1.0.0",
     "minimatch": "^3.0.4",
     "semver": "^7.3.2",
