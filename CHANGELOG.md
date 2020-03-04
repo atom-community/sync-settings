@@ -1,3 +1,11 @@
+## [4.3.1](https://github.com/atom-community/sync-settings/compare/v4.3.0...v4.3.1) (2020-03-04)
+
+
+### Bug Fixes
+
+* fix removing files when content is null ([72e5255](https://github.com/atom-community/sync-settings/commit/72e5255405ad76760d58636c969a8790abe6928a))
+* getting gist doesn't require token ([1246d43](https://github.com/atom-community/sync-settings/commit/1246d438a21301cd3a134751fb350906187f1385)), closes [#281](https://github.com/atom-community/sync-settings/issues/281)
+
 # [4.3.0](https://github.com/atom-community/sync-settings/compare/v4.2.0...v4.3.0) (2020-03-04)
 
 
