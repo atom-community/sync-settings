@@ -28,6 +28,7 @@ jobs:
     - name: Run tests 👩🏾‍💻
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_PAT }}
+        CI: true
       run: atom --test spec
 
   Lint:
