@@ -168,6 +168,17 @@ describe('integration', () => {
 				expect('README' in data.files).toBe(true)
 				expect(data.files.README.content).toContain('(not found)')
 			}, (process.env.CI ? 60 : 10) * 1000)
+
+			it('does delete an unfamiliar file', async () => {
+				atom.config.set('sync-settings.extraFiles', ['README'])
+				atom.config.set('sync-settings.removeUnfamiliarFiles', true)
+				await writeFile(path.resolve(atom.getConfigDirPath(), 'README'), 'README')
+				await atom.commands.dispatch(atom.views.getView(atom.workspace), 'sync-settings:backup')
+				await unlink(path.resolve(atom.getConfigDirPath(), 'README'))
+				await atom.commands.dispatch(atom.views.getView(atom.workspace), 'sync-settings:backup')
+				const data = await gistApi.get()
+				expect('README' in data.files).toBe(false)
+			}, (process.env.CI ? 60 : 10) * 1000)
 		})
 	}
 })
