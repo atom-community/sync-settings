@@ -149,6 +149,11 @@ describe('utils', () => {
 			expect(console.error).toHaveBeenCalledWith(jasmine.stringMatching(/Error reading file/), jasmine.any(Object))
 		})
 
+		it('returns nullString for not existing file', async () => {
+			spyOn(console, 'error')
+			expect((await utils.fileContent(tmpPath, 'nullString')).toString()).toBe('nullString')
+		})
+
 		it('returns null for empty file', async () => {
 			await writeFile(tmpPath, '')
 			try {
@@ -158,11 +163,20 @@ describe('utils', () => {
 			}
 		})
 
+		it('returns nullString for empty file', async () => {
+			await writeFile(tmpPath, '')
+			try {
+				expect((await utils.fileContent(tmpPath, 'nullString')).toString()).toBe('nullString')
+			} finally {
+				await tryUnlink(tmpPath)
+			}
+		})
+
 		it('returns content of existing file', async () => {
 			const text = 'test text'
 			await writeFile(tmpPath, text)
 			try {
-				expect(await utils.fileContent(tmpPath)).toEqual(text)
+				expect((await utils.fileContent(tmpPath)).toString()).toEqual(text)
 			} finally {
 				await tryUnlink(tmpPath)
 			}

@@ -601,7 +601,7 @@ describe('syncSettings', () => {
 
 				for (const file of files) {
 					expect(fs.existsSync(`${atom.getConfigDirPath()}/${file}`)).toBe(true)
-					expect(await utils.fileContent(`${atom.getConfigDirPath()}/${file}`)).toBe(file)
+					expect((await utils.fileContent(`${atom.getConfigDirPath()}/${file}`)).toString()).toBe(file)
 				}
 			} finally {
 				for (const file of files) {
