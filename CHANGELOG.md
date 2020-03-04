@@ -1,3 +1,16 @@
+# [4.3.0](https://github.com/atom-community/sync-settings/compare/v4.2.0...v4.3.0) (2020-03-04)
+
+
+### Bug Fixes
+
+* use is-binary-path to determine encoding ([ae87c54](https://github.com/atom-community/sync-settings/commit/ae87c54ce29ded4e562e3b6902090b1ad6888bea))
+
+
+### Features
+
+* Backup Binary files ([#498](https://github.com/atom-community/sync-settings/issues/498)) ([1741d69](https://github.com/atom-community/sync-settings/commit/1741d69dc47bdddc59a964893bbe7475d3b7788c))
+* get files as buffers ([df6d1bf](https://github.com/atom-community/sync-settings/commit/df6d1bf9411f900610e3e910e6e92d07c1055d96))
+
 # [4.2.0](https://github.com/atom-community/sync-settings/compare/v4.1.0...v4.2.0) (2020-03-02)
 
 
