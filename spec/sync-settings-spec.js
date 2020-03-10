@@ -932,7 +932,52 @@ describe('syncSettings', () => {
 				expect(atom.notifications.getNotifications()[0].getType()).toBe('warning')
 			})
 
-			it('ignores on up-to-date backup', async () => {
+			it('success on only package versions diff', async () => {
+				atom.config.set('sync-settings.installLatestVersion', true)
+				spyOn(syncSettings, 'getDiffData').and.returnValue({
+					packages: {
+						updated: {
+							'sync-settings': { version: '1.0.0' },
+						},
+					},
+				})
+				await syncSettings.checkBackup()
+
+				expect(atom.notifications.getNotifications().length).toBe(1)
+				expect(atom.notifications.getNotifications()[0].getType()).toBe('success')
+			})
+
+			it('warning on not only package versions diff', async () => {
+				atom.config.set('sync-settings.installLatestVersion', true)
+				spyOn(syncSettings, 'getDiffData').and.returnValue({
+					packages: {
+						added: {
+							'sync-settings': { version: '1.0.0' },
+						},
+					},
+				})
+				await syncSettings.checkBackup()
+
+				expect(atom.notifications.getNotifications().length).toBe(1)
+				expect(atom.notifications.getNotifications()[0].getType()).toBe('warning')
+			})
+
+			it('warning on only package versions diff without installLatestVersion', async () => {
+				atom.config.set('sync-settings.installLatestVersion', false)
+				spyOn(syncSettings, 'getDiffData').and.returnValue({
+					packages: {
+						updated: {
+							'sync-settings': { version: '1.0.0' },
+						},
+					},
+				})
+				await syncSettings.checkBackup()
+
+				expect(atom.notifications.getNotifications().length).toBe(1)
+				expect(atom.notifications.getNotifications()[0].getType()).toBe('warning')
+			})
+
+			it('success on up-to-date backup', async () => {
 				await syncSettings.backup()
 				atom.notifications.clear()
 				await syncSettings.checkBackup()
