@@ -1,3 +1,10 @@
+## [4.3.2](https://github.com/atom-community/sync-settings/compare/v4.3.1...v4.3.2) (2020-03-15)
+
+
+### Bug Fixes
+
+* fix check backup with only change in package versions ([#500](https://github.com/atom-community/sync-settings/issues/500)) ([bbbcce4](https://github.com/atom-community/sync-settings/commit/bbbcce49da96bbfdb292b54c7f497a8ba269b539))
+
 ## [4.3.1](https://github.com/atom-community/sync-settings/compare/v4.3.0...v4.3.1) (2020-03-04)
 
 
