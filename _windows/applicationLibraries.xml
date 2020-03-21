@@ -1,5 +1,9 @@
 <application>
   <component name="libraryTable">
+    <library name="@types/express" type="javaScript">
+      <CLASSES />
+      <SOURCES />
+    </library>
     <library name="@types/jquery" type="javaScript">
       <CLASSES />
       <SOURCES />
