@@ -1,3 +1,42 @@
 <profile version="1.0">
   <option name="myName" value="Default" />
+  <inspection_tool class="AmbiguousMixinReference" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="AnnotationOutsideOfMixin" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="DuplicateInterface" enabled="false" level="WARNING" enabled_by_default="false" />
+  <inspection_tool class="DuplicateInterfacePrefix" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="EmptyImplements" enabled="false" level="WARNING" enabled_by_default="false" />
+  <inspection_tool class="FieldDeclarationSideOnly" enabled="true" level="ERROR" enabled_by_default="true" />
+  <inspection_tool class="InterfaceIsInterface" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="InvalidConfigValue" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="InvalidInjectorMethodSignature" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="InvalidInterfacePrefix" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="InvalidMemberReference" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="InvalidMixinPluginRegistration" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="InvalidMixinRegistration" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="InvalidMixinTarget" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="LocalVariableDeclarationSideOnly" enabled="true" level="ERROR" enabled_by_default="true" />
+  <inspection_tool class="MethodCallSideOnly" enabled="true" level="ERROR" enabled_by_default="true" />
+  <inspection_tool class="MethodSideOnly" enabled="true" level="ERROR" enabled_by_default="true" />
+  <inspection_tool class="MixinInnerClass" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="MixinSuperClass" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="NestedClassSideOnly" enabled="true" level="ERROR" enabled_by_default="true" />
+  <inspection_tool class="NewExpressionSideOnly" enabled="true" level="ERROR" enabled_by_default="true" />
+  <inspection_tool class="OverwriteAuthorRequired" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+  <inspection_tool class="OverwriteModifiers" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="OverwriteTarget" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="PublicStaticMixinMember" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="ReferenceToMixin" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="ShadowFieldPrefix" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="ShadowFinalModification" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="ShadowModifiers" enabled="false" level="WARNING" enabled_by_default="false" />
+  <inspection_tool class="ShadowTarget" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="SoftImplementOverrides" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="SpongeInjection" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="SpongePluginClass" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="UnnecessaryQualifiedMemberReference" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+  <inspection_tool class="UnqualifiedMemberReference" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="UnresolvedConfigReference" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="UnresolvedMixinReference" enabled="false" level="ERROR" enabled_by_default="false" />
+  <inspection_tool class="UnusedShadowMethodPrefix" enabled="false" level="WARNING" enabled_by_default="false" />
+  <inspection_tool class="VariableUseSideOnly" enabled="true" level="ERROR" enabled_by_default="true" />
 </profile>
