@@ -2,9 +2,9 @@
   <component name="FileTypeManager" version="17">
     <extensionMap>
       <mapping pattern="flint_and_ignatius.json" type="JSON" />
+      <mapping pattern="generator_powered" type="JSON" />
       <mapping pattern="mcmod.info" type="JSON" />
       <mapping pattern="fload_creator" type="JSON" />
-      <mapping pattern="generator_powered" type="JSON" />
       <mapping ext="ai" type="Native" />
       <mapping ext="blend" type="Native" />
       <mapping pattern="BarcodeList" type="PLAIN_TEXT" />
