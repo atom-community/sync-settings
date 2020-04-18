@@ -8,6 +8,6 @@
     <browser id="b2a9dca7-9d0b-4e1e-98a8-afb19c1328d2" name="Edge" family="EXPLORER" path="microsoft-edge" />
     <browser id="a70fb003-0383-4f1d-8c62-25d97231f8bb" name="Chrome" family="CHROME" active="false" />
     <browser id="b1b2ec2c-20bd-4ee2-89c4-616db004bcd4" name="Yandex" family="CHROME" path="browser" active="false" />
-    <browser id="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" name="Chrome" family="CHROME" />
+    <browser id="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" name="Chrome" family="CHROME" active="false" />
   </component>
 </application>

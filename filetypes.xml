@@ -8,20 +8,22 @@
       <mapping ext="ai" type="Native" />
       <mapping ext="blend" type="Native" />
       <mapping pattern="BarcodeList" type="PLAIN_TEXT" />
-      <mapping pattern="qwe" type="PLAIN_TEXT" />
       <mapping pattern="qweqew" type="PLAIN_TEXT" />
+      <mapping pattern="qwe" type="PLAIN_TEXT" />
       <mapping ext="zs" type="PLAIN_TEXT" />
-      <mapping ext="scssc" type="PLAIN_TEXT" />
       <mapping ext="mcmeta" type="PLAIN_TEXT" />
+      <mapping ext="lang" type="PLAIN_TEXT" />
+      <mapping ext="scssc" type="PLAIN_TEXT" />
+      <removed_mapping ext="log" approved="true" type="PLAIN_TEXT" />
       <removed_mapping ext="bat" approved="true" type="PLAIN_TEXT" />
       <removed_mapping ext="cmd" approved="true" type="PLAIN_TEXT" />
+      <mapping pattern="TestAppChild" type="Vue.js" />
       <removed_mapping ext="bat" approved="true" type="PLAIN_TEXT" />
       <removed_mapping ext="log" approved="true" type="PLAIN_TEXT" />
       <removed_mapping ext="dockerfile" approved="true" type="textmate" />
       <removed_mapping ext="makefile" approved="true" type="textmate" />
       <removed_mapping ext="cmd" approved="true" type="PLAIN_TEXT" />
       <removed_mapping ext="snakefile" approved="true" type="textmate" />
-      <mapping pattern="TestAppChild" type="Vue.js" />
     </extensionMap>
   </component>
 </application>
