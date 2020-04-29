@@ -1,4 +1,5 @@
 const SyncSettings = require('../lib/sync-settings')
+const gistLocation = require('../lib/location/gist')
 const gistApi = require('./gist-api-mock')
 const { config } = require('../lib/config')
 const utils = require('../lib/utils/utils')
@@ -21,7 +22,7 @@ function setDefaultSettings (namespace, settings) {
 }
 
 describe('syncSettings', () => {
-	let syncSettings
+	let syncSettings, backupLocation
 	beforeEach(async () => {
 		await writeFile(atom.keymaps.getUserKeymapPath(), '# keymap')
 		await writeFile(atom.styles.getUserStyleSheetPath(), '// stylesheet')
@@ -34,11 +35,12 @@ describe('syncSettings', () => {
 		atom.config.set('sync-settings.gistDescription', 'Test gist by Sync Settings for Atom https://github.com/atom-community/sync-settings')
 		syncSettings = new SyncSettings()
 		syncSettings.useLocationService(gistApi)
-		await syncSettings.getBackupLocation().create()
+		backupLocation = await syncSettings.getBackupLocation()
+		await backupLocation.create()
 	})
 
 	afterEach(async () => {
-		await syncSettings.getBackupLocation().delete()
+		await backupLocation.delete()
 		await unlink(atom.keymaps.getUserKeymapPath())
 		await unlink(atom.styles.getUserStyleSheetPath())
 		await unlink(atom.getUserInitScriptPath())
@@ -47,7 +49,6 @@ describe('syncSettings', () => {
 
 	describe('backup', () => {
 		it('calls update', async () => {
-			const backupLocation = syncSettings.getBackupLocation()
 			spyOn(backupLocation, 'update').and.callThrough()
 
 			await syncSettings.backup()
@@ -58,7 +59,7 @@ describe('syncSettings', () => {
 		it('backs up the settings', async () => {
 			atom.config.set('sync-settings.syncSettings', true)
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 
 			expect(data.files['settings.json']).toBeDefined()
 		})
@@ -66,7 +67,7 @@ describe('syncSettings', () => {
 		it("doesn't back up the settings", async () => {
 			atom.config.set('sync-settings.syncSettings', false)
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 
 			expect(data.files['settings.json']).not.toBeDefined()
 		})
@@ -76,7 +77,7 @@ describe('syncSettings', () => {
 			atom.config.set('package.dummy', true)
 			atom.config.set('package.dummy2', true)
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 			const settings = JSON.parse(data.files['settings.json'].content)
 
 			expect(settings['*'].package.dummy).not.toBeDefined()
@@ -87,7 +88,7 @@ describe('syncSettings', () => {
 			atom.config.set('sync-settings.blacklistedKeys', ['package.dummy.dummy2'])
 			atom.config.set('package.dummy', true)
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 			const settings = JSON.parse(data.files['settings.json'].content)
 
 			expect(settings['*'].package.dummy).toBe(true)
@@ -96,7 +97,7 @@ describe('syncSettings', () => {
 		it('back up scoped settings', async () => {
 			atom.config.set('package.dummy', true, { scopeSelector: '.dummy.scope' })
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 			const settings = JSON.parse(data.files['settings.json'].content)
 
 			expect(settings['.dummy.scope'].package.dummy).toBe(true)
@@ -106,7 +107,7 @@ describe('syncSettings', () => {
 			atom.config.set('sync-settings.syncPackages', true)
 			atom.config.set('sync-settings.syncThemes', false)
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 
 			expect(data.files['packages.json']).toBeDefined()
 			const json = JSON.parse(data.files['packages.json'].content)
@@ -120,7 +121,7 @@ describe('syncSettings', () => {
 			atom.config.set('sync-settings.syncPackages', false)
 			atom.config.set('sync-settings.syncThemes', true)
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 
 			expect(data.files['packages.json']).toBeDefined()
 			const json = JSON.parse(data.files['packages.json'].content)
@@ -134,7 +135,7 @@ describe('syncSettings', () => {
 			atom.config.set('sync-settings.syncPackages', false)
 			atom.config.set('sync-settings.syncThemes', false)
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 
 			expect(data.files['packages.json']).not.toBeDefined()
 		})
@@ -142,7 +143,7 @@ describe('syncSettings', () => {
 		it('back up the user keymaps', async () => {
 			atom.config.set('sync-settings.syncKeymap', true)
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 
 			expect(data.files['keymap.cson']).toBeDefined()
 		})
@@ -150,7 +151,7 @@ describe('syncSettings', () => {
 		it("doesn't back up the user keymaps", async () => {
 			atom.config.set('sync-settings.syncKeymap', false)
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 
 			expect(data.files['keymap.cson']).not.toBeDefined()
 		})
@@ -158,7 +159,7 @@ describe('syncSettings', () => {
 		it('back up the user styles', async () => {
 			atom.config.set('sync-settings.syncStyles', true)
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 
 			expect(data.files['styles.less']).toBeDefined()
 		})
@@ -166,7 +167,7 @@ describe('syncSettings', () => {
 		it("doesn't back up the user styles", async () => {
 			atom.config.set('sync-settings.syncStyles', false)
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 
 			expect(data.files['styles.less']).not.toBeDefined()
 		})
@@ -174,7 +175,7 @@ describe('syncSettings', () => {
 		it('back up the user init script file', async () => {
 			atom.config.set('sync-settings.syncInit', true)
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 
 			expect(data.files[path.basename(atom.getUserInitScriptPath())]).toBeDefined()
 		})
@@ -182,7 +183,7 @@ describe('syncSettings', () => {
 		it("doesn't back up the user init script file", async () => {
 			atom.config.set('sync-settings.syncInit', false)
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 
 			expect(data.files[path.basename(atom.getUserInitScriptPath())]).not.toBeDefined()
 		})
@@ -190,7 +191,7 @@ describe('syncSettings', () => {
 		it('back up the user snippets', async () => {
 			atom.config.set('sync-settings.syncSnippets', true)
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 
 			expect(data.files['snippets.cson']).toBeDefined()
 		})
@@ -198,7 +199,7 @@ describe('syncSettings', () => {
 		it("doesn't back up the user snippets", async () => {
 			atom.config.set('sync-settings.syncSnippets', false)
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 
 			expect(data.files['snippets.cson']).not.toBeDefined()
 		})
@@ -208,7 +209,7 @@ describe('syncSettings', () => {
 			await writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
 			await writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 			atom.config.get('sync-settings.extraFiles').forEach(file => {
 				expect(data.files[file]).toBeDefined()
 			})
@@ -217,7 +218,7 @@ describe('syncSettings', () => {
 		it("doesn't back up extra files defined in config.extraFiles", async () => {
 			atom.config.unset('sync-settings.extraFiles')
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 
 			expect(Object.keys(data.files).length).toBe(7)
 		})
@@ -232,7 +233,7 @@ describe('syncSettings', () => {
 				await syncSettings.backup()
 				await unlink(path.join(atom.getConfigDirPath(), 'test2.tmp'))
 				await syncSettings.backup()
-				const data = await syncSettings.getBackupLocation().get()
+				const data = await backupLocation.get()
 
 				expect(data.files['test.tmp']).toBeDefined()
 				expect(data.files['test2.tmp']).toBeDefined()
@@ -253,7 +254,7 @@ describe('syncSettings', () => {
 				await syncSettings.backup()
 				await unlink(path.join(atom.getConfigDirPath(), 'test2.tmp'))
 				await syncSettings.backup()
-				const data = await syncSettings.getBackupLocation().get()
+				const data = await backupLocation.get()
 
 				expect(data.files['test.tmp']).toBeDefined()
 				expect(data.files['test2.tmp']).toBeDefined()
@@ -275,7 +276,7 @@ describe('syncSettings', () => {
 				await syncSettings.backup()
 				await unlink(path.join(atom.getConfigDirPath(), 'test2.tmp'))
 				await syncSettings.backup()
-				const data = await syncSettings.getBackupLocation().get()
+				const data = await backupLocation.get()
 
 				expect(data.files['test.tmp']).toBeDefined()
 				expect(data.files['test2.tmp']).not.toBeDefined()
@@ -297,7 +298,7 @@ describe('syncSettings', () => {
 				await syncSettings.backup()
 				await unlink(path.join(atom.getConfigDirPath(), 'test2.tmp'))
 				await syncSettings.backup()
-				const data = await syncSettings.getBackupLocation().get()
+				const data = await backupLocation.get()
 
 				expect(data.files['test.tmp']).toBeDefined()
 				expect(data.files['test2.tmp']).not.toBeDefined()
@@ -313,7 +314,7 @@ describe('syncSettings', () => {
 			await writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
 			await writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 
 			expect(data.files['test.tmp']).toBeDefined()
 			expect(data.files['test2.tmp']).toBeDefined()
@@ -325,7 +326,7 @@ describe('syncSettings', () => {
 			await writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
 			await writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 
 			expect(data.files['test.tmp']).toBeDefined()
 			expect(data.files['test2.tmp']).not.toBeDefined()
@@ -335,7 +336,7 @@ describe('syncSettings', () => {
 			atom.config.set('sync-settings.extraFiles', ['config.cson'])
 			atom.notifications.clear()
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 
 			expect(atom.notifications.getNotifications().length).toBe(1)
 			expect(atom.notifications.getNotifications()[0].getType()).toBe('warning')
@@ -348,7 +349,7 @@ describe('syncSettings', () => {
 			atom.config.set('sync-settings.hiddenSettings._warnBackupConfig', false)
 			atom.notifications.clear()
 			await syncSettings.backup()
-			const data = await syncSettings.getBackupLocation().get()
+			const data = await backupLocation.get()
 
 			expect(atom.notifications.getNotifications().length).toBe(1)
 			expect(atom.notifications.getNotifications()[0].getType()).toBe('success')
@@ -358,7 +359,6 @@ describe('syncSettings', () => {
 
 	describe('restore', () => {
 		it('calls get', async () => {
-			const backupLocation = syncSettings.getBackupLocation()
 			spyOn(backupLocation, 'get').and.callThrough()
 
 			await syncSettings.restore()
@@ -614,7 +614,7 @@ describe('syncSettings', () => {
 			atom.config.set('sync-settings.syncSettings', true)
 			atom.config.set('some-dummy', false)
 			await syncSettings.backup()
-			await syncSettings.getBackupLocation().update({ 'packages.json': { content: 'packages.json' } })
+			await backupLocation.update({ 'packages.json': { content: 'packages.json' } })
 			atom.config.set('some-dummy', true)
 			atom.notifications.clear()
 			await syncSettings.restore()
@@ -900,7 +900,6 @@ describe('syncSettings', () => {
 		})
 
 		it('calls get', async () => {
-			const backupLocation = syncSettings.getBackupLocation()
 			spyOn(backupLocation, 'get').and.callThrough()
 
 			await syncSettings.checkBackup()
@@ -1009,7 +1008,6 @@ describe('syncSettings', () => {
 
 	describe('create', () => {
 		it('calls create', async () => {
-			const backupLocation = syncSettings.getBackupLocation()
 			spyOn(backupLocation, 'create').and.callThrough()
 
 			await syncSettings.createBackup()
@@ -1022,7 +1020,6 @@ describe('syncSettings', () => {
 		it('confirms and calls delete', async () => {
 			// eslint-disable-next-line standard/no-callback-literal
 			spyOn(atom, 'confirm').and.callFake((opts, cb) => cb(0))
-			const backupLocation = syncSettings.getBackupLocation()
 			spyOn(backupLocation, 'delete').and.callThrough()
 
 			await syncSettings.deleteBackup()
@@ -1034,7 +1031,6 @@ describe('syncSettings', () => {
 		it('cancel does not call delete', async () => {
 			// eslint-disable-next-line standard/no-callback-literal
 			spyOn(atom, 'confirm').and.callFake((opts, cb) => cb(1))
-			const backupLocation = syncSettings.getBackupLocation()
 			spyOn(backupLocation, 'delete').and.callThrough()
 
 			await syncSettings.deleteBackup()
@@ -1047,14 +1043,13 @@ describe('syncSettings', () => {
 	describe('fork gist', () => {
 		it('forks gist', async () => {
 			const gistId = atom.config.get('sync-settings.gistId')
-			await syncSettings.getBackupLocation().fork()
+			await backupLocation.fork()
 
 			expect(atom.config.get('sync-settings.gistId')).toBeTruthy()
 			expect(gistId).not.toBe(atom.config.get('sync-settings.gistId'))
 		})
 
 		it('calls fork', async () => {
-			const backupLocation = syncSettings.getBackupLocation()
 			spyOn(backupLocation, 'fork').and.callThrough()
 
 			await syncSettings.fork()
@@ -1073,6 +1068,54 @@ describe('syncSettings', () => {
 				expect(atom.notifications.getNotifications().length).toBe(1)
 				expect(atom.notifications.getNotifications()[0].getType()).toBe('success')
 			})
+		})
+	})
+})
+
+describe('syncSettings', () => {
+	describe('get backup location service', () => {
+		it('should use gist', async () => {
+			atom.config.set('sync-settings.useOtherLocation', false)
+			atom.config.set('sync-settings.checkForUpdatedBackup', false)
+			const syncSettings = new SyncSettings()
+			const locationService = await syncSettings.getBackupLocation()
+			expect(locationService).toBe(gistLocation)
+		})
+
+		it('should use location service', async () => {
+			atom.config.set('sync-settings.useOtherLocation', true)
+			atom.config.set('sync-settings.checkForUpdatedBackup', false)
+			const syncSettings = new SyncSettings()
+			syncSettings.useLocationService(gistApi)
+			const locationService = await syncSettings.getBackupLocation()
+			expect(locationService).toBe(gistApi)
+		})
+
+		it('should show error notification if no location service', async () => {
+			atom.config.set('sync-settings.useOtherLocation', true)
+			atom.config.set('sync-settings.checkForUpdatedBackup', false)
+			const syncSettings = new SyncSettings()
+			atom.notifications.clear()
+
+			// no await to make sure it shows the error in the same event loop
+			syncSettings.getBackupLocation()
+			const notifications = atom.notifications.getNotifications()
+			expect(notifications.length).toBe(1)
+			expect(notifications[0].getType()).toBe('error')
+		})
+
+		it('should wait for backup location service', async () => {
+			atom.config.set('sync-settings.useOtherLocation', true)
+			atom.config.set('sync-settings.checkForUpdatedBackup', false)
+			const syncSettings = new SyncSettings()
+			atom.notifications.clear()
+			const locationServicePromise = syncSettings.getBackupLocation(true)
+			expect(atom.notifications.getNotifications().length).toBe(0)
+			setTimeout(() => {
+				syncSettings.useLocationService(gistApi)
+			}, 100)
+			const locationService = await locationServicePromise
+			expect(locationService).toBe(gistApi)
 		})
 	})
 })
