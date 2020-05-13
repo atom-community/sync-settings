@@ -8,9 +8,7 @@
   <component name="EditorSettings">
     <option name="USE_SOFT_WRAPS" value="CONSOLE" />
   </component>
-  <component name="LiveEditOptions" chromeAutoDelay="300" chromeUpdateJSOnChanges="true" updateFilesToCompile="true">
-    <option name="elementHighlighting" value="true" />
-  </component>
+  <component name="LiveEditOptions" chromeAutoDelay="300" chromeUpdateJSOnChanges="true" restartIfHotSwapFailed="true" updateFilesToCompile="true" />
   <component name="TodoConfiguration">
     <pattern pattern="\btodo\b.*" />
     <pattern pattern="\bfixme\b.*" />
