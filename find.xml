@@ -1,9 +1,9 @@
 <application>
   <component name="FindSettings">
-    <option name="customScope" value="Project and Libraries" />
-    <option name="defaultScopeName" value="Project and Libraries" />
+    <option name="customScope" value="Project 'Metallurgy 4 Reforged'" />
+    <option name="defaultScopeName" value="Project 'Metallurgy 4 Reforged'" />
     <option name="localCaseSensitive" value="true" />
     <option name="LOCAL_CASE_SENSITIVE_SEARCH" value="true" />
-    <option name="SEARCH_SCOPE" value="Project and Libraries" />
+    <option name="SEARCH_SCOPE" value="Project 'Metallurgy 4 Reforged'" />
   </component>
 </application>
