@@ -1,5 +1,5 @@
 <application>
   <component name="LafManager">
-    <laf class-name="com.intellij.ide.ui.laf.darcula.DarculaLaf" themeId="Atom One Dark Contrast" />
+    <laf class-name="com.intellij.laf.win10.WinIntelliJLaf" />
   </component>
 </application>
