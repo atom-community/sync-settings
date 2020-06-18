@@ -18,9 +18,13 @@
           <option name="url" value="https://github.com/Almighty-Alpaca/JetBrains-Discord-Integration.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/Davoleo/Better-Slimes.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
-    <option name="cloneParentDir" value="D:\Everything\Coding\kotlin" />
+    <option name="cloneParentDir" value="D:\Everything\MC\Modding\1.12" />
   </component>
   <component name="Vcs.Log.App.Settings">
     <option name="COLUMN_ORDER">
