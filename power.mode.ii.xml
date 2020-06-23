@@ -5,6 +5,7 @@
     <option name="colorAlpha" value="125" />
     <option name="customBamImageFolder" value="C:\WINDOWS\System32" />
     <option name="customFlameImageFolder" value="C:\WINDOWS\System32" />
+    <option name="enabled" value="false" />
     <option name="flamesEnabled" value="false" />
     <option name="greenFrom" value="101" />
     <option name="greenTo" value="101" />
