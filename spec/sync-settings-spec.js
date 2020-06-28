@@ -4,7 +4,6 @@ const gistApi = require('./gist-api-mock')
 const { config } = require('../lib/config')
 const utils = require('../lib/utils/utils')
 const fs = require('fs-extra')
-const tryUnlink = (...args) => fs.unlink(...args).catch(() => {})
 const path = require('path')
 
 function setDefaultSettings (namespace, settings) {
@@ -38,10 +37,10 @@ describe('syncSettings', () => {
 
 	afterEach(async () => {
 		await backupLocation.delete()
-		await tryUnlink(atom.keymaps.getUserKeymapPath())
-		await tryUnlink(atom.styles.getUserStyleSheetPath())
-		await tryUnlink(atom.getUserInitScriptPath())
-		await tryUnlink(path.join(atom.getConfigDirPath(), 'snippets.cson'))
+		await fs.remove(atom.keymaps.getUserKeymapPath())
+		await fs.remove(atom.styles.getUserStyleSheetPath())
+		await fs.remove(atom.getUserInitScriptPath())
+		await fs.remove(path.join(atom.getConfigDirPath(), 'snippets.cson'))
 	})
 
 	describe('backup', () => {
@@ -236,7 +235,7 @@ describe('syncSettings', () => {
 				expect(data.files['test2.tmp']).toBeDefined()
 			} finally {
 				for (const file of files) {
-					await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					await fs.remove(`${atom.getConfigDirPath()}/${file}`)
 				}
 			}
 		})
@@ -257,7 +256,7 @@ describe('syncSettings', () => {
 				expect(data.files['test2.tmp']).toBeDefined()
 			} finally {
 				for (const file of files) {
-					await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					await fs.remove(`${atom.getConfigDirPath()}/${file}`)
 				}
 			}
 		})
@@ -279,7 +278,7 @@ describe('syncSettings', () => {
 				expect(data.files['test2.tmp']).not.toBeDefined()
 			} finally {
 				for (const file of files) {
-					await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					await fs.remove(`${atom.getConfigDirPath()}/${file}`)
 				}
 			}
 		})
@@ -301,7 +300,7 @@ describe('syncSettings', () => {
 				expect(data.files['test2.tmp']).not.toBeDefined()
 			} finally {
 				for (const file of files) {
-					await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					await fs.remove(`${atom.getConfigDirPath()}/${file}`)
 				}
 			}
 		})
@@ -521,7 +520,7 @@ describe('syncSettings', () => {
 				}
 			} finally {
 				for (const file of files) {
-					await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					await fs.remove(`${atom.getConfigDirPath()}/${file}`)
 				}
 			}
 		})
@@ -541,7 +540,7 @@ describe('syncSettings', () => {
 				}
 			} finally {
 				for (const file of files) {
-					await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					await fs.remove(`${atom.getConfigDirPath()}/${file}`)
 				}
 			}
 		})
@@ -560,7 +559,7 @@ describe('syncSettings', () => {
 				expect(fs.existsSync(`${atom.getConfigDirPath()}/test2.tmp`)).toBe(false)
 			} finally {
 				for (const file of files) {
-					await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					await fs.remove(`${atom.getConfigDirPath()}/${file}`)
 				}
 			}
 		})
@@ -580,7 +579,7 @@ describe('syncSettings', () => {
 				expect(fs.existsSync(`${atom.getConfigDirPath()}/test2.tmp`)).toBe(false)
 			} finally {
 				for (const file of files) {
-					await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					await fs.remove(`${atom.getConfigDirPath()}/${file}`)
 				}
 			}
 		})
@@ -594,6 +593,11 @@ describe('syncSettings', () => {
 				}
 
 				await syncSettings.backup()
+
+				for (const file of files) {
+					await fs.unlink(path.join(atom.getConfigDirPath(), file))
+				}
+
 				await syncSettings.restore()
 
 				for (const file of files) {
@@ -602,8 +606,27 @@ describe('syncSettings', () => {
 				}
 			} finally {
 				for (const file of files) {
-					await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					await fs.remove(`${atom.getConfigDirPath()}/${file}`)
 				}
+			}
+		})
+
+		it('restores folder in backup that does not exist locally', async () => {
+			const files = ['test/test.tmp']
+			atom.config.set('sync-settings.extraFiles', files)
+			const folderPath = path.join(atom.getConfigDirPath(), 'test')
+			const filePath = path.join(folderPath, 'test.tmp')
+			try {
+				await fs.outputFile(filePath, 'test/test.tmp')
+				await syncSettings.backup()
+				await fs.remove(folderPath)
+
+				await syncSettings.restore()
+
+				expect(fs.existsSync(filePath)).toBe(true)
+				expect((await utils.fileContent(filePath)).toString()).toBe('test/test.tmp')
+			} finally {
+				await fs.remove(folderPath)
 			}
 		})
 
