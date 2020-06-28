@@ -181,8 +181,8 @@ describe('utils', () => {
 	})
 
 	describe('getPackages', () => {
-		it('returns packages and themes', () => {
-			const json = utils.getPackages()
+		it('returns packages and themes', async () => {
+			const json = await utils.getPackages()
 			const packages = utils.filterObject(json, ([k, v]) => !v.theme)
 			const themes = utils.filterObject(json, ([k, v]) => v.theme)
 
@@ -190,10 +190,10 @@ describe('utils', () => {
 			expect(themes).not.toEqual({})
 		})
 
-		it('returns packages and not themes', () => {
+		it('returns packages and not themes', async () => {
 			atom.config.set('sync-settings.syncThemes', false)
 
-			const json = utils.getPackages()
+			const json = await utils.getPackages()
 			const packages = utils.filterObject(json, ([k, v]) => !v.theme)
 			const themes = utils.filterObject(json, ([k, v]) => v.theme)
 
@@ -201,10 +201,10 @@ describe('utils', () => {
 			expect(themes).toEqual({})
 		})
 
-		it('returns not packages and themes', () => {
+		it('returns not packages and themes', async () => {
 			atom.config.set('sync-settings.syncPackages', false)
 
-			const json = utils.getPackages()
+			const json = await utils.getPackages()
 			const packages = utils.filterObject(json, ([k, v]) => !v.theme)
 			const themes = utils.filterObject(json, ([k, v]) => v.theme)
 
@@ -212,12 +212,12 @@ describe('utils', () => {
 			expect(themes).not.toEqual({})
 		})
 
-		it('returns community packages and themes', () => {
+		it('returns community packages and themes', async () => {
 			// atom test environment only has bundled packages. We are pretending that `about` is not a bundled package
 			spyOn(atom.packages, 'isBundledPackage').and.callFake(name => name !== 'about')
 			atom.config.set('sync-settings.onlySyncCommunityPackages', true)
 
-			const json = utils.getPackages()
+			const json = await utils.getPackages()
 			const community = utils.filterObject(json, ([k, v]) => !atom.packages.isBundledPackage(k))
 			const bundled = utils.filterObject(json, ([k, v]) => atom.packages.isBundledPackage(k))
 

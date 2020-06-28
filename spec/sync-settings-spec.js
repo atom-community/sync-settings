@@ -516,7 +516,7 @@ describe('syncSettings', () => {
 				await syncSettings.restore()
 
 				for (const file of files) {
-					expect(fs.existsSync(`${atom.getConfigDirPath()}/${file}`)).toBe(true)
+					expect(await fs.pathExists(`${atom.getConfigDirPath()}/${file}`)).toBe(true)
 				}
 			} finally {
 				for (const file of files) {
@@ -536,7 +536,7 @@ describe('syncSettings', () => {
 				await syncSettings.restore()
 
 				for (const file of files) {
-					expect(fs.existsSync(`${atom.getConfigDirPath()}/${file}`)).toBe(true)
+					expect(await fs.pathExists(`${atom.getConfigDirPath()}/${file}`)).toBe(true)
 				}
 			} finally {
 				for (const file of files) {
@@ -555,8 +555,8 @@ describe('syncSettings', () => {
 				await fs.writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
 				await syncSettings.restore()
 
-				expect(fs.existsSync(`${atom.getConfigDirPath()}/test.tmp`)).toBe(true)
-				expect(fs.existsSync(`${atom.getConfigDirPath()}/test2.tmp`)).toBe(false)
+				expect(await fs.pathExists(`${atom.getConfigDirPath()}/test.tmp`)).toBe(true)
+				expect(await fs.pathExists(`${atom.getConfigDirPath()}/test2.tmp`)).toBe(false)
 			} finally {
 				for (const file of files) {
 					await fs.remove(`${atom.getConfigDirPath()}/${file}`)
@@ -575,8 +575,8 @@ describe('syncSettings', () => {
 				await fs.writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
 				await syncSettings.restore()
 
-				expect(fs.existsSync(`${atom.getConfigDirPath()}/test.tmp`)).toBe(true)
-				expect(fs.existsSync(`${atom.getConfigDirPath()}/test2.tmp`)).toBe(false)
+				expect(await fs.pathExists(`${atom.getConfigDirPath()}/test.tmp`)).toBe(true)
+				expect(await fs.pathExists(`${atom.getConfigDirPath()}/test2.tmp`)).toBe(false)
 			} finally {
 				for (const file of files) {
 					await fs.remove(`${atom.getConfigDirPath()}/${file}`)
@@ -601,7 +601,7 @@ describe('syncSettings', () => {
 				await syncSettings.restore()
 
 				for (const file of files) {
-					expect(fs.existsSync(`${atom.getConfigDirPath()}/${file}`)).toBe(true)
+					expect(await fs.pathExists(`${atom.getConfigDirPath()}/${file}`)).toBe(true)
 					expect((await utils.fileContent(`${atom.getConfigDirPath()}/${file}`)).toString()).toBe(file)
 				}
 			} finally {
@@ -623,7 +623,7 @@ describe('syncSettings', () => {
 
 				await syncSettings.restore()
 
-				expect(fs.existsSync(filePath)).toBe(true)
+				expect(await fs.pathExists(filePath)).toBe(true)
 				expect((await utils.fileContent(filePath)).toString()).toBe('test/test.tmp')
 			} finally {
 				await fs.remove(folderPath)
