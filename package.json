@@ -43,28 +43,28 @@
     }
   },
   "dependencies": {
-    "@octokit/rest": "^17.6.0",
+    "@octokit/rest": "^18.0.0",
     "deep-object-diff": "^1.1.0",
     "diff": "^4.0.2",
     "etch": "^0.14.0",
     "glob": "^7.1.6",
     "is-binary-path": "^2.1.0",
     "key-path-helpers": "^0.4.0",
-    "marked": "^1.0.0",
+    "marked": "^1.1.0",
     "minimatch": "^3.0.4",
     "semver": "^7.3.2",
     "underscore-plus": "^1.7.0"
   },
   "devDependencies": {
     "@semantic-release/apm-config": "^8.0.0",
-    "atom-jasmine3-test-runner": "^4.4.7",
-    "eslint": "^6.8.0",
+    "atom-jasmine3-test-runner": "^4.4.8",
+    "eslint": "^7.3.1",
     "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-standard": "^4.0.1",
-    "semantic-release": "^17.0.7"
+    "semantic-release": "^17.1.1"
   }
 }
