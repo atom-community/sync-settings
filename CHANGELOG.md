@@ -1,3 +1,13 @@
+## [4.3.5](https://github.com/atom-community/sync-settings/compare/v4.3.4...v4.3.5) (2020-06-28)
+
+
+### Bug Fixes
+
+* backup storing directory with forward slash ([ab4a640](https://github.com/atom-community/sync-settings/commit/ab4a6406f02072a5779821547f8df1848d444e44))
+* restore folders that don't exist locally ([c184aad](https://github.com/atom-community/sync-settings/commit/c184aadc2c0aea6339993b8610d470b9e206832d))
+* use asynchronous fs methods ([31076e3](https://github.com/atom-community/sync-settings/commit/31076e3fda21200097b55091390c73e6461b58c8))
+* use fs-extra for promisified functions ([5215187](https://github.com/atom-community/sync-settings/commit/5215187ae2a59582e3f7519b49a2bdb3bcc24fe2))
+
 ## [4.3.4](https://github.com/atom-community/sync-settings/compare/v4.3.3...v4.3.4) (2020-06-28)
 
 
