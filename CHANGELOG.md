@@ -1,3 +1,10 @@
+## [4.3.4](https://github.com/atom-community/sync-settings/compare/v4.3.3...v4.3.4) (2020-06-28)
+
+
+### Bug Fixes
+
+* update dependencies ([#513](https://github.com/atom-community/sync-settings/issues/513)) ([261472f](https://github.com/atom-community/sync-settings/commit/261472fba873edb0a8434b8fedcb876a5571cba5))
+
 ## [4.3.3](https://github.com/atom-community/sync-settings/compare/v4.3.2...v4.3.3) (2020-04-29)
 
 
