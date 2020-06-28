@@ -1005,6 +1005,25 @@ describe('syncSettings', () => {
 				expect(atom.notifications.getNotifications()[0].getType()).toBe('success')
 			})
 
+			it('compairs directory correctly', async () => {
+				const files = ['test/test.tmp']
+				atom.config.set('sync-settings.extraFiles', files)
+				const folderPath = path.join(atom.getConfigDirPath(), 'test')
+				const filePath = path.join(folderPath, 'test.tmp')
+				try {
+					await fs.outputFile(filePath, 'test/test.tmp')
+					await syncSettings.backup()
+
+					atom.notifications.clear()
+					await syncSettings.checkBackup()
+
+					expect(atom.notifications.getNotifications().length).toBe(1)
+					expect(atom.notifications.getNotifications()[0].getType()).toBe('success')
+				} finally {
+					await fs.remove(folderPath)
+				}
+			})
+
 			it('quiets notification on up-to-date backup', async () => {
 				atom.config.set('sync-settings.quietUpdateCheck', true)
 				await syncSettings.backup()
