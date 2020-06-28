@@ -37,6 +37,7 @@ module.exports = {
 				message: 'Do not commit focused tests.',
 			},
 		],
+		'no-sync': 'error',
 		'react/jsx-uses-react': 'error',
 		'react/jsx-uses-vars': 'error',
 		'react/jsx-indent': ['error', 'tab'],

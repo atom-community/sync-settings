@@ -3,11 +3,7 @@ const gistLocation = require('../lib/location/gist')
 const gistApi = require('./gist-api-mock')
 const { config } = require('../lib/config')
 const utils = require('../lib/utils/utils')
-const fs = require('fs')
-const util = require('util')
-const writeFile = util.promisify(fs.writeFile)
-const unlink = util.promisify(fs.unlink)
-const tryUnlink = (...args) => unlink(...args).catch(() => {})
+const fs = require('fs-extra')
 const path = require('path')
 
 function setDefaultSettings (namespace, settings) {
@@ -24,10 +20,10 @@ function setDefaultSettings (namespace, settings) {
 describe('syncSettings', () => {
 	let syncSettings, backupLocation
 	beforeEach(async () => {
-		await writeFile(atom.keymaps.getUserKeymapPath(), '# keymap')
-		await writeFile(atom.styles.getUserStyleSheetPath(), '// stylesheet')
-		await writeFile(atom.getUserInitScriptPath(), '# init')
-		await writeFile(path.join(atom.getConfigDirPath(), 'snippets.cson'), '# snippets')
+		await fs.writeFile(atom.keymaps.getUserKeymapPath(), '# keymap')
+		await fs.writeFile(atom.styles.getUserStyleSheetPath(), '// stylesheet')
+		await fs.writeFile(atom.getUserInitScriptPath(), '# init')
+		await fs.writeFile(path.join(atom.getConfigDirPath(), 'snippets.cson'), '# snippets')
 
 		setDefaultSettings('sync-settings', config)
 		atom.config.set('sync-settings.useOtherLocation', true)
@@ -41,10 +37,10 @@ describe('syncSettings', () => {
 
 	afterEach(async () => {
 		await backupLocation.delete()
-		await unlink(atom.keymaps.getUserKeymapPath())
-		await unlink(atom.styles.getUserStyleSheetPath())
-		await unlink(atom.getUserInitScriptPath())
-		await unlink(path.join(atom.getConfigDirPath(), 'snippets.cson'))
+		await fs.remove(atom.keymaps.getUserKeymapPath())
+		await fs.remove(atom.styles.getUserStyleSheetPath())
+		await fs.remove(atom.getUserInitScriptPath())
+		await fs.remove(path.join(atom.getConfigDirPath(), 'snippets.cson'))
 	})
 
 	describe('backup', () => {
@@ -206,8 +202,8 @@ describe('syncSettings', () => {
 
 		it('back up the files defined in config.extraFiles', async () => {
 			atom.config.set('sync-settings.extraFiles', ['test.tmp', 'test2.tmp'])
-			await writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
-			await writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
+			await fs.writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
+			await fs.writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
 			await syncSettings.backup()
 			const data = await backupLocation.get()
 			atom.config.get('sync-settings.extraFiles').forEach(file => {
@@ -228,10 +224,10 @@ describe('syncSettings', () => {
 			atom.config.set('sync-settings.extraFilesGlob', ['*.tmp'])
 			try {
 				for (const file of files) {
-					await writeFile(path.join(atom.getConfigDirPath(), file), file)
+					await fs.writeFile(path.join(atom.getConfigDirPath(), file), file)
 				}
 				await syncSettings.backup()
-				await unlink(path.join(atom.getConfigDirPath(), 'test2.tmp'))
+				await fs.unlink(path.join(atom.getConfigDirPath(), 'test2.tmp'))
 				await syncSettings.backup()
 				const data = await backupLocation.get()
 
@@ -239,7 +235,7 @@ describe('syncSettings', () => {
 				expect(data.files['test2.tmp']).toBeDefined()
 			} finally {
 				for (const file of files) {
-					await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					await fs.remove(`${atom.getConfigDirPath()}/${file}`)
 				}
 			}
 		})
@@ -249,10 +245,10 @@ describe('syncSettings', () => {
 			atom.config.set('sync-settings.extraFiles', files)
 			try {
 				for (const file of files) {
-					await writeFile(path.join(atom.getConfigDirPath(), file), file)
+					await fs.writeFile(path.join(atom.getConfigDirPath(), file), file)
 				}
 				await syncSettings.backup()
-				await unlink(path.join(atom.getConfigDirPath(), 'test2.tmp'))
+				await fs.unlink(path.join(atom.getConfigDirPath(), 'test2.tmp'))
 				await syncSettings.backup()
 				const data = await backupLocation.get()
 
@@ -260,7 +256,7 @@ describe('syncSettings', () => {
 				expect(data.files['test2.tmp']).toBeDefined()
 			} finally {
 				for (const file of files) {
-					await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					await fs.remove(`${atom.getConfigDirPath()}/${file}`)
 				}
 			}
 		})
@@ -271,10 +267,10 @@ describe('syncSettings', () => {
 			atom.config.set('sync-settings.extraFilesGlob', ['*.tmp'])
 			try {
 				for (const file of files) {
-					await writeFile(path.join(atom.getConfigDirPath(), file), file)
+					await fs.writeFile(path.join(atom.getConfigDirPath(), file), file)
 				}
 				await syncSettings.backup()
-				await unlink(path.join(atom.getConfigDirPath(), 'test2.tmp'))
+				await fs.unlink(path.join(atom.getConfigDirPath(), 'test2.tmp'))
 				await syncSettings.backup()
 				const data = await backupLocation.get()
 
@@ -282,7 +278,7 @@ describe('syncSettings', () => {
 				expect(data.files['test2.tmp']).not.toBeDefined()
 			} finally {
 				for (const file of files) {
-					await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					await fs.remove(`${atom.getConfigDirPath()}/${file}`)
 				}
 			}
 		})
@@ -293,10 +289,10 @@ describe('syncSettings', () => {
 			atom.config.set('sync-settings.extraFiles', files)
 			try {
 				for (const file of files) {
-					await writeFile(path.join(atom.getConfigDirPath(), file), file)
+					await fs.writeFile(path.join(atom.getConfigDirPath(), file), file)
 				}
 				await syncSettings.backup()
-				await unlink(path.join(atom.getConfigDirPath(), 'test2.tmp'))
+				await fs.unlink(path.join(atom.getConfigDirPath(), 'test2.tmp'))
 				await syncSettings.backup()
 				const data = await backupLocation.get()
 
@@ -304,15 +300,15 @@ describe('syncSettings', () => {
 				expect(data.files['test2.tmp']).not.toBeDefined()
 			} finally {
 				for (const file of files) {
-					await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					await fs.remove(`${atom.getConfigDirPath()}/${file}`)
 				}
 			}
 		})
 
 		it('back up the files defined in config.extraFilesGlob', async () => {
 			atom.config.set('sync-settings.extraFilesGlob', ['*.tmp'])
-			await writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
-			await writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
+			await fs.writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
+			await fs.writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
 			await syncSettings.backup()
 			const data = await backupLocation.get()
 
@@ -323,8 +319,8 @@ describe('syncSettings', () => {
 		it('ignore files defined in config.ignoreFilesGlob', async () => {
 			atom.config.set('sync-settings.extraFilesGlob', ['*.tmp'])
 			atom.config.set('sync-settings.ignoreFilesGlob', ['*2*'])
-			await writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
-			await writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
+			await fs.writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
+			await fs.writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
 			await syncSettings.backup()
 			const data = await backupLocation.get()
 
@@ -345,7 +341,7 @@ describe('syncSettings', () => {
 
 		it('should not warn and back up config.cson', async () => {
 			atom.config.set('sync-settings.extraFiles', ['config.cson'])
-			await writeFile(path.join(atom.getConfigDirPath(), 'config.cson'), 'config.cson')
+			await fs.writeFile(path.join(atom.getConfigDirPath(), 'config.cson'), 'config.cson')
 			atom.config.set('sync-settings.hiddenSettings._warnBackupConfig', false)
 			atom.notifications.clear()
 			await syncSettings.backup()
@@ -500,13 +496,13 @@ describe('syncSettings', () => {
 
 			try {
 				await syncSettings.backup()
-				await writeFile(atom.keymaps.getUserKeymapPath(), `${original}\n# modified by sync setting spec`)
+				await fs.writeFile(atom.keymaps.getUserKeymapPath(), `${original}\n# modified by sync setting spec`)
 				await syncSettings.restore()
 				const content = await utils.fileContent(atom.keymaps.getUserKeymapPath())
 
 				expect(content).toEqual(original)
 			} finally {
-				await writeFile(atom.keymaps.getUserKeymapPath(), original)
+				await fs.writeFile(atom.keymaps.getUserKeymapPath(), original)
 			}
 		})
 
@@ -514,17 +510,17 @@ describe('syncSettings', () => {
 			const files = ['test.tmp', 'test2.tmp']
 			atom.config.set('sync-settings.extraFilesGlob', ['*.tmp'])
 			try {
-				await writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
+				await fs.writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
 				await syncSettings.backup()
-				await writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
+				await fs.writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
 				await syncSettings.restore()
 
 				for (const file of files) {
-					expect(fs.existsSync(`${atom.getConfigDirPath()}/${file}`)).toBe(true)
+					expect(await fs.pathExists(`${atom.getConfigDirPath()}/${file}`)).toBe(true)
 				}
 			} finally {
 				for (const file of files) {
-					await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					await fs.remove(`${atom.getConfigDirPath()}/${file}`)
 				}
 			}
 		})
@@ -533,18 +529,18 @@ describe('syncSettings', () => {
 			const files = ['test.tmp', 'test2.tmp']
 			atom.config.set('sync-settings.extraFiles', ['test.tmp'])
 			try {
-				await writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
+				await fs.writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
 				await syncSettings.backup()
 				atom.config.set('sync-settings.extraFiles', files)
-				await writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
+				await fs.writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
 				await syncSettings.restore()
 
 				for (const file of files) {
-					expect(fs.existsSync(`${atom.getConfigDirPath()}/${file}`)).toBe(true)
+					expect(await fs.pathExists(`${atom.getConfigDirPath()}/${file}`)).toBe(true)
 				}
 			} finally {
 				for (const file of files) {
-					await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					await fs.remove(`${atom.getConfigDirPath()}/${file}`)
 				}
 			}
 		})
@@ -554,16 +550,16 @@ describe('syncSettings', () => {
 			atom.config.set('sync-settings.removeUnfamiliarFiles', true)
 			atom.config.set('sync-settings.extraFilesGlob', ['*.tmp'])
 			try {
-				await writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
+				await fs.writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
 				await syncSettings.backup()
-				await writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
+				await fs.writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
 				await syncSettings.restore()
 
-				expect(fs.existsSync(`${atom.getConfigDirPath()}/test.tmp`)).toBe(true)
-				expect(fs.existsSync(`${atom.getConfigDirPath()}/test2.tmp`)).toBe(false)
+				expect(await fs.pathExists(`${atom.getConfigDirPath()}/test.tmp`)).toBe(true)
+				expect(await fs.pathExists(`${atom.getConfigDirPath()}/test2.tmp`)).toBe(false)
 			} finally {
 				for (const file of files) {
-					await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					await fs.remove(`${atom.getConfigDirPath()}/${file}`)
 				}
 			}
 		})
@@ -573,17 +569,17 @@ describe('syncSettings', () => {
 			atom.config.set('sync-settings.removeUnfamiliarFiles', true)
 			atom.config.set('sync-settings.extraFiles', ['test.tmp'])
 			try {
-				await writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
+				await fs.writeFile(path.join(atom.getConfigDirPath(), 'test.tmp'), 'test.tmp')
 				await syncSettings.backup()
 				atom.config.set('sync-settings.extraFiles', files)
-				await writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
+				await fs.writeFile(path.join(atom.getConfigDirPath(), 'test2.tmp'), 'test2.tmp')
 				await syncSettings.restore()
 
-				expect(fs.existsSync(`${atom.getConfigDirPath()}/test.tmp`)).toBe(true)
-				expect(fs.existsSync(`${atom.getConfigDirPath()}/test2.tmp`)).toBe(false)
+				expect(await fs.pathExists(`${atom.getConfigDirPath()}/test.tmp`)).toBe(true)
+				expect(await fs.pathExists(`${atom.getConfigDirPath()}/test2.tmp`)).toBe(false)
 			} finally {
 				for (const file of files) {
-					await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					await fs.remove(`${atom.getConfigDirPath()}/${file}`)
 				}
 			}
 		})
@@ -593,20 +589,44 @@ describe('syncSettings', () => {
 			atom.config.set('sync-settings.extraFiles', files)
 			try {
 				for (const file of files) {
-					await writeFile(path.join(atom.getConfigDirPath(), file), file)
+					await fs.writeFile(path.join(atom.getConfigDirPath(), file), file)
 				}
 
 				await syncSettings.backup()
+
+				for (const file of files) {
+					await fs.unlink(path.join(atom.getConfigDirPath(), file))
+				}
+
 				await syncSettings.restore()
 
 				for (const file of files) {
-					expect(fs.existsSync(`${atom.getConfigDirPath()}/${file}`)).toBe(true)
+					expect(await fs.pathExists(`${atom.getConfigDirPath()}/${file}`)).toBe(true)
 					expect((await utils.fileContent(`${atom.getConfigDirPath()}/${file}`)).toString()).toBe(file)
 				}
 			} finally {
 				for (const file of files) {
-					await tryUnlink(`${atom.getConfigDirPath()}/${file}`)
+					await fs.remove(`${atom.getConfigDirPath()}/${file}`)
 				}
+			}
+		})
+
+		it('restores folder in backup that does not exist locally', async () => {
+			const files = ['test/test.tmp']
+			atom.config.set('sync-settings.extraFiles', files)
+			const folderPath = path.join(atom.getConfigDirPath(), 'test')
+			const filePath = path.join(folderPath, 'test.tmp')
+			try {
+				await fs.outputFile(filePath, 'test/test.tmp')
+				await syncSettings.backup()
+				await fs.remove(folderPath)
+
+				await syncSettings.restore()
+
+				expect(await fs.pathExists(filePath)).toBe(true)
+				expect((await utils.fileContent(filePath)).toString()).toBe('test/test.tmp')
+			} finally {
+				await fs.remove(folderPath)
 			}
 		})
 
@@ -983,6 +1003,25 @@ describe('syncSettings', () => {
 
 				expect(atom.notifications.getNotifications().length).toBe(1)
 				expect(atom.notifications.getNotifications()[0].getType()).toBe('success')
+			})
+
+			it('compairs directory correctly', async () => {
+				const files = ['test/test.tmp']
+				atom.config.set('sync-settings.extraFiles', files)
+				const folderPath = path.join(atom.getConfigDirPath(), 'test')
+				const filePath = path.join(folderPath, 'test.tmp')
+				try {
+					await fs.outputFile(filePath, 'test/test.tmp')
+					await syncSettings.backup()
+
+					atom.notifications.clear()
+					await syncSettings.checkBackup()
+
+					expect(atom.notifications.getNotifications().length).toBe(1)
+					expect(atom.notifications.getNotifications()[0].getType()).toBe('success')
+				} finally {
+					await fs.remove(folderPath)
+				}
 			})
 
 			it('quiets notification on up-to-date backup', async () => {
