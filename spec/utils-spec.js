@@ -1,7 +1,6 @@
 const utils = require('../lib/utils/utils')
 const { config } = require('../lib/config')
 const fs = require('fs-extra')
-const tryUnlink = (...args) => fs.unlink(...args).catch(() => {})
 const path = require('path')
 const os = require('os')
 
@@ -83,8 +82,8 @@ describe('utils', () => {
 				const snippets = await utils.getSnippetsPath()
 				expect(snippets).toBe(path.resolve(atom.getConfigDirPath(), 'snippets.json'))
 			} finally {
-				await tryUnlink(path.resolve(atom.getConfigDirPath(), 'snippets.cson'))
-				await tryUnlink(path.resolve(atom.getConfigDirPath(), 'snippets.json'))
+				await fs.remove(path.resolve(atom.getConfigDirPath(), 'snippets.cson'))
+				await fs.remove(path.resolve(atom.getConfigDirPath(), 'snippets.json'))
 			}
 		})
 	})
@@ -156,7 +155,7 @@ describe('utils', () => {
 			try {
 				expect(await utils.fileContent(tmpPath)).toBeNull()
 			} finally {
-				await tryUnlink(tmpPath)
+				await fs.remove(tmpPath)
 			}
 		})
 
@@ -165,7 +164,7 @@ describe('utils', () => {
 			try {
 				expect((await utils.fileContent(tmpPath, 'nullString')).toString()).toBe('nullString')
 			} finally {
-				await tryUnlink(tmpPath)
+				await fs.remove(tmpPath)
 			}
 		})
 
@@ -175,7 +174,7 @@ describe('utils', () => {
 			try {
 				expect((await utils.fileContent(tmpPath)).toString()).toEqual(text)
 			} finally {
-				await tryUnlink(tmpPath)
+				await fs.remove(tmpPath)
 			}
 		})
 	})
