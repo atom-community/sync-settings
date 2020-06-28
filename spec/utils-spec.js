@@ -1,10 +1,7 @@
 const utils = require('../lib/utils/utils')
 const { config } = require('../lib/config')
-const fs = require('fs')
-const util = require('util')
-const writeFile = util.promisify(fs.writeFile)
-const unlink = util.promisify(fs.unlink)
-const tryUnlink = (...args) => unlink(...args).catch(() => {})
+const fs = require('fs-extra')
+const tryUnlink = (...args) => fs.unlink(...args).catch(() => {})
 const path = require('path')
 const os = require('os')
 
@@ -80,8 +77,8 @@ describe('utils', () => {
 
 		it('favors json', async () => {
 			try {
-				await writeFile(path.resolve(atom.getConfigDirPath(), 'snippets.cson'), 'test')
-				await writeFile(path.resolve(atom.getConfigDirPath(), 'snippets.json'), 'test')
+				await fs.writeFile(path.resolve(atom.getConfigDirPath(), 'snippets.cson'), 'test')
+				await fs.writeFile(path.resolve(atom.getConfigDirPath(), 'snippets.json'), 'test')
 
 				const snippets = await utils.getSnippetsPath()
 				expect(snippets).toBe(path.resolve(atom.getConfigDirPath(), 'snippets.json'))
@@ -155,7 +152,7 @@ describe('utils', () => {
 		})
 
 		it('returns null for empty file', async () => {
-			await writeFile(tmpPath, '')
+			await fs.writeFile(tmpPath, '')
 			try {
 				expect(await utils.fileContent(tmpPath)).toBeNull()
 			} finally {
@@ -164,7 +161,7 @@ describe('utils', () => {
 		})
 
 		it('returns nullString for empty file', async () => {
-			await writeFile(tmpPath, '')
+			await fs.writeFile(tmpPath, '')
 			try {
 				expect((await utils.fileContent(tmpPath, 'nullString')).toString()).toBe('nullString')
 			} finally {
@@ -174,7 +171,7 @@ describe('utils', () => {
 
 		it('returns content of existing file', async () => {
 			const text = 'test text'
-			await writeFile(tmpPath, text)
+			await fs.writeFile(tmpPath, text)
 			try {
 				expect((await utils.fileContent(tmpPath)).toString()).toEqual(text)
 			} finally {
