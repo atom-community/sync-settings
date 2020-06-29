@@ -218,3 +218,53 @@ module.exports = {
   },
 }
 ```
+
+## Sync-Settings Service
+
+Sync-Settings provides a service that allows other packages to interact with Sync-Settings:
+
+### Example:
+
+Add the keywords `sync-settings` and `location` and add the `consumeServices` property to your `package.json` file.
+
+```json
+// package.json
+  ...
+  "main": "./main.js",
+  ...
+  "consumeServices": {
+    "sync-settings": {
+      "versions": {
+        "1.0.0": "syncSettingsService"
+      }
+    }
+  },
+  ...
+```
+
+Then add the `syncSettingsService` function to your `main.js` file (where your `activate` function is for Atom to activate your package)
+
+```js
+// main.js
+  ...
+  activate () {
+    ...
+  },
+
+  syncSettingsService (service) {
+    // call service functions to interact with Sync-Settings
+  },
+  ...
+```
+
+### Service Functions
+
+The following functions are available on the service:
+
+#### `hideSettings(string | string[])`
+
+Add keys to the blacklist so they won't be backed up or overwritten on restore.
+
+```js
+service.hideSettings(['package-name.config-key', 'package-name.another-config-key'])
+```
