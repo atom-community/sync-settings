@@ -106,6 +106,18 @@ describe('syncSettings', () => {
 			expect(settings['*'].package.dummy2).toBe(true)
 		})
 
+		it("doesn't back up string hidden setting", async () => {
+			syncSettings.hideSettings('package.dummy')
+			atom.config.set('package.dummy', true)
+			atom.config.set('package.dummy2', true)
+			await syncSettings.backup()
+			const data = await backupLocation.get()
+			const settings = JSON.parse(data.files['settings.json'].content)
+
+			expect(settings['*'].package.dummy).not.toBeDefined()
+			expect(settings['*'].package.dummy2).toBe(true)
+		})
+
 		it("back up hidden setting parent if key doesn't exist", async () => {
 			syncSettings.hideSettings(['package.dummy.dummy2'])
 			atom.config.set('package.dummy', true)
