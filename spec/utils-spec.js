@@ -244,6 +244,20 @@ describe('utils', () => {
 			expect(settings['*'].package['setting.with.dots']).toBe('')
 			expect(settings['*'].packge.very.nested.setting).toBe(true)
 		})
+
+		it('adds settingsToHide keys', function () {
+			atom.config.set('dummy', false)
+			atom.config.set('package.dummy', 0)
+			atom.config.set('package.setting\\.with\\.dots', '')
+			atom.config.set('packge.very.nested.setting', true)
+
+			const settings = utils.addFilteredSettings({ '*': {} }, ['dummy', 'package.dummy', 'package.setting\\.with\\.dots', 'packge.very.nested.setting'])
+
+			expect(settings['*'].dummy).toBe(false)
+			expect(settings['*'].package.dummy).toBe(0)
+			expect(settings['*'].package['setting.with.dots']).toBe('')
+			expect(settings['*'].packge.very.nested.setting).toBe(true)
+		})
 	})
 
 	describe('getFilteredSettings', () => {
@@ -255,6 +269,20 @@ describe('utils', () => {
 			atom.config.set('packge.very.nested.setting', true)
 
 			const settings = utils.getFilteredSettings()
+
+			expect(settings['*'].dummy).not.toBeDefined()
+			expect(settings['*'].package.dummy).not.toBeDefined()
+			expect(settings['*'].package['setting.with.dots']).not.toBeDefined()
+			expect(settings['*'].packge.very.nested.setting).not.toBeDefined()
+		})
+
+		it('remove settingsToHide keys', function () {
+			atom.config.set('dummy', false)
+			atom.config.set('package.dummy', 0)
+			atom.config.set('package.setting\\.with\\.dots', '')
+			atom.config.set('packge.very.nested.setting', true)
+
+			const settings = utils.getFilteredSettings(['dummy', 'package.dummy', 'package.setting\\.with\\.dots', 'packge.very.nested.setting'])
 
 			expect(settings['*'].dummy).not.toBeDefined()
 			expect(settings['*'].package.dummy).not.toBeDefined()
