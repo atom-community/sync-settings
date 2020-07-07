@@ -1,9 +1,9 @@
 <application>
   <component name="FindSettings">
-    <option name="customScope" value="Project 'Metallurgy 4 Reforged'" />
-    <option name="defaultScopeName" value="Project 'Metallurgy 4 Reforged'" />
+    <option name="customScope" value="Favorite 'Minecraft-Forge'" />
+    <option name="defaultScopeName" value="Favorite 'Minecraft-Forge'" />
     <option name="localCaseSensitive" value="true" />
     <option name="LOCAL_CASE_SENSITIVE_SEARCH" value="true" />
-    <option name="SEARCH_SCOPE" value="Project 'Metallurgy 4 Reforged'" />
+    <option name="SEARCH_SCOPE" value="Favorite 'Minecraft-Forge'" />
   </component>
 </application>
