@@ -1,5 +1,5 @@
 <application>
   <component name="LafManager">
-    <laf class-name="com.intellij.laf.win10.WinIntelliJLaf" />
+    <laf class-name="com.intellij.ide.ui.laf.darcula.DarculaLaf" />
   </component>
 </application>
