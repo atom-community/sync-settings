@@ -708,9 +708,9 @@
           <custom-object-presentation />
         </configuration>
       </debugger>
-      <debugger id="kotlin_debugger">
+      <debugger id="oracle">
         <configuration>
-          <option name="DEBUG_IS_FILTER_FOR_STDLIB_ALREADY_ADDED" value="true" />
+          <option name="steppingNative" value="true" />
         </configuration>
       </debugger>
     </debuggers>
