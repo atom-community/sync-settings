@@ -51,7 +51,7 @@
     "glob": "^7.1.6",
     "is-binary-path": "^2.1.0",
     "key-path-helpers": "^0.4.0",
-    "marked": "^1.1.0",
+    "marked": "^1.1.1",
     "minimatch": "^3.0.4",
     "semver": "^7.3.2",
     "underscore-plus": "^1.7.0"
