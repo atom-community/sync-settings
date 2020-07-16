@@ -1,17 +1,17 @@
 <application>
   <component name="PowerModeII">
-    <option name="blueFrom" value="80" />
-    <option name="blueTo" value="138" />
+    <option name="blueFrom" value="181" />
+    <option name="blueTo" value="211" />
     <option name="colorAlpha" value="125" />
     <option name="customBamImageFolder" value="C:\WINDOWS\System32" />
     <option name="customFlameImageFolder" value="C:\WINDOWS\System32" />
     <option name="enabled" value="false" />
     <option name="flamesEnabled" value="false" />
-    <option name="greenFrom" value="71" />
-    <option name="greenTo" value="71" />
+    <option name="greenFrom" value="236" />
+    <option name="greenTo" value="253" />
     <option name="isPowerIndicatorEnabled" value="false" />
-    <option name="redFrom" value="199" />
-    <option name="redTo" value="199" />
+    <option name="redFrom" value="25" />
+    <option name="redTo" value="244" />
     <option name="shakeRange" value="2" />
     <option name="soundsFolder" value="C:\WINDOWS\System32" />
     <option name="sparkCount" value="4" />
