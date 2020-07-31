@@ -2,10 +2,80 @@
   <component name="libraryTable">
     <library name="@types/express" type="javaScript">
       <CLASSES />
+      <JAVADOC />
       <SOURCES />
     </library>
     <library name="@types/jquery" type="javaScript">
       <CLASSES />
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="groovy-3.0.4">
+      <CLASSES>
+        <root url="jar://D:/Programmi/groovy-sdk/lib/ant-1.10.8.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/ant-antlr-1.10.8.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/ant-junit-1.10.8.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/ant-launcher-1.10.8.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/bsf-2.4.0.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/commons-cli-1.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/commons-logging-1.2.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/gpars-1.2.1.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-ant-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-astbuilder-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-bsf-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-cli-commons-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-cli-picocli-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-console-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-datetime-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-dateutil-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-docgenerator-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-groovydoc-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-groovysh-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-jaxb-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-jmx-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-json-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-jsr223-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-macro-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-nio-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-servlet-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-sql-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-swing-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-templates-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-test-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-test-junit5-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-testng-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-xml-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/groovy-yaml-3.0.4.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/hamcrest-core-1.3.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/ivy-2.5.0.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/jackson-annotations-2.11.0.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/jackson-core-2.11.0.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/jackson-databind-2.11.0.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/jackson-dataformat-yaml-2.11.0.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/jansi-1.18.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/javaparser-core-3.15.22.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/javax.servlet-api-3.0.1.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/jcommander-1.72.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/jline-2.14.6.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/jsp-api-2.0.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/jsr166y-1.7.0.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/junit-4.13.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/junit-jupiter-api-5.6.2.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/junit-jupiter-engine-5.6.2.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/junit-platform-commons-1.6.2.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/junit-platform-engine-1.6.2.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/junit-platform-launcher-1.6.2.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/multiverse-core-0.7.0.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/opentest4j-1.2.0.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/org.abego.treelayout.core-1.0.1.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/qdox-1.12.1.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/snakeyaml-1.26.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/ST4-4.1.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/testng-7.2.0.jar!/" />
+        <root url="jar://D:/Programmi/groovy-sdk/lib/xstream-1.4.12.jar!/" />
+      </CLASSES>
+      <JAVADOC />
       <SOURCES />
     </library>
   </component>
