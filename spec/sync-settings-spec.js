@@ -912,6 +912,26 @@ describe('syncSettings', () => {
 				},
 			})
 		})
+
+		it('same files with diff EOL', async () => {
+			const diffData = await syncSettings.getDiffData({
+				files: {
+					added: { content: 'added\r\n' },
+					updated: { content: 'updated\r\n' },
+				},
+			}, {
+				files: {
+					added: { content: 'added\n' },
+					updated: { content: 'updated\n' },
+				},
+			})
+
+			expect(diffData).toEqual({
+				settings: null,
+				packages: null,
+				files: null,
+			})
+		})
 	})
 
 	describe('check for update', () => {
