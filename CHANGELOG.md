@@ -1,3 +1,10 @@
+## [4.3.9](https://github.com/atom-community/sync-settings/compare/v4.3.8...v4.3.9) (2020-08-19)
+
+
+### Bug Fixes
+
+* use atom-modal-views ([02f74b2](https://github.com/atom-community/sync-settings/commit/02f74b249d7f1539570a23af1b29abaa7e00a31a))
+
 ## [4.3.8](https://github.com/atom-community/sync-settings/compare/v4.3.7...v4.3.8) (2020-07-27)
 
 
