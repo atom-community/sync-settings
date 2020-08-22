@@ -9,7 +9,7 @@
     <option name="applicationDetailsCustom" value="Idling" />
     <option name="fileDetails" value="PROJECT_NAME_VCS_BRANCH" />
     <option name="fileState" value="FILE_NAME" />
-    <option name="theme" value="atom" />
+    <option name="theme" value="flat" />
     <option name="applicationLastUpdateNotification" value="1.4.2" />
   </component>
   <component name="DiscordIntegrationApplicationSettings" hideReadOnlyFiles="false" hideAfterPeriodOfInactivity="false" />
