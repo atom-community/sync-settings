@@ -912,6 +912,27 @@ describe('syncSettings', () => {
 				},
 			})
 		})
+
+		it('ignore same files with diff EOL', async () => {
+			atom.config.set('sync-settings.ignoreEol', true)
+			const diffData = await syncSettings.getDiffData({
+				files: {
+					added: { content: 'added\r\n' },
+					updated: { content: 'updated\r\n' },
+				},
+			}, {
+				files: {
+					added: { content: 'added\n' },
+					updated: { content: 'updated\n' },
+				},
+			})
+
+			expect(diffData).toEqual({
+				settings: null,
+				packages: null,
+				files: null,
+			})
+		})
 	})
 
 	describe('check for update', () => {
