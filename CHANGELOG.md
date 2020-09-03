@@ -1,3 +1,15 @@
+# [5.0.0](https://github.com/atom-community/sync-settings/compare/v4.3.10...v5.0.0) (2020-09-03)
+
+
+### Bug Fixes
+
+* change blacklist to disallow ([#546](https://github.com/atom-community/sync-settings/issues/546)) ([d6441c4](https://github.com/atom-community/sync-settings/commit/d6441c41c252fd2d508ca19f20916d1b3c1183ff))
+
+
+### BREAKING CHANGES
+
+* `sync-settings.blacklistedKeys` has been changed to `sync-settings.disallowedSettings`
+
 ## [4.3.10](https://github.com/atom-community/sync-settings/compare/v4.3.9...v4.3.10) (2020-08-27)
 
 

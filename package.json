@@ -1,7 +1,7 @@
 {
   "name": "sync-settings",
   "main": "./lib/main",
-  "version": "4.3.10",
+  "version": "5.0.0",
   "description": "Synchronize package settings, keymap and installed packages",
   "repository": {
     "type": "git",
