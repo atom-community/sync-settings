@@ -251,7 +251,7 @@
 * Allow synchronizing some settings of this package. Closes [#193](https://github.com/atom-community/sync-settings/pull/193)
 * Fix restoring settings of type color. Fixes [#180](https://github.com/atom-community/sync-settings/issues/180)
 * Improve documentation to use private gists. Closes [#190](https://github.com/atom-community/sync-settings/issues/190)
-* Add option to blacklist specific configuration values. Closes [#165](https://github.com/atom-community/sync-settings/issues/165)
+* Add option to disallow specific configuration values. Closes [#165](https://github.com/atom-community/sync-settings/issues/165)
 * Trim GistID and personal access token. Fixes [#153](https://github.com/atom-community/sync-settings/issues/153)
 * Add fork command. Closes [#187](https://github.com/atom-community/sync-settings/pull/187)
 * Use platform specific folder for temporary files during testing. Closes [185](https://github.com/atom-community/sync-settings/pull/185)

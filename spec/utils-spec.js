@@ -226,8 +226,8 @@ describe('utils', () => {
 	})
 
 	describe('addFilteredSettings', () => {
-		it('adds blacklisted keys', function () {
-			atom.config.set('sync-settings.blacklistedKeys', ['dummy', 'package.dummy', 'package.setting\\.with\\.dots', 'packge.very.nested.setting'])
+		it('adds disallowed settings', function () {
+			atom.config.set('sync-settings.disallowedSettings', ['dummy', 'package.dummy', 'package.setting\\.with\\.dots', 'packge.very.nested.setting'])
 			atom.config.set('dummy', false)
 			atom.config.set('package.dummy', 0)
 			atom.config.set('package.setting\\.with\\.dots', '')
@@ -243,8 +243,8 @@ describe('utils', () => {
 	})
 
 	describe('getFilteredSettings', () => {
-		it('remove blacklisted keys', function () {
-			atom.config.set('sync-settings.blacklistedKeys', ['dummy', 'package.dummy', 'package.setting\\.with\\.dots', 'packge.very.nested.setting'])
+		it('remove disallowed settings', function () {
+			atom.config.set('sync-settings.disallowedSettings', ['dummy', 'package.dummy', 'package.setting\\.with\\.dots', 'packge.very.nested.setting'])
 			atom.config.set('dummy', false)
 			atom.config.set('package.dummy', 0)
 			atom.config.set('package.setting\\.with\\.dots', '')
