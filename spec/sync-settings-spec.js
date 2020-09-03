@@ -68,8 +68,8 @@ describe('syncSettings', () => {
 			expect(data.files['settings.json']).not.toBeDefined()
 		})
 
-		it("doesn't back up blacklisted settings", async () => {
-			atom.config.set('sync-settings.blacklistedKeys', ['package.dummy'])
+		it("doesn't back up disallowed settings", async () => {
+			atom.config.set('sync-settings.disallowedSettings', ['package.dummy'])
 			atom.config.set('package.dummy', true)
 			atom.config.set('package.dummy2', true)
 			await syncSettings.backup()
@@ -80,8 +80,8 @@ describe('syncSettings', () => {
 			expect(settings['*'].package.dummy2).toBe(true)
 		})
 
-		it("back up blacklisted parent if key doesn't exist", async () => {
-			atom.config.set('sync-settings.blacklistedKeys', ['package.dummy.dummy2'])
+		it("back up disallowed parent if key doesn't exist", async () => {
+			atom.config.set('sync-settings.disallowedSettings', ['package.dummy.dummy2'])
 			atom.config.set('package.dummy', true)
 			await syncSettings.backup()
 			const data = await backupLocation.get()
@@ -399,8 +399,8 @@ describe('syncSettings', () => {
 			expect(atom.config.get('package.dummy')).toBe(true)
 		})
 
-		it('does not remove blacklisted settings', async () => {
-			atom.config.set('sync-settings.blacklistedKeys', ['package.dummy'])
+		it('does not remove disallowed settings', async () => {
+			atom.config.set('sync-settings.disallowedSettings', ['package.dummy'])
 			await syncSettings.backup()
 			atom.config.set('package.dummy', true)
 			await syncSettings.restore()
@@ -419,7 +419,7 @@ describe('syncSettings', () => {
 		})
 
 		it('restores only themes', async () => {
-			atom.config.set('sync-settings.blacklistedKeys', ['sync-settings.syncPackages', 'sync-settings.syncThemes'])
+			atom.config.set('sync-settings.disallowedSettings', ['sync-settings.syncPackages', 'sync-settings.syncThemes'])
 			spyOn(utils, 'installMissingPackages')
 			atom.config.set('sync-settings.syncPackages', true)
 			atom.config.set('sync-settings.syncThemes', true)
@@ -435,7 +435,7 @@ describe('syncSettings', () => {
 		})
 
 		it('restores only packages', async () => {
-			atom.config.set('sync-settings.blacklistedKeys', ['sync-settings.syncPackages', 'sync-settings.syncThemes'])
+			atom.config.set('sync-settings.disallowedSettings', ['sync-settings.syncPackages', 'sync-settings.syncThemes'])
 			spyOn(utils, 'installMissingPackages')
 			atom.config.set('sync-settings.syncPackages', true)
 			atom.config.set('sync-settings.syncThemes', true)
@@ -454,7 +454,7 @@ describe('syncSettings', () => {
 			// atom test environment only has bundled packages. We are pretending that `about` is not a bundled package
 			spyOn(atom.packages, 'isBundledPackage').and.callFake(name => name !== 'about')
 			spyOn(utils, 'installMissingPackages')
-			atom.config.set('sync-settings.blacklistedKeys', ['sync-settings.onlySyncCommunityPackages'])
+			atom.config.set('sync-settings.disallowedSettings', ['sync-settings.onlySyncCommunityPackages'])
 			atom.config.set('sync-settings.onlySyncCommunityPackages', false)
 			await syncSettings.backup()
 			atom.config.set('sync-settings.onlySyncCommunityPackages', true)
