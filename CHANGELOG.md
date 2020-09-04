@@ -1,3 +1,10 @@
+## [5.0.1](https://github.com/atom-community/sync-settings/compare/v5.0.0...v5.0.1) (2020-09-04)
+
+
+### Bug Fixes
+
+* add ignoreEol setting ([#547](https://github.com/atom-community/sync-settings/issues/547)) ([f7f4f52](https://github.com/atom-community/sync-settings/commit/f7f4f52655c7122722fe03a29e1ea9751429d7a7))
+
 # [5.0.0](https://github.com/atom-community/sync-settings/compare/v4.3.10...v5.0.0) (2020-09-03)
 
 
