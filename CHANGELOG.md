@@ -1,3 +1,10 @@
+## [5.0.2](https://github.com/atom-community/sync-settings/compare/v5.0.1...v5.0.2) (2020-09-11)
+
+
+### Bug Fixes
+
+* display error on restore when no backup files exist ([3bd4caa](https://github.com/atom-community/sync-settings/commit/3bd4caa5784fe5429870363205083c0eaa6b7707))
+
 ## [5.0.1](https://github.com/atom-community/sync-settings/compare/v5.0.0...v5.0.1) (2020-09-04)
 
 
