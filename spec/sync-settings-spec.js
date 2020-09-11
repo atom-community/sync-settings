@@ -646,6 +646,14 @@ describe('syncSettings', () => {
 			expect(atom.config.get('some-dummy')).toBeTruthy()
 		})
 
+		it('displays an error when no backup files exist', async () => {
+			atom.notifications.clear()
+			await syncSettings.restore()
+
+			expect(atom.notifications.getNotifications().length).toEqual(1)
+			expect(atom.notifications.getNotifications()[0].getType()).toBe('error')
+		})
+
 		it('restores keys with dots', async () => {
 			atom.config.set('sync-settings.syncSettings', true)
 			atom.config.set('some\\.key', ['one', 'two'])
@@ -955,6 +963,8 @@ describe('syncSettings', () => {
 		})
 
 		it('updates last time on restore', async () => {
+			await syncSettings.backup()
+			atom.config.unset('sync-settings.hiddenSettings._lastBackupTime')
 			await syncSettings.restore()
 
 			expect(atom.config.get('sync-settings.hiddenSettings._lastBackupTime')).toBeDefined()
