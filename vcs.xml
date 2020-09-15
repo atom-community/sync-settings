@@ -26,9 +26,13 @@
           <option name="url" value="https://github.com/googlesamples/mlkit.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/Davoleo/Metallurgy-4-Reforged.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
-    <option name="cloneParentDir" value="C:\Users\Davoleo\Desktop" />
+    <option name="cloneParentDir" value="D:\Everything\MC\Modding\1.12" />
   </component>
   <component name="Vcs.Log.App.Settings">
     <option name="COLUMN_ORDER">
