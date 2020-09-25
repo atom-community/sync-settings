@@ -1,3 +1,11 @@
+## [5.0.3](https://github.com/atom-community/sync-settings/compare/v5.0.2...v5.0.3) (2020-09-25)
+
+
+### Bug Fixes
+
+* **deps:** bump atom-modal-views from 1.0.1 to 1.0.2 ([#561](https://github.com/atom-community/sync-settings/issues/561)) ([85b8818](https://github.com/atom-community/sync-settings/commit/85b881892b87b2f9fc4cba438f87d96ff51d6264))
+* **deps:** bump etch from 0.14.0 to 0.14.1 ([#558](https://github.com/atom-community/sync-settings/issues/558)) ([5ebef7a](https://github.com/atom-community/sync-settings/commit/5ebef7ac7ea67e53d5ae2b8739686738c8f0c6bd))
+
 ## [5.0.2](https://github.com/atom-community/sync-settings/compare/v5.0.1...v5.0.2) (2020-09-11)
 
 
