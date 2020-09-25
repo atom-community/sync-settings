@@ -1,6 +1,5 @@
 <application>
   <component name="WebBrowsersConfiguration" default="first">
-    <browser id="baf50aee-826f-499e-81ec-c7bdbe73aea2" name="Opera GX" family="OPERA" path="D:/Programmi/OperaGX/launcher.exe" />
     <browser id="53e2f627-b1a7-4dfa-bfa7-5b83cc034776" name="Opera" family="OPERA" />
     <browser id="e5120d43-2c3f-47ef-9f26-65e539e05186" name="Safari" family="SAFARI" active="false" />
     <browser id="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" name="Firefox" family="FIREFOX" active="false" />
