@@ -1,3 +1,10 @@
+## [5.0.4](https://github.com/atom-community/sync-settings/compare/v5.0.3...v5.0.4) (2020-09-28)
+
+
+### Bug Fixes
+
+* **deps:** bump marked from 1.1.1 to 1.2.0 ([#564](https://github.com/atom-community/sync-settings/issues/564)) ([bff5f33](https://github.com/atom-community/sync-settings/commit/bff5f33ad5f68695148f19ef36a4a1a6e057ab3a))
+
 ## [5.0.3](https://github.com/atom-community/sync-settings/compare/v5.0.2...v5.0.3) (2020-09-25)
 
 
