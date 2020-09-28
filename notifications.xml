@@ -1,5 +1,0 @@
-<application>
-  <component name="NotificationConfiguration">
-    <notification groupId="Android XML code style notification" displayType="NONE" shouldLog="false" />
-  </component>
-</application>
