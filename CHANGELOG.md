@@ -1,3 +1,10 @@
+## [5.0.5](https://github.com/atom-community/sync-settings/compare/v5.0.4...v5.0.5) (2020-09-29)
+
+
+### Bug Fixes
+
+* **deps:** bump atom-modal-views from 1.0.2 to 1.0.3 ([#566](https://github.com/atom-community/sync-settings/issues/566)) ([1b75c57](https://github.com/atom-community/sync-settings/commit/1b75c5771dfa9b1c9b55fe50a72f5e34f441a035))
+
 ## [5.0.4](https://github.com/atom-community/sync-settings/compare/v5.0.3...v5.0.4) (2020-09-28)
 
 
