@@ -1,3 +1,103 @@
+## [5.0.5](https://github.com/atom-community/sync-settings/compare/v5.0.4...v5.0.5) (2020-09-29)
+
+
+### Bug Fixes
+
+* **deps:** bump atom-modal-views from 1.0.2 to 1.0.3 ([#566](https://github.com/atom-community/sync-settings/issues/566)) ([1b75c57](https://github.com/atom-community/sync-settings/commit/1b75c5771dfa9b1c9b55fe50a72f5e34f441a035))
+
+## [5.0.4](https://github.com/atom-community/sync-settings/compare/v5.0.3...v5.0.4) (2020-09-28)
+
+
+### Bug Fixes
+
+* **deps:** bump marked from 1.1.1 to 1.2.0 ([#564](https://github.com/atom-community/sync-settings/issues/564)) ([bff5f33](https://github.com/atom-community/sync-settings/commit/bff5f33ad5f68695148f19ef36a4a1a6e057ab3a))
+
+## [5.0.3](https://github.com/atom-community/sync-settings/compare/v5.0.2...v5.0.3) (2020-09-25)
+
+
+### Bug Fixes
+
+* **deps:** bump atom-modal-views from 1.0.1 to 1.0.2 ([#561](https://github.com/atom-community/sync-settings/issues/561)) ([85b8818](https://github.com/atom-community/sync-settings/commit/85b881892b87b2f9fc4cba438f87d96ff51d6264))
+* **deps:** bump etch from 0.14.0 to 0.14.1 ([#558](https://github.com/atom-community/sync-settings/issues/558)) ([5ebef7a](https://github.com/atom-community/sync-settings/commit/5ebef7ac7ea67e53d5ae2b8739686738c8f0c6bd))
+
+## [5.0.2](https://github.com/atom-community/sync-settings/compare/v5.0.1...v5.0.2) (2020-09-11)
+
+
+### Bug Fixes
+
+* display error on restore when no backup files exist ([3bd4caa](https://github.com/atom-community/sync-settings/commit/3bd4caa5784fe5429870363205083c0eaa6b7707))
+
+## [5.0.1](https://github.com/atom-community/sync-settings/compare/v5.0.0...v5.0.1) (2020-09-04)
+
+
+### Bug Fixes
+
+* add ignoreEol setting ([#547](https://github.com/atom-community/sync-settings/issues/547)) ([f7f4f52](https://github.com/atom-community/sync-settings/commit/f7f4f52655c7122722fe03a29e1ea9751429d7a7))
+
+# [5.0.0](https://github.com/atom-community/sync-settings/compare/v4.3.10...v5.0.0) (2020-09-03)
+
+
+### Bug Fixes
+
+* change blacklist to disallow ([#546](https://github.com/atom-community/sync-settings/issues/546)) ([d6441c4](https://github.com/atom-community/sync-settings/commit/d6441c41c252fd2d508ca19f20916d1b3c1183ff))
+
+
+### BREAKING CHANGES
+
+* `sync-settings.blacklistedKeys` has been changed to `sync-settings.disallowedSettings`
+
+## [4.3.10](https://github.com/atom-community/sync-settings/compare/v4.3.9...v4.3.10) (2020-08-27)
+
+
+### Bug Fixes
+
+* **deps:** bump @octokit/rest from 18.0.3 to 18.0.4 ([#542](https://github.com/atom-community/sync-settings/issues/542)) ([9071a8e](https://github.com/atom-community/sync-settings/commit/9071a8e06554f89e3b085dd20bf661805cc17ab3))
+
+## [4.3.9](https://github.com/atom-community/sync-settings/compare/v4.3.8...v4.3.9) (2020-08-19)
+
+
+### Bug Fixes
+
+* use atom-modal-views ([02f74b2](https://github.com/atom-community/sync-settings/commit/02f74b249d7f1539570a23af1b29abaa7e00a31a))
+
+## [4.3.8](https://github.com/atom-community/sync-settings/compare/v4.3.7...v4.3.8) (2020-07-27)
+
+
+### Bug Fixes
+
+* **deps:** bump @octokit/rest from 18.0.2 to 18.0.3 ([#532](https://github.com/atom-community/sync-settings/issues/532)) ([bce7bd1](https://github.com/atom-community/sync-settings/commit/bce7bd15208246050d67df4bd9c6fd6fbbf1ca4d))
+
+## [4.3.7](https://github.com/atom-community/sync-settings/compare/v4.3.6...v4.3.7) (2020-07-24)
+
+
+### Bug Fixes
+
+* **deps:** bump @octokit/rest from 18.0.1 to 18.0.2 ([#529](https://github.com/atom-community/sync-settings/issues/529)) ([5f0b4b1](https://github.com/atom-community/sync-settings/commit/5f0b4b1180385f8b7ae908a45e5598b8e950ab3e))
+
+## [4.3.6](https://github.com/atom-community/sync-settings/compare/v4.3.5...v4.3.6) (2020-07-14)
+
+
+### Bug Fixes
+
+* **deps:** bump marked from 1.1.0 to 1.1.1 ([#523](https://github.com/atom-community/sync-settings/issues/523)) ([2b7ea60](https://github.com/atom-community/sync-settings/commit/2b7ea60c2535fcf335aa4d63205e93a6fc2503ba))
+
+## [4.3.5](https://github.com/atom-community/sync-settings/compare/v4.3.4...v4.3.5) (2020-06-28)
+
+
+### Bug Fixes
+
+* backup storing directory with forward slash ([ab4a640](https://github.com/atom-community/sync-settings/commit/ab4a6406f02072a5779821547f8df1848d444e44))
+* restore folders that don't exist locally ([c184aad](https://github.com/atom-community/sync-settings/commit/c184aadc2c0aea6339993b8610d470b9e206832d))
+* use asynchronous fs methods ([31076e3](https://github.com/atom-community/sync-settings/commit/31076e3fda21200097b55091390c73e6461b58c8))
+* use fs-extra for promisified functions ([5215187](https://github.com/atom-community/sync-settings/commit/5215187ae2a59582e3f7519b49a2bdb3bcc24fe2))
+
+## [4.3.4](https://github.com/atom-community/sync-settings/compare/v4.3.3...v4.3.4) (2020-06-28)
+
+
+### Bug Fixes
+
+* update dependencies ([#513](https://github.com/atom-community/sync-settings/issues/513)) ([261472f](https://github.com/atom-community/sync-settings/commit/261472fba873edb0a8434b8fedcb876a5571cba5))
+
 ## [4.3.3](https://github.com/atom-community/sync-settings/compare/v4.3.2...v4.3.3) (2020-04-29)
 
 
@@ -199,7 +299,7 @@
 * Allow synchronizing some settings of this package. Closes [#193](https://github.com/atom-community/sync-settings/pull/193)
 * Fix restoring settings of type color. Fixes [#180](https://github.com/atom-community/sync-settings/issues/180)
 * Improve documentation to use private gists. Closes [#190](https://github.com/atom-community/sync-settings/issues/190)
-* Add option to blacklist specific configuration values. Closes [#165](https://github.com/atom-community/sync-settings/issues/165)
+* Add option to disallow specific configuration values. Closes [#165](https://github.com/atom-community/sync-settings/issues/165)
 * Trim GistID and personal access token. Fixes [#153](https://github.com/atom-community/sync-settings/issues/153)
 * Add fork command. Closes [#187](https://github.com/atom-community/sync-settings/pull/187)
 * Use platform specific folder for temporary files during testing. Closes [185](https://github.com/atom-community/sync-settings/pull/185)

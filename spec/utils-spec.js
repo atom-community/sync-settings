@@ -1,10 +1,6 @@
 const utils = require('../lib/utils/utils')
 const { config } = require('../lib/config')
-const fs = require('fs')
-const util = require('util')
-const writeFile = util.promisify(fs.writeFile)
-const unlink = util.promisify(fs.unlink)
-const tryUnlink = (...args) => unlink(...args).catch(() => {})
+const fs = require('fs-extra')
 const path = require('path')
 const os = require('os')
 
@@ -80,14 +76,14 @@ describe('utils', () => {
 
 		it('favors json', async () => {
 			try {
-				await writeFile(path.resolve(atom.getConfigDirPath(), 'snippets.cson'), 'test')
-				await writeFile(path.resolve(atom.getConfigDirPath(), 'snippets.json'), 'test')
+				await fs.writeFile(path.resolve(atom.getConfigDirPath(), 'snippets.cson'), 'test')
+				await fs.writeFile(path.resolve(atom.getConfigDirPath(), 'snippets.json'), 'test')
 
 				const snippets = await utils.getSnippetsPath()
 				expect(snippets).toBe(path.resolve(atom.getConfigDirPath(), 'snippets.json'))
 			} finally {
-				await tryUnlink(path.resolve(atom.getConfigDirPath(), 'snippets.cson'))
-				await tryUnlink(path.resolve(atom.getConfigDirPath(), 'snippets.json'))
+				await fs.remove(path.resolve(atom.getConfigDirPath(), 'snippets.cson'))
+				await fs.remove(path.resolve(atom.getConfigDirPath(), 'snippets.json'))
 			}
 		})
 	})
@@ -155,37 +151,37 @@ describe('utils', () => {
 		})
 
 		it('returns null for empty file', async () => {
-			await writeFile(tmpPath, '')
+			await fs.writeFile(tmpPath, '')
 			try {
 				expect(await utils.fileContent(tmpPath)).toBeNull()
 			} finally {
-				await tryUnlink(tmpPath)
+				await fs.remove(tmpPath)
 			}
 		})
 
 		it('returns nullString for empty file', async () => {
-			await writeFile(tmpPath, '')
+			await fs.writeFile(tmpPath, '')
 			try {
 				expect((await utils.fileContent(tmpPath, 'nullString')).toString()).toBe('nullString')
 			} finally {
-				await tryUnlink(tmpPath)
+				await fs.remove(tmpPath)
 			}
 		})
 
 		it('returns content of existing file', async () => {
 			const text = 'test text'
-			await writeFile(tmpPath, text)
+			await fs.writeFile(tmpPath, text)
 			try {
 				expect((await utils.fileContent(tmpPath)).toString()).toEqual(text)
 			} finally {
-				await tryUnlink(tmpPath)
+				await fs.remove(tmpPath)
 			}
 		})
 	})
 
 	describe('getPackages', () => {
-		it('returns packages and themes', () => {
-			const json = utils.getPackages()
+		it('returns packages and themes', async () => {
+			const json = await utils.getPackages()
 			const packages = utils.filterObject(json, ([k, v]) => !v.theme)
 			const themes = utils.filterObject(json, ([k, v]) => v.theme)
 
@@ -193,10 +189,10 @@ describe('utils', () => {
 			expect(themes).not.toEqual({})
 		})
 
-		it('returns packages and not themes', () => {
+		it('returns packages and not themes', async () => {
 			atom.config.set('sync-settings.syncThemes', false)
 
-			const json = utils.getPackages()
+			const json = await utils.getPackages()
 			const packages = utils.filterObject(json, ([k, v]) => !v.theme)
 			const themes = utils.filterObject(json, ([k, v]) => v.theme)
 
@@ -204,10 +200,10 @@ describe('utils', () => {
 			expect(themes).toEqual({})
 		})
 
-		it('returns not packages and themes', () => {
+		it('returns not packages and themes', async () => {
 			atom.config.set('sync-settings.syncPackages', false)
 
-			const json = utils.getPackages()
+			const json = await utils.getPackages()
 			const packages = utils.filterObject(json, ([k, v]) => !v.theme)
 			const themes = utils.filterObject(json, ([k, v]) => v.theme)
 
@@ -215,12 +211,12 @@ describe('utils', () => {
 			expect(themes).not.toEqual({})
 		})
 
-		it('returns community packages and themes', () => {
+		it('returns community packages and themes', async () => {
 			// atom test environment only has bundled packages. We are pretending that `about` is not a bundled package
 			spyOn(atom.packages, 'isBundledPackage').and.callFake(name => name !== 'about')
 			atom.config.set('sync-settings.onlySyncCommunityPackages', true)
 
-			const json = utils.getPackages()
+			const json = await utils.getPackages()
 			const community = utils.filterObject(json, ([k, v]) => !atom.packages.isBundledPackage(k))
 			const bundled = utils.filterObject(json, ([k, v]) => atom.packages.isBundledPackage(k))
 
@@ -230,8 +226,8 @@ describe('utils', () => {
 	})
 
 	describe('addFilteredSettings', () => {
-		it('adds blacklisted keys', function () {
-			atom.config.set('sync-settings.blacklistedKeys', ['dummy', 'package.dummy', 'package.setting\\.with\\.dots', 'packge.very.nested.setting'])
+		it('adds disallowed settings', function () {
+			atom.config.set('sync-settings.disallowedSettings', ['dummy', 'package.dummy', 'package.setting\\.with\\.dots', 'packge.very.nested.setting'])
 			atom.config.set('dummy', false)
 			atom.config.set('package.dummy', 0)
 			atom.config.set('package.setting\\.with\\.dots', '')
@@ -247,8 +243,8 @@ describe('utils', () => {
 	})
 
 	describe('getFilteredSettings', () => {
-		it('remove blacklisted keys', function () {
-			atom.config.set('sync-settings.blacklistedKeys', ['dummy', 'package.dummy', 'package.setting\\.with\\.dots', 'packge.very.nested.setting'])
+		it('remove disallowed settings', function () {
+			atom.config.set('sync-settings.disallowedSettings', ['dummy', 'package.dummy', 'package.setting\\.with\\.dots', 'packge.very.nested.setting'])
 			atom.config.set('dummy', false)
 			atom.config.set('package.dummy', 0)
 			atom.config.set('package.setting\\.with\\.dots', '')
