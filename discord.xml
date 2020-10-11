@@ -3,6 +3,7 @@
     <option name="lastUpdateNotification" value="1.3.0" />
   </component>
   <component name="DiscordApplicationSettings">
+    <option name="theme" value="atom" />
     <option name="applicationLastUpdateNotification" value="1.5.0" />
   </component>
   <component name="DiscordIntegrationApplicationSettings" hideReadOnlyFiles="false" hideAfterPeriodOfInactivity="false" />
