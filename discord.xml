@@ -3,12 +3,6 @@
     <option name="lastUpdateNotification" value="1.3.0" />
   </component>
   <component name="DiscordApplicationSettings">
-    <option name="timeoutMinutes" value="30" />
-    <option name="timeoutResetTimeEnabled" value="false" />
-    <option name="applicationDetails" value="CUSTOM" />
-    <option name="applicationDetailsCustom" value="Idling" />
-    <option name="fileDetails" value="PROJECT_NAME_VCS_BRANCH" />
-    <option name="fileState" value="FILE_NAME" />
     <option name="theme" value="atom" />
     <option name="applicationLastUpdateNotification" value="1.5.0" />
   </component>

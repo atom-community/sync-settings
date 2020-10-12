@@ -1,20 +1,5 @@
 <application>
-  <component name="GeneralSettings">
-    <option name="confirmExit" value="false" />
-    <option name="reopenLastProject" value="false" />
-    <option name="showTipsOnStartup" value="false" />
-    <option name="useDefaultBrowser" value="false" />
-  </component>
   <component name="Registry">
-    <entry key="win.editor.thumb.default.alpha.base" value="0" />
-    <entry key="win.editor.thumb.default.alpha.delta" value="102" />
-    <entry key="win.editor.thumb.darcula.alpha.base" value="0" />
-    <entry key="win.editor.thumb.darcula.alpha.delta" value="102" />
-    <entry key="win.editor.thumb.default.fill.min" value="102" />
-    <entry key="win.editor.thumb.default.fill.max" value="150" />
-    <entry key="win.editor.thumb.darcula.fill.min" value="102" />
-    <entry key="ide.tooltip.initialDelay" value="801" />
-    <entry key="ide.tree.ui.experimental" value="false" />
     <entry key="ide.balloon.shadow.size" value="0" />
     <entry key="ide.intellij.laf.enable.animation" value="true" />
   </component>
