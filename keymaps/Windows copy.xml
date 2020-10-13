@@ -1,0 +1,5 @@
+<keymap version="1" name="Windows copy" parent="$default">
+  <action id="bootRuntime.main.ChooseBootRuntimeAction">
+    <keyboard-shortcut first-keystroke="shift j" second-keystroke="shift b" />
+  </action>
+</keymap>
