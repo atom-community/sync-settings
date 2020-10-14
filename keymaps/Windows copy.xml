@@ -3,7 +3,4 @@
     <keyboard-shortcut first-keystroke="shift ctrl alt equals" />
     <keyboard-shortcut first-keystroke="shift ctrl alt add" />
   </action>
-  <action id="bootRuntime.main.ChooseBootRuntimeAction">
-    <keyboard-shortcut first-keystroke="shift j" second-keystroke="shift b" />
-  </action>
 </keymap>
