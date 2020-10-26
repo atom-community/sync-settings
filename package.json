@@ -59,7 +59,7 @@
   "devDependencies": {
     "@semantic-release/apm-config": "^8.0.0",
     "atom-jasmine3-test-runner": "^5.1.6",
-    "eslint": "^7.11.0",
+    "eslint": "^7.12.0",
     "eslint-config-standard": "^15.0.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
