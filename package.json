@@ -43,7 +43,7 @@
     }
   },
   "dependencies": {
-    "@octokit/rest": "^18.0.8",
+    "@octokit/rest": "^18.0.9",
     "atom-modal-views": "^1.0.3",
     "deep-object-diff": "^1.1.0",
     "diff": "^4.0.2",
