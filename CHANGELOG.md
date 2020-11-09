@@ -1,3 +1,10 @@
+## [5.0.7](https://github.com/atom-community/sync-settings/compare/v5.0.6...v5.0.7) (2020-11-09)
+
+
+### Bug Fixes
+
+* **deps:** bump diff from 4.0.2 to 5.0.0 ([#593](https://github.com/atom-community/sync-settings/issues/593)) ([21d77ef](https://github.com/atom-community/sync-settings/commit/21d77ef348650cf03a9d7610f4459cbccc620840))
+
 ## [5.0.6](https://github.com/atom-community/sync-settings/compare/v5.0.5...v5.0.6) (2020-11-03)
 
 
