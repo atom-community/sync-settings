@@ -46,7 +46,7 @@
     "@octokit/rest": "^18.0.9",
     "atom-modal-views": "^1.0.3",
     "deep-object-diff": "^1.1.0",
-    "diff": "^4.0.2",
+    "diff": "^5.0.0",
     "etch": "^0.14.1",
     "fs-extra": "^9.0.1",
     "glob": "^7.1.6",
