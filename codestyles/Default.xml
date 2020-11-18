@@ -1,4 +1,7 @@
 <code_scheme name="Default" version="173">
+  <JSON>
+    <option name="ARRAY_WRAPPING" value="5" />
+  </JSON>
   <JetCodeStyleSettings>
     <option name="PACKAGES_TO_USE_STAR_IMPORTS">
       <value>
