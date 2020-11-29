@@ -6,7 +6,6 @@
     <option name="timeoutEnabled" value="false" />
     <option name="timeoutMinutes" value="15" />
     <option name="timeoutResetTimeEnabled" value="false" />
-    <option name="theme" value="flat" />
     <option name="applicationLastUpdateNotification" value="1.5.0" />
   </component>
   <component name="DiscordIntegrationApplicationSettings" hideReadOnlyFiles="false" hideAfterPeriodOfInactivity="false" />
