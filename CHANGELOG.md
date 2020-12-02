@@ -1,3 +1,11 @@
+## [5.0.10](https://github.com/atom-community/sync-settings/compare/v5.0.9...v5.0.10) (2020-12-02)
+
+
+### Bug Fixes
+
+* **deps:** bump @octokit/rest from 18.0.9 to 18.0.10 ([#605](https://github.com/atom-community/sync-settings/issues/605)) ([bd12e82](https://github.com/atom-community/sync-settings/commit/bd12e8262e8a86366d8f3bd030ec428902692809))
+* **deps:** bump semver from 7.3.2 to 7.3.4 ([#606](https://github.com/atom-community/sync-settings/issues/606)) ([594cf7d](https://github.com/atom-community/sync-settings/commit/594cf7d9918025be8e510c586a27c5359cb34f06))
+
 ## [5.0.9](https://github.com/atom-community/sync-settings/compare/v5.0.8...v5.0.9) (2020-11-23)
 
 
