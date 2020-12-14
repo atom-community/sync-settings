@@ -1,3 +1,10 @@
+# [5.1.0](https://github.com/atom-community/sync-settings/compare/v5.0.10...v5.1.0) (2020-12-14)
+
+
+### Features
+
+* add autocheck dropdown setting ([b45d052](https://github.com/atom-community/sync-settings/commit/b45d05272ee8569f80962e4a84a5ce568d1a943a))
+
 ## [5.0.10](https://github.com/atom-community/sync-settings/compare/v5.0.9...v5.0.10) (2020-12-02)
 
 
