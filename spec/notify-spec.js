@@ -202,7 +202,7 @@ describe('notify', () => {
 		})
 
 		it('shows newerBackup', () => {
-			notify.newerBackup()
+			notify.newerBackup(false, {}, {})
 
 			expect(atom.notifications.getNotifications().length).toBe(1)
 			expect(atom.notifications.getNotifications()[0].getType()).toBe('warning')
