@@ -92,6 +92,12 @@
           <executable-path>ubuntu2004.exe</executable-path>
           <presentable-name>Ubuntu 20.04</presentable-name>
         </descriptor>
+        <descriptor>
+          <id>OPENSUSE15.2</id>
+          <microsoft-id>openSUSE-Leap-15.2</microsoft-id>
+          <executable-path>openSUSE-Leap-15.2.exe</executable-path>
+          <presentable-name>openSUSE Leap 15.2</presentable-name>
+        </descriptor>
       </set>
     </descriptors>
   </component>
