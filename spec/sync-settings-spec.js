@@ -970,6 +970,38 @@ describe('syncSettings', () => {
 			expect(atom.config.get('sync-settings.hiddenSettings._lastBackupTime')).toBeDefined()
 		})
 
+		it('autocheck alert checkBackup', async () => {
+			atom.config.set('sync-settings.autoCheckForUpdatedBackup', 'alert')
+			spyOn(syncSettings, 'checkBackup')
+			await syncSettings.autoCheck()
+
+			expect(syncSettings.checkBackup).toHaveBeenCalledWith(true)
+		})
+
+		it('autocheck default to check', async () => {
+			atom.config.set('sync-settings.autoCheckForUpdatedBackup', 'backup')
+			spyOn(syncSettings, 'backup')
+			await syncSettings.autoCheck()
+
+			expect(syncSettings.backup).toHaveBeenCalledWith(true)
+		})
+
+		it('autocheck default to check', async () => {
+			atom.config.set('sync-settings.autoCheckForUpdatedBackup', 'restore')
+			spyOn(syncSettings, 'restore')
+			await syncSettings.autoCheck()
+
+			expect(syncSettings.restore).toHaveBeenCalledWith(true)
+		})
+
+		it('autocheck default to check', async () => {
+			atom.config.set('sync-settings.autoCheckForUpdatedBackup', 'diff')
+			spyOn(syncSettings, 'checkBackup')
+			await syncSettings.autoCheck()
+
+			expect(syncSettings.checkBackup).toHaveBeenCalledWith(true, true)
+		})
+
 		describe('notifications', () => {
 			beforeEach(() => {
 				atom.notifications.clear()
