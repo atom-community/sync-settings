@@ -35,12 +35,12 @@
     <option name="cloneParentDir" value="D:\Everything\MC\Modding\1.12" />
   </component>
   <component name="Vcs.Log.App.Settings">
-    <option name="COLUMN_ORDER">
+    <option name="COLUMN_ID_ORDER">
       <list>
-        <option value="0" />
-        <option value="1" />
-        <option value="2" />
-        <option value="3" />
+        <option value="Default.Root" />
+        <option value="Default.Subject" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
       </list>
     </option>
   </component>
