@@ -74,9 +74,11 @@
         <root url="jar://D:/Programmi/groovy-sdk/lib/ST4-4.1.jar!/" />
         <root url="jar://D:/Programmi/groovy-sdk/lib/testng-7.2.0.jar!/" />
         <root url="jar://D:/Programmi/groovy-sdk/lib/xstream-1.4.12.jar!/" />
+        <root url="file://D:/Programmi/groovy-sdk/lib/extras-jaxb" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
+      <jarDirectory url="file://D:/Programmi/groovy-sdk/lib/extras-jaxb" recursive="false" />
     </library>
     <library name="scala-sdk-2.13.3" type="Scala">
       <properties>
