@@ -1,3 +1,11 @@
+# [5.2.0](https://github.com/atom-community/sync-settings/compare/v5.1.0...v5.2.0) (2021-01-06)
+
+
+### Features
+
+* add proxy setting ([7313396](https://github.com/atom-community/sync-settings/commit/73133967efbb4423e577006957758b5280ea58f3))
+* add use gist proxy setting ([5c9814d](https://github.com/atom-community/sync-settings/commit/5c9814d7d1d30c26e956f24f6a435124fc0051b2))
+
 # [5.1.0](https://github.com/atom-community/sync-settings/compare/v5.0.10...v5.1.0) (2020-12-14)
 
 
