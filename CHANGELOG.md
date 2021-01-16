@@ -1,3 +1,10 @@
+## [5.2.1](https://github.com/atom-community/sync-settings/compare/v5.2.0...v5.2.1) (2021-01-16)
+
+
+### Bug Fixes
+
+* don't throw on multiple location services ([209d65f](https://github.com/atom-community/sync-settings/commit/209d65fc64ab4b29c02506e0e926deba7293c61b))
+
 # [5.2.0](https://github.com/atom-community/sync-settings/compare/v5.1.0...v5.2.0) (2021-01-06)
 
 
