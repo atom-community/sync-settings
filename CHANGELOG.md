@@ -1,3 +1,10 @@
+## [5.2.4](https://github.com/atom-community/sync-settings/compare/v5.2.3...v5.2.4) (2021-01-26)
+
+
+### Bug Fixes
+
+* keep track of location services and always use last loaded ([7b247c2](https://github.com/atom-community/sync-settings/commit/7b247c20fd74a539fc344b792163d3f09034ee57))
+
 ## [5.2.3](https://github.com/atom-community/sync-settings/compare/v5.2.2...v5.2.3) (2021-01-26)
 
 
