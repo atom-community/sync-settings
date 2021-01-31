@@ -1,9 +1,5 @@
 <application>
   <component name="RainbowSettings">
-    <option name="enableRainbowAngleBrackets" value="false" />
-    <option name="enableRainbowRoundBrackets" value="false" />
-    <option name="enableRainbowSquareBrackets" value="false" />
-    <option name="enableRainbowSquigglyBrackets" value="false" />
-    <option name="version" value="6.11" />
+    <option name="version" value="6.13" />
   </component>
 </application>
