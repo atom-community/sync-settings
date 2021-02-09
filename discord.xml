@@ -6,10 +6,22 @@
     <option name="timeoutEnabled" value="false" />
     <option name="timeoutMinutes" value="15" />
     <option name="timeoutResetTimeEnabled" value="false" />
+    <option name="applicationDetailsCustom" value="" />
+    <option name="applicationStateCustom" value="" />
+    <option name="applicationIconLargeTextCustom" value="" />
+    <option name="applicationIconSmallTextCustom" value="" />
     <option name="projectDetails" value="PROJECT_NAME_VCS_BRANCH" />
+    <option name="projectDetailsCustom" value="" />
+    <option name="projectStateCustom" value="" />
+    <option name="projectIconLargeTextCustom" value="" />
+    <option name="projectIconSmallTextCustom" value="" />
     <option name="fileDetails" value="PROJECT_NAME_VCS_BRANCH" />
+    <option name="fileDetailsCustom" value="" />
+    <option name="fileStateCustom" value="" />
+    <option name="fileIconLargeTextCustom" value="" />
     <option name="fileIconSmallText" value="PROJECT_VCS_BRANCH" />
-    <option name="theme" value="classic" />
+    <option name="fileIconSmallTextCustom" value="" />
+    <option name="theme" value="flat" />
     <option name="applicationLastUpdateNotification" value="1.6.1" />
   </component>
   <component name="DiscordIntegrationApplicationSettings" hideReadOnlyFiles="false" hideAfterPeriodOfInactivity="false" />
