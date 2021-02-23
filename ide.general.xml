@@ -5,6 +5,7 @@
   <component name="Registry">
     <entry key="ide.balloon.shadow.size" value="0" />
     <entry key="ide.intellij.laf.enable.animation" value="true" />
+    <entry key="scala.erase.compiler.process.jdk.once" value="false" />
   </component>
   <component name="StatusBar">
     <option name="widgets">
