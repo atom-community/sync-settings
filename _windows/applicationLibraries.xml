@@ -77,7 +77,9 @@
         <root url="file://D:/Programmi/groovy-sdk/lib/extras-jaxb" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.ideaLibSources/groovy-3.0.4-sources.jar!/" />
+      </SOURCES>
       <jarDirectory url="file://D:/Programmi/groovy-sdk/lib/extras-jaxb" recursive="false" />
     </library>
     <library name="scala-sdk-2.13.3" type="Scala">
