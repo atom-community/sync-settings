@@ -1,7 +1,7 @@
 <application>
   <component name="CPPToolchains" version="4">
     <toolchains detectedVersion="5">
-      <toolchain name="MinGW" toolSetKind="MINGW" toolSetPath="D:\Programmi\TDM-GCC" debuggerKind="CUSTOM_GDB" customGDBPath="D:\Programmi\TDM-GCC\bin\gdb.exe" />
+      <toolchain name="MinGW" toolSetKind="MINGW" toolSetPath="D:\Programmi\MinGW" debuggerKind="BUNDLED_GDB" />
     </toolchains>
   </component>
 </application>
