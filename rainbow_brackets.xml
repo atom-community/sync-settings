@@ -1,5 +1,6 @@
 <application>
   <component name="RainbowSettings">
+    <option name="suppressBigFileCheck" value="true" />
     <option name="version" value="6.17" />
   </component>
 </application>
