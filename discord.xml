@@ -18,7 +18,7 @@
     <option name="fileDetails" value="PROJECT_NAME_VCS_BRANCH" />
     <option name="fileDetailsCustom" value="" />
     <option name="fileState" value="CUSTOM" />
-    <option name="fileStateCustom" value="$FileName | Line: $CaretLine/$LineCount" />
+    <option name="fileStateCustom" value="$FileName - %if($IsTextEditor){$CaretLine/$LineCount}" />
     <option name="fileIconLargeTextCustom" value="" />
     <option name="fileIconSmallText" value="PROJECT_VCS_BRANCH" />
     <option name="fileIconSmallTextCustom" value="" />
