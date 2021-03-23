@@ -54,7 +54,7 @@
     "key-path-helpers": "^0.4.0",
     "minimatch": "^3.0.4",
     "proxy-agent": "^4.0.0",
-    "semver": "^7.3.4",
+    "semver": "^7.3.5",
     "underscore-plus": "^1.7.0"
   },
   "devDependencies": {
