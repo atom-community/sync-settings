@@ -1,3 +1,11 @@
+## [5.2.8](https://github.com/atom-community/sync-settings/compare/v5.2.7...v5.2.8) (2021-03-23)
+
+
+### Bug Fixes
+
+* **deps:** bump proxy-agent from 4.0.0 to 4.0.1 ([#623](https://github.com/atom-community/sync-settings/issues/623)) ([09caa54](https://github.com/atom-community/sync-settings/commit/09caa544a739ce766ffd24a11b433f04bb629af9))
+* **deps:** bump semver from 7.3.4 to 7.3.5 ([#666](https://github.com/atom-community/sync-settings/issues/666)) ([072e4e8](https://github.com/atom-community/sync-settings/commit/072e4e842f86b373ce44360e4d01aa7220160d62))
+
 ## [5.2.7](https://github.com/atom-community/sync-settings/compare/v5.2.6...v5.2.7) (2021-03-02)
 
 
