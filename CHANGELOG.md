@@ -1,3 +1,10 @@
+## [5.2.9](https://github.com/atom-community/sync-settings/compare/v5.2.8...v5.2.9) (2021-03-26)
+
+
+### Bug Fixes
+
+* update octokit with rest namespace ([dcd06d8](https://github.com/atom-community/sync-settings/commit/dcd06d8a1b81bae9b64ed377be670471ac9267a8))
+
 ## [5.2.8](https://github.com/atom-community/sync-settings/compare/v5.2.7...v5.2.8) (2021-03-23)
 
 
