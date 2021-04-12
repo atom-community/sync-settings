@@ -17,10 +17,13 @@
     <option name="projectIconSmallTextCustom" value="" />
     <option name="fileDetails" value="PROJECT_NAME_VCS_BRANCH" />
     <option name="fileDetailsCustom" value="" />
-    <option name="fileStateCustom" value="" />
-    <option name="fileIconLargeTextCustom" value="" />
+    <option name="fileState" value="CUSTOM" />
+    <option name="fileStateCustom" value="%if($FileIsWritable){W}{R}: $FileName - %if($IsTextEditor){$CaretLine/$LineCount}" />
+    <option name="fileIconLargeText" value="CUSTOM" />
+    <option name="fileIconLargeTextCustom" value="$Language - Line: $CaretLine/$LineCount" />
     <option name="fileIconSmallText" value="PROJECT_VCS_BRANCH" />
-    <option name="fileIconSmallTextCustom" value="" />
+    <option name="fileIconSmallTextCustom" value="branch: $VcsBranch" />
+    <option name="applicationType" value="IDE" />
     <option name="applicationLastUpdateNotification" value="1.6.1" />
   </component>
   <component name="DiscordIntegrationApplicationSettings" hideReadOnlyFiles="false" hideAfterPeriodOfInactivity="false" />
