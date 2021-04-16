@@ -98,6 +98,30 @@
           <executable-path>openSUSE-Leap-15.2.exe</executable-path>
           <presentable-name>openSUSE Leap 15.2</presentable-name>
         </descriptor>
+        <descriptor>
+          <id>SLES-15-SP1</id>
+          <microsoft-id>SLES-15-SP1</microsoft-id>
+          <executable-path>SLES-15-SP1.exe</executable-path>
+          <presentable-name>SUSE Linux Enterprise Server 15 SP1</presentable-name>
+        </descriptor>
+        <descriptor>
+          <id>SUSE-Linux-Enterprise-Server-15-SP2</id>
+          <microsoft-id>SUSE-Linux-Enterprise-Server-15-SP2</microsoft-id>
+          <executable-path>SUSE-Linux-Enterprise-Server-15-SP2.exe</executable-path>
+          <presentable-name>SUSE Linux Enterprise Server 15 SP2</presentable-name>
+        </descriptor>
+        <descriptor>
+          <id>Ubuntu-CommPrev</id>
+          <microsoft-id>Ubuntu-CommPrev</microsoft-id>
+          <executable-path>ubuntupreview.exe</executable-path>
+          <presentable-name>Ubuntu on Windows Community Preview</presentable-name>
+        </descriptor>
+        <descriptor>
+          <id>fedoraremix</id>
+          <microsoft-id>fedoraremix</microsoft-id>
+          <executable-path>fedoraremix.exe</executable-path>
+          <presentable-name>Fedora Remix for WSL</presentable-name>
+        </descriptor>
       </set>
     </descriptors>
   </component>
