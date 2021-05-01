@@ -24,7 +24,7 @@
     <option name="fileIconSmallText" value="PROJECT_VCS_BRANCH" />
     <option name="fileIconSmallTextCustom" value="branch: $VcsBranch" />
     <option name="applicationType" value="IDE" />
-    <option name="theme" value="flat" />
+    <option name="theme" value="classic" />
     <option name="applicationLastUpdateNotification" value="1.6.1" />
   </component>
   <component name="DiscordIntegrationApplicationSettings" hideReadOnlyFiles="false" hideAfterPeriodOfInactivity="false" />
