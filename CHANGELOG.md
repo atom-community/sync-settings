@@ -1,3 +1,10 @@
+## [5.2.10](https://github.com/atom-community/sync-settings/compare/v5.2.9...v5.2.10) (2021-05-07)
+
+
+### Bug Fixes
+
+* **deps:** bump glob from 7.1.6 to 7.1.7 ([#681](https://github.com/atom-community/sync-settings/issues/681)) ([6cbb7f9](https://github.com/atom-community/sync-settings/commit/6cbb7f9628c80cb1debc25e5708f1b2ce61530cc))
+
 ## [5.2.9](https://github.com/atom-community/sync-settings/compare/v5.2.8...v5.2.9) (2021-03-26)
 
 
