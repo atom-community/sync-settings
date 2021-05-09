@@ -1,5 +1,6 @@
 <application>
   <component name="ProjectViewSharedSettings">
     <option name="hideEmptyPackages" value="false" />
+    <option name="showMembers" value="true" />
   </component>
 </application>
