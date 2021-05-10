@@ -1,5 +1,5 @@
 <application>
   <component name="PhoneGapSettings">
-    <option name="executablePath" value="@ionic" />
+    <option name="executablePath" value="bin" />
   </component>
 </application>
