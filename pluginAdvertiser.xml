@@ -62,6 +62,51 @@
                       <FeaturePluginData displayName="BSP test" pluginName="Scala" pluginId="org.intellij.scala" />
                     </value>
                   </entry>
+                  <entry key="CLionExternalRunConfiguration">
+                    <value>
+                      <FeaturePluginData displayName="Custom Build Application" pluginName="CLion IDE" pluginId="com.intellij.clion" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="CLionNativeAppRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Makefile Application" pluginName="Makefile" pluginId="com.intellij.clion-makefile" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="CLion_Remote">
+                    <value>
+                      <FeaturePluginData displayName="GDB Remote Debug" pluginName="CLion IDE" pluginId="com.intellij.clion" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="CMakeBoostTestRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Boost.Test" pluginName="CLion Boost.Test" pluginId="org.jetbrains.plugins.clion.test.boost" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="CMakeCatchTestRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Catch" pluginName="CLion Catch" pluginId="org.jetbrains.plugins.clion.test.catch" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="CMakeDoctestTestRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Doctest" pluginName="CLion Doctest" pluginId="org.jetbrains.plugins.clion.test.doctest" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="CMakeGoogleTestRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Google Test" pluginName="CLion Google Testing and Mocking Framework" pluginId="org.jetbrains.plugins.clion.test.google" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="CMakeRunConfiguration">
+                    <value>
+                      <FeaturePluginData displayName="CMake Application" pluginName="CLion IDE" pluginId="com.intellij.clion" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="CTestRunConfiguration">
+                    <value>
+                      <FeaturePluginData displayName="CTest Application" pluginName="CLion CTest" pluginId="org.jetbrains.plugins.clion.ctest" bundled="true" />
+                    </value>
+                  </entry>
                   <entry key="ChromiumRemoteDebugType">
                     <value>
                       <FeaturePluginData displayName="Attach to Node.js/Chrome" pluginName="JavaScript Debugger" pluginId="JavaScriptDebugger" bundled="true" />
@@ -135,6 +180,11 @@
                   <entry key="GlassfishConfiguration">
                     <value>
                       <FeaturePluginData displayName="GlassFish Server" pluginName="GlassFish" pluginId="GlassFish" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="GradleAppRunConfiguration">
+                    <value>
+                      <FeaturePluginData displayName="Gradle Native Application" pluginName="com.intellij.clion-gradle" pluginId="com.intellij.clion-gradle" bundled="true" />
                     </value>
                   </entry>
                   <entry key="GradleRunConfiguration">
@@ -222,6 +272,11 @@
                       <FeaturePluginData displayName="Kotlin script" pluginName="Kotlin" pluginId="org.jetbrains.kotlin" />
                     </value>
                   </entry>
+                  <entry key="MAKEFILE_TARGET_RUN_CONFIGURATION">
+                    <value>
+                      <FeaturePluginData displayName="Makefile Target" pluginName="Makefile Language" pluginId="name.kropp.intellij.makefile" bundled="true" />
+                    </value>
+                  </entry>
                   <entry key="MUnitRunConfiguration">
                     <value>
                       <FeaturePluginData displayName="MUnit" pluginName="Scala" pluginId="org.intellij.scala" />
@@ -255,6 +310,11 @@
                   <entry key="Play2FrameworkRunConfigurations">
                     <value>
                       <FeaturePluginData displayName="Play 2 App" pluginName="org.intellij.scala" pluginId="org.intellij.scala" />
+                    </value>
+                  </entry>
+                  <entry key="PythonConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Python" pluginName="Python Community Edition" pluginId="PythonCore" bundled="true" />
                     </value>
                   </entry>
                   <entry key="QuarkusRunConfigurationType">
@@ -332,6 +392,11 @@
                       <FeaturePluginData displayName="TomEE Server" pluginName="Tomcat and TomEE" pluginId="Tomcat" bundled="true" />
                     </value>
                   </entry>
+                  <entry key="Tox">
+                    <value>
+                      <FeaturePluginData displayName="tox" pluginName="Python Community Edition" pluginId="PythonCore" bundled="true" />
+                    </value>
+                  </entry>
                   <entry key="UtPlSqlConfigurationType">
                     <value>
                       <FeaturePluginData displayName="utPLSQL Test" pluginName="Database Tools and SQL" pluginId="com.intellij.database" bundled="true" />
@@ -350,6 +415,21 @@
                   <entry key="XSLT">
                     <value>
                       <FeaturePluginData displayName="XSLT" pluginName="XPathView + XSLT" pluginId="XPathView" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="com.jetbrains.cidr.embedded.customgdbserver.type">
+                    <value>
+                      <FeaturePluginData displayName="Embedded GDB Server" pluginName="com.intellij.clion.embedded" pluginId="com.intellij.clion.embedded" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="com.jetbrains.cidr.embedded.openocd.conf.type">
+                    <value>
+                      <FeaturePluginData displayName="OpenOCD Download &amp; Run" pluginName="com.intellij.clion.embedded" pluginId="com.intellij.clion.embedded" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="com.jetbrains.cidr.remote.gdbserver.type">
+                    <value>
+                      <FeaturePluginData displayName="Remote GDB Server" pluginName="CLion IDE" pluginId="com.intellij.clion" bundled="true" />
                     </value>
                   </entry>
                   <entry key="docker-deploy">
@@ -377,6 +457,11 @@
                       <FeaturePluginData displayName="Mocha" pluginName="Node.js" pluginId="NodeJS" bundled="true" />
                     </value>
                   </entry>
+                  <entry key="tests">
+                    <value>
+                      <FeaturePluginData displayName="Python tests" pluginName="Python Community Edition" pluginId="PythonCore" bundled="true" />
+                    </value>
+                  </entry>
                   <entry key="uTestRunConfiguration">
                     <value>
                       <FeaturePluginData displayName="utest" pluginName="Scala" pluginId="org.intellij.scala" />
@@ -395,6 +480,11 @@
                   <entry key="AspectJ">
                     <value>
                       <FeaturePluginData displayName="AspectJ" pluginName="AspectJ" pluginId="com.intellij.aspectj" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="Python">
+                    <value>
+                      <FeaturePluginData displayName="Python" pluginName="PythonCore" pluginId="PythonCore" bundled="true" />
                     </value>
                   </entry>
                   <entry key="Spring">
@@ -420,6 +510,11 @@
                   <entry key="apk">
                     <value>
                       <FeaturePluginData displayName="APK" pluginName="Android" pluginId="org.jetbrains.android" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="buildout-python">
+                    <value>
+                      <FeaturePluginData displayName="Buildout Support" pluginName="Python Community Edition" pluginId="PythonCore" bundled="true" />
                     </value>
                   </entry>
                   <entry key="ejb">
