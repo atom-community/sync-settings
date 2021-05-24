@@ -27,7 +27,7 @@ jobs:
       run: apm ci
     - name: Run tests 👩🏾‍💻
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_PAT }}
+        GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         CI: true
       run: atom --test spec
 
