@@ -1,0 +1,548 @@
+<application>
+  <component name="PluginFeatureService">
+    <option name="features">
+      <map>
+        <entry key="com.intellij.configurationType">
+          <value>
+            <FeaturePluginsList>
+              <option name="featureMap">
+                <map>
+                  <entry key="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory">
+                    <value>
+                      <FeaturePluginData displayName="JSR45 Compatible Server" pluginName="Debugger Support for JSP (JSR45)" pluginId="JSR45Plugin" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory">
+                    <value>
+                      <FeaturePluginData displayName="Tomcat Server" pluginName="Tomcat and TomEE" pluginId="Tomcat" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Plugin" pluginName="Plugin DevKit" pluginId="DevKit" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="AndroidJUnit">
+                    <value>
+                      <FeaturePluginData displayName="Android JUnit" pluginName="Android" pluginId="org.jetbrains.android" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="AndroidRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Android App" pluginName="Android" pluginId="org.jetbrains.android" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="AndroidTestRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Android Instrumented Tests" pluginName="Android" pluginId="org.jetbrains.android" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="AntRunConfiguration">
+                    <value>
+                      <FeaturePluginData displayName="Ant Target" pluginName="Ant" pluginId="AntSupport" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="Application">
+                    <value>
+                      <FeaturePluginData displayName="Application" pluginName="Java" pluginId="com.intellij.java" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="ArquillianJUnit">
+                    <value>
+                      <FeaturePluginData displayName="Arquillian JUnit" pluginName="com.intellij.jboss.arquillian" pluginId="com.intellij.jboss.arquillian" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="ArquillianTestNG">
+                    <value>
+                      <FeaturePluginData displayName="Arquillian TestNG" pluginName="com.intellij.jboss.arquillian" pluginId="com.intellij.jboss.arquillian" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="BSP_TEST_RUN_CONFIGURATION">
+                    <value>
+                      <FeaturePluginData displayName="BSP test" pluginName="Scala" pluginId="org.intellij.scala" />
+                    </value>
+                  </entry>
+                  <entry key="ChromiumRemoteDebugType">
+                    <value>
+                      <FeaturePluginData displayName="Attach to Node.js/Chrome" pluginName="JavaScript Debugger" pluginId="JavaScriptDebugger" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="ComposePreviewRunConfiguration">
+                    <value>
+                      <FeaturePluginData displayName="Compose Preview" pluginName="Android" pluginId="org.jetbrains.android" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="CompoundRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Compound" pluginName="IDEA CORE" pluginId="com.intellij" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="CucumberJavaRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Cucumber Java" pluginName="Cucumber for Java" pluginId="cucumber-java" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="DartCommandLineRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Dart Command Line App" pluginName="Dart" pluginId="Dart" />
+                    </value>
+                  </entry>
+                  <entry key="DartRemoteDebugConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Dart Remote Debug" pluginName="Dart" pluginId="Dart" />
+                    </value>
+                  </entry>
+                  <entry key="DartTestRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Dart Test" pluginName="Dart" pluginId="Dart" />
+                    </value>
+                  </entry>
+                  <entry key="DartWebdevConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Dart Web" pluginName="Dart" pluginId="Dart" />
+                    </value>
+                  </entry>
+                  <entry key="DatabaseScript">
+                    <value>
+                      <FeaturePluginData displayName="Database Script" pluginName="Database Tools and SQL" pluginId="com.intellij.database" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="FirefoxRemoteDebugType">
+                    <value>
+                      <FeaturePluginData displayName="Firefox Remote" pluginName="JavaScript Debugger" pluginId="JavaScriptDebugger" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="FlutterBazelRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Flutter (Bazel)" pluginName="Flutter" pluginId="io.flutter" />
+                    </value>
+                  </entry>
+                  <entry key="FlutterBazelTestConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Flutter Test (Bazel)" pluginName="Flutter" pluginId="io.flutter" />
+                    </value>
+                  </entry>
+                  <entry key="FlutterRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Flutter" pluginName="Flutter" pluginId="io.flutter" />
+                    </value>
+                  </entry>
+                  <entry key="FlutterTestConfigType">
+                    <value>
+                      <FeaturePluginData displayName="Flutter Test" pluginName="Flutter" pluginId="io.flutter" />
+                    </value>
+                  </entry>
+                  <entry key="GlassfishConfiguration">
+                    <value>
+                      <FeaturePluginData displayName="GlassFish Server" pluginName="GlassFish" pluginId="GlassFish" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="GradleRunConfiguration">
+                    <value>
+                      <FeaturePluginData displayName="Gradle" pluginName="Gradle" pluginId="com.intellij.gradle" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="GrailsRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Grails" pluginName="Grails" pluginId="org.intellij.grails" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="GroovyScriptRunConfiguration">
+                    <value>
+                      <FeaturePluginData displayName="Groovy" pluginName="Groovy" pluginId="org.intellij.groovy" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="HttpClient.HttpRequestRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="HTTP Request" pluginName="HTTP Client" pluginId="com.jetbrains.restClient" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="JBossConfiguration">
+                    <value>
+                      <FeaturePluginData displayName="JBoss/WildFly Server" pluginName="WildFly" pluginId="JBoss" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="JUnit">
+                    <value>
+                      <FeaturePluginData displayName="JUnit" pluginName="JUnit" pluginId="JUnit" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="JarApplication">
+                    <value>
+                      <FeaturePluginData displayName="JAR Application" pluginName="Java" pluginId="com.intellij.java" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="Java Scratch">
+                    <value>
+                      <FeaturePluginData displayName="Java Scratch" pluginName="Java" pluginId="com.intellij.java" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="JavaScriptNodeJsTraceType">
+                    <value>
+                      <FeaturePluginData displayName="Spy-js for Node.js" pluginName="Spy-js" pluginId="spy-js" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="JavaScriptTestRunnerJest">
+                    <value>
+                      <FeaturePluginData displayName="Jest" pluginName="JavaScript and TypeScript" pluginId="JavaScript" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="JavaScriptTestRunnerProtractor">
+                    <value>
+                      <FeaturePluginData displayName="Protractor" pluginName="JavaScript and TypeScript" pluginId="JavaScript" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="JavaScriptTraceType">
+                    <value>
+                      <FeaturePluginData displayName="Spy-js" pluginName="Spy-js" pluginId="spy-js" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="JavascriptDebugType">
+                    <value>
+                      <FeaturePluginData displayName="JavaScript Debug" pluginName="JavaScript Debugger" pluginId="JavaScriptDebugger" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="JetRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Kotlin" pluginName="Kotlin" pluginId="org.jetbrains.kotlin" />
+                    </value>
+                  </entry>
+                  <entry key="JettyConfiguration">
+                    <value>
+                      <FeaturePluginData displayName="Jetty Server" pluginName="Jetty" pluginId="Jetty" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="KotlinJavaScriptTestRunnerProtractor">
+                    <value>
+                      <FeaturePluginData displayName="Protractor (Kotlin)" pluginName="org.jetbrains.kotlin" pluginId="org.jetbrains.kotlin" />
+                    </value>
+                  </entry>
+                  <entry key="KotlinStandaloneScriptRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Kotlin script" pluginName="Kotlin" pluginId="org.jetbrains.kotlin" />
+                    </value>
+                  </entry>
+                  <entry key="MUnitRunConfiguration">
+                    <value>
+                      <FeaturePluginData displayName="MUnit" pluginName="Scala" pluginId="org.intellij.scala" />
+                    </value>
+                  </entry>
+                  <entry key="MavenRunConfiguration">
+                    <value>
+                      <FeaturePluginData displayName="Maven" pluginName="Maven" pluginId="org.jetbrains.idea.maven" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="MicronautRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Micronaut" pluginName="Micronaut" pluginId="com.intellij.micronaut" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="NodeJSConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Node.js" pluginName="Node.js" pluginId="NodeJS" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="NodeWebKit">
+                    <value>
+                      <FeaturePluginData displayName="NW.js" pluginName="JavaScript Debugger" pluginId="JavaScriptDebugger" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="NodeunitConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Nodeunit" pluginName="Node.js" pluginId="NodeJS" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="Play2FrameworkRunConfigurations">
+                    <value>
+                      <FeaturePluginData displayName="Play 2 App" pluginName="org.intellij.scala" pluginId="org.intellij.scala" />
+                    </value>
+                  </entry>
+                  <entry key="QuarkusRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Quarkus" pluginName="Quarkus" pluginId="com.intellij.quarkus" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="ReactNative">
+                    <value>
+                      <FeaturePluginData displayName="React Native" pluginName="JavaScript Debugger" pluginId="JavaScriptDebugger" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="Remote">
+                    <value>
+                      <FeaturePluginData displayName="Remote JVM Debug" pluginName="Java" pluginId="com.intellij.java" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="SbtRunConfiguration">
+                    <value>
+                      <FeaturePluginData displayName="sbt Task" pluginName="Scala" pluginId="org.intellij.scala" />
+                    </value>
+                  </entry>
+                  <entry key="ScalaAmmoniteRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Ammonite" pluginName="Scala" pluginId="org.intellij.scala" />
+                    </value>
+                  </entry>
+                  <entry key="ScalaScriptConsoleRunConfiguration">
+                    <value>
+                      <FeaturePluginData displayName="Scala REPL" pluginName="Scala" pluginId="org.intellij.scala" />
+                    </value>
+                  </entry>
+                  <entry key="ScalaTestRunConfiguration">
+                    <value>
+                      <FeaturePluginData displayName="ScalaTest" pluginName="Scala" pluginId="org.intellij.scala" />
+                    </value>
+                  </entry>
+                  <entry key="ShConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Shell Script" pluginName="Shell Script" pluginId="com.jetbrains.sh" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="SpaceRunConfiguration">
+                    <value>
+                      <FeaturePluginData displayName="Space Task" pluginName="Space" pluginId="com.jetbrains.space" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="Specs2RunConfiguration">
+                    <value>
+                      <FeaturePluginData displayName="Specs2" pluginName="Scala" pluginId="org.intellij.scala" />
+                    </value>
+                  </entry>
+                  <entry key="SpringBootApplicationConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="Spring Boot" pluginName="Spring Boot" pluginId="com.intellij.spring.boot" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="SwaggerCodegen">
+                    <value>
+                      <FeaturePluginData displayName="Swagger Codegen" pluginName="OpenAPI Specifications" pluginId="com.intellij.swagger" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="TSqltConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="tSQLt Test" pluginName="Database Tools and SQL" pluginId="com.intellij.database" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="TestNG">
+                    <value>
+                      <FeaturePluginData displayName="TestNG" pluginName="TestNG" pluginId="TestNG-J" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="TomeeConfiguration">
+                    <value>
+                      <FeaturePluginData displayName="TomEE Server" pluginName="Tomcat and TomEE" pluginId="Tomcat" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="UtPlSqlConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="utPLSQL Test" pluginName="Database Tools and SQL" pluginId="com.intellij.database" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="WebLogic Instance">
+                    <value>
+                      <FeaturePluginData displayName="WebLogic Server" pluginName="WebLogic" pluginId="Weblogic" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="WebSphereRunConfigurationType">
+                    <value>
+                      <FeaturePluginData displayName="WebSphere/Liberty Server" pluginName="WebSphere" pluginId="WebSphere" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="XSLT">
+                    <value>
+                      <FeaturePluginData displayName="XSLT" pluginName="XPathView + XSLT" pluginId="XPathView" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="docker-deploy">
+                    <value>
+                      <FeaturePluginData displayName="Docker" pluginName="IDEA CORE" pluginId="com.intellij" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="js.build_tools.grunt">
+                    <value>
+                      <FeaturePluginData displayName="Grunt.js" pluginName="JavaScript and TypeScript" pluginId="JavaScript" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="js.build_tools.gulp">
+                    <value>
+                      <FeaturePluginData displayName="Gulp.js" pluginName="JavaScript and TypeScript" pluginId="JavaScript" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="js.build_tools.npm">
+                    <value>
+                      <FeaturePluginData displayName="npm" pluginName="JavaScript and TypeScript" pluginId="JavaScript" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="mocha-javascript-test-runner">
+                    <value>
+                      <FeaturePluginData displayName="Mocha" pluginName="Node.js" pluginId="NodeJS" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="uTestRunConfiguration">
+                    <value>
+                      <FeaturePluginData displayName="utest" pluginName="Scala" pluginId="org.intellij.scala" />
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </FeaturePluginsList>
+          </value>
+        </entry>
+        <entry key="com.intellij.facetType">
+          <value>
+            <FeaturePluginsList>
+              <option name="featureMap">
+                <map>
+                  <entry key="AspectJ">
+                    <value>
+                      <FeaturePluginData displayName="AspectJ" pluginName="AspectJ" pluginId="com.intellij.aspectj" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="Spring">
+                    <value>
+                      <FeaturePluginData displayName="Spring" pluginName="Spring" pluginId="com.intellij.spring" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="WebServicesClient">
+                    <value>
+                      <FeaturePluginData displayName="WebServices Client" pluginName="Java EE: Web Services (JAX-WS)" pluginId="com.jetbrains.jax.ws" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="android">
+                    <value>
+                      <FeaturePluginData displayName="Android" pluginName="Android" pluginId="org.jetbrains.android" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="android-gradle">
+                    <value>
+                      <FeaturePluginData displayName="Android-Gradle" pluginName="Android" pluginId="org.jetbrains.android" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="apk">
+                    <value>
+                      <FeaturePluginData displayName="APK" pluginName="Android" pluginId="org.jetbrains.android" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="ejb">
+                    <value>
+                      <FeaturePluginData displayName="EJB" pluginName="Java EE: Enterprise Java Beans (EJB)" pluginId="com.intellij.javaee.ejb" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="hibernate">
+                    <value>
+                      <FeaturePluginData displayName="Hibernate" pluginName="Hibernate" pluginId="com.intellij.hibernate" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="java-gradle">
+                    <value>
+                      <FeaturePluginData displayName="Java-Gradle" pluginName="Android" pluginId="org.jetbrains.android" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="javaeeApplication">
+                    <value>
+                      <FeaturePluginData displayName="JavaEE Application" pluginName="Java EE Platform" pluginId="com.intellij.javaee" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="jpa">
+                    <value>
+                      <FeaturePluginData displayName="JPA" pluginName="Java EE: Persistence (JPA)" pluginId="com.intellij.javaee.jpa" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="kotlin-language">
+                    <value>
+                      <FeaturePluginData displayName="Kotlin" pluginName="Kotlin" pluginId="org.jetbrains.kotlin" />
+                    </value>
+                  </entry>
+                  <entry key="minecraft">
+                    <value>
+                      <FeaturePluginData displayName="Minecraft" pluginName="Minecraft Development" pluginId="com.demonwav.minecraft-dev" />
+                    </value>
+                  </entry>
+                  <entry key="native-android-gradle">
+                    <value>
+                      <FeaturePluginData displayName="Native-Android-Gradle" pluginName="Android" pluginId="org.jetbrains.android" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="web">
+                    <value>
+                      <FeaturePluginData displayName="Web" pluginName="Java EE: Web/Servlets" pluginId="com.intellij.javaee.web" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="webservices">
+                    <value>
+                      <FeaturePluginData displayName="WebServices" pluginName="Java EE: Web Services (JAX-WS)" pluginId="com.jetbrains.jax.ws" bundled="true" />
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </FeaturePluginsList>
+          </value>
+        </entry>
+        <entry key="com.intellij.packaging.artifacts.ArtifactType">
+          <value>
+            <FeaturePluginsList>
+              <option name="featureMap">
+                <map>
+                  <entry key="ear">
+                    <value>
+                      <FeaturePluginData displayName="Java EE Application: Archive" pluginName="Java EE Platform" pluginId="com.intellij.javaee" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="ejb-jar">
+                    <value>
+                      <FeaturePluginData displayName="EJB Application: Archive" pluginName="Java EE Platform" pluginId="com.intellij.javaee" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="exploded-ear">
+                    <value>
+                      <FeaturePluginData displayName="Java EE Application: Exploded" pluginName="Java EE Platform" pluginId="com.intellij.javaee" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="exploded-ejb">
+                    <value>
+                      <FeaturePluginData displayName="EJB Application: Exploded" pluginName="Java EE Platform" pluginId="com.intellij.javaee" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="exploded-war">
+                    <value>
+                      <FeaturePluginData displayName="Web Application: Exploded" pluginName="Java EE Platform" pluginId="com.intellij.javaee" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="jar">
+                    <value>
+                      <FeaturePluginData displayName="JAR" pluginName="Java" pluginId="com.intellij.java" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="javafx">
+                    <value>
+                      <FeaturePluginData displayName="JavaFx application" pluginName="JavaFX" pluginId="org.jetbrains.plugins.javaFX" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="javafx-preloader">
+                    <value>
+                      <FeaturePluginData displayName="JavaFx preloader" pluginName="JavaFX" pluginId="org.jetbrains.plugins.javaFX" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="jpackage">
+                    <value>
+                      <FeaturePluginData displayName="Platform specific package" pluginName="JavaFX" pluginId="org.jetbrains.plugins.javaFX" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="plain">
+                    <value>
+                      <FeaturePluginData displayName="Other" pluginName="Java" pluginId="com.intellij.java" bundled="true" />
+                    </value>
+                  </entry>
+                  <entry key="war">
+                    <value>
+                      <FeaturePluginData displayName="Web Application: Archive" pluginName="Java EE Platform" pluginId="com.intellij.javaee" bundled="true" />
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </FeaturePluginsList>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</application>
