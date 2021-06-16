@@ -66,6 +66,6 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-react": "^7.24.0",
-    "semantic-release": "^17.4.3"
+    "semantic-release": "^17.4.4"
   }
 }
