@@ -1,3 +1,10 @@
+## [5.2.13](https://github.com/atom-community/sync-settings/compare/v5.2.12...v5.2.13) (2021-07-02)
+
+
+### Bug Fixes
+
+* **deps:** bump @octokit/rest from 18.6.4 to 18.6.6 ([#710](https://github.com/atom-community/sync-settings/issues/710)) ([b248639](https://github.com/atom-community/sync-settings/commit/b248639efc2f5e3b7a771769e31ab415f5a67880))
+
 ## [5.2.12](https://github.com/atom-community/sync-settings/compare/v5.2.11...v5.2.12) (2021-06-28)
 
 
