@@ -36,9 +36,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.3.4
-      - uses: actions/setup-node@v2.1.5
+      - uses: actions/setup-node@v2.2.0
         with:
-          node-version: '12.x'
+          node-version: 'lts/*'
       - name: NPM install
         run: npm ci
       - name: Lint ✨
@@ -53,9 +53,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2.3.4
       - uses: UziTech/action-setup-atom@v1
-      - uses: actions/setup-node@v2.1.5
+      - uses: actions/setup-node@v2.2.0
         with:
-          node-version: '12.x'
+          node-version: 'lts/*'
       - name: NPM install
         run: npm ci
       - name: Release 🎉
