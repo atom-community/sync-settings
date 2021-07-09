@@ -1,0 +1,31 @@
+<code_scheme name="Project copy" version="173">
+  <JavaCodeStyleSettings>
+    <option name="SPACE_AFTER_CLOSING_ANGLE_BRACKET_IN_TYPE_ARGUMENT" value="true" />
+    <option name="JD_ADD_BLANK_AFTER_PARM_COMMENTS" value="true" />
+  </JavaCodeStyleSettings>
+  <codeStyleSettings language="JAVA">
+    <option name="RIGHT_MARGIN" value="120" />
+    <option name="LINE_COMMENT_AT_FIRST_COLUMN" value="false" />
+    <option name="KEEP_FIRST_COLUMN_COMMENT" value="false" />
+    <option name="KEEP_CONTROL_STATEMENT_IN_ONE_LINE" value="false" />
+    <option name="BLANK_LINES_BEFORE_PACKAGE" value="1" />
+    <option name="BLANK_LINES_AFTER_CLASS_HEADER" value="1" />
+    <option name="BLANK_LINES_BEFORE_CLASS_END" value="1" />
+    <option name="BRACE_STYLE" value="2" />
+    <option name="METHOD_BRACE_STYLE" value="2" />
+    <option name="ELSE_ON_NEW_LINE" value="true" />
+    <option name="CATCH_ON_NEW_LINE" value="true" />
+    <option name="FINALLY_ON_NEW_LINE" value="true" />
+    <option name="ALIGN_THROWS_KEYWORD" value="true" />
+    <option name="ALIGN_MULTILINE_ARRAY_INITIALIZER_EXPRESSION" value="true" />
+    <option name="SPACE_WITHIN_EMPTY_ARRAY_INITIALIZER_BRACES" value="true" />
+    <option name="KEEP_SIMPLE_METHODS_IN_ONE_LINE" value="true" />
+    <option name="KEEP_SIMPLE_LAMBDAS_IN_ONE_LINE" value="true" />
+    <option name="ARRAY_INITIALIZER_WRAP" value="1" />
+    <option name="ENUM_CONSTANTS_WRAP" value="5" />
+    <indentOptions>
+      <option name="USE_TAB_CHARACTER" value="true" />
+      <option name="SMART_TABS" value="true" />
+    </indentOptions>
+  </codeStyleSettings>
+</code_scheme>
