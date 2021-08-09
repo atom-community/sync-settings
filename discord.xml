@@ -3,18 +3,20 @@
     <option name="lastUpdateNotification" value="1.3.0" />
   </component>
   <component name="DiscordApplicationSettings">
-    <option name="timeoutEnabled" value="false" />
+    <option name="show" value="true" />
     <option name="timeoutMinutes" value="15" />
     <option name="timeoutResetTimeEnabled" value="false" />
     <option name="applicationDetailsCustom" value="" />
     <option name="applicationStateCustom" value="" />
     <option name="applicationIconLargeTextCustom" value="" />
     <option name="applicationIconSmallTextCustom" value="" />
+    <option name="applicationTime" value="APPLICATION" />
     <option name="projectDetails" value="PROJECT_NAME_VCS_BRANCH" />
     <option name="projectDetailsCustom" value="" />
     <option name="projectStateCustom" value="" />
     <option name="projectIconLargeTextCustom" value="" />
     <option name="projectIconSmallTextCustom" value="" />
+    <option name="projectTime" value="APPLICATION" />
     <option name="fileDetails" value="PROJECT_NAME_VCS_BRANCH" />
     <option name="fileDetailsCustom" value="" />
     <option name="fileState" value="CUSTOM" />
@@ -23,9 +25,12 @@
     <option name="fileIconLargeTextCustom" value="$Language - Line: $CaretLine/$LineCount" />
     <option name="fileIconSmallText" value="PROJECT_VCS_BRANCH" />
     <option name="fileIconSmallTextCustom" value="branch: $VcsBranch" />
+    <option name="fileTime" value="APPLICATION" />
+    <option name="filePrefixEnabled" value="true" />
+    <option name="fileHideVcsIgnored" value="false" />
     <option name="applicationType" value="IDE" />
     <option name="theme" value="flat" />
-    <option name="applicationLastUpdateNotification" value="1.6.1" />
+    <option name="applicationLastUpdateNotification" value="1.7.0" />
   </component>
   <component name="DiscordIntegrationApplicationSettings" hideReadOnlyFiles="false" hideAfterPeriodOfInactivity="false" />
 </application>
