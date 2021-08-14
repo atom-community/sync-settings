@@ -1228,9 +1228,9 @@
       <evaluation-dialog-mode>CODE_FRAGMENT</evaluation-dialog-mode>
     </general>
     <debuggers>
-      <debugger id="oracle">
+      <debugger id="dotnet_debugger">
         <configuration>
-          <option name="steppingNative" value="true" />
+          <option name="breakOnUserUnhandledExceptions" value="true" />
         </configuration>
       </debugger>
       <debugger id="javascript">
@@ -1238,9 +1238,9 @@
           <custom-object-presentation />
         </configuration>
       </debugger>
-      <debugger id="kotlin_debugger">
+      <debugger id="oracle">
         <configuration>
-          <option name="filterForStdlibAlreadyAdded" value="true" />
+          <option name="steppingNative" value="true" />
         </configuration>
       </debugger>
     </debuggers>
