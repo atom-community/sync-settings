@@ -1,7 +1,4 @@
 <application>
-  <component name="CodeInsightSettings">
-    <option name="INSERT_BRACE_ON_ENTER" value="false" />
-  </component>
   <component name="DefaultFont">
     <option name="FONT_SIZE" value="14" />
     <option name="FONT_REGULAR_SUB_FAMILY" value="Regular" />
