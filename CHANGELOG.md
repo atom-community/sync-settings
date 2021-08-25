@@ -1,3 +1,10 @@
+## [5.2.15](https://github.com/atom-community/sync-settings/compare/v5.2.14...v5.2.15) (2021-08-25)
+
+
+### Bug Fixes
+
+* update text to specify `local` and `remote` changes ([#723](https://github.com/atom-community/sync-settings/issues/723)) ([701f92e](https://github.com/atom-community/sync-settings/commit/701f92eadd70864215417093d5824c576355a222))
+
 ## [5.2.14](https://github.com/atom-community/sync-settings/compare/v5.2.13...v5.2.14) (2021-07-26)
 
 
