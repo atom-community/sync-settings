@@ -1,6 +1,6 @@
 <application>
   <component name="ApplicationCodeStyleSettingsMigration">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="ScalaApplicationSettings">
     <option name="SPECIFY_RETURN_TYPE_EXPLICITLY" value="ADD" />
