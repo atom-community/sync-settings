@@ -18,7 +18,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const pr = await github.pulls.get({
+            const pr = await github.rest.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.payload.workflow_run.pull_requests[0].number,
@@ -30,7 +30,7 @@ jobs:
               console.log('Not Merged 🚫');
               console.log(`User '${pr.data.user.login}' does not equal 'dependabot[bot]'`);
             } else {
-              await github.pulls.merge({
+              await github.rest.pulls.merge({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: context.payload.workflow_run.pull_requests[0].number,
