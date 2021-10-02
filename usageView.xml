@@ -1,5 +1,6 @@
 <application>
   <component name="ShowUsagesSettings">
+    <option name="IS_FILTER_DUPLICATED_LINE" value="false" />
     <option name="GROUP_BY_FILE_STRUCTURE" value="true" />
     <option name="GROUP_BY_MODULE" value="true" />
     <option name="GROUP_BY_PACKAGE" value="true" />

@@ -82,6 +82,67 @@
       </SOURCES>
       <jarDirectory url="file://D:/Programmi/groovy-sdk/lib/extras-jaxb" recursive="false" />
     </library>
+    <library name="groovy-3.0.8">
+      <CLASSES>
+        <root url="file://D:/Programmi/groovy-sdk/lib" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="file://D:/Programmi/groovy-sdk/src/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/src/spec/test" />
+        <root url="file://D:/Programmi/groovy-sdk/src/src/tck/src" />
+        <root url="file://D:/Programmi/groovy-sdk/src/src/test" />
+        <root url="file://D:/Programmi/groovy-sdk/src/src/test-fixtures/extmodule/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/src/test-resources" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-ant/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-ant/src/test-resources" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-ant/src/test/groovy" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-astbuilder/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-astbuilder/src/test/groovy" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-bsf/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-bsf/src/spec/test" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-bsf/src/test/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-console/src/main/groovy" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-datetime/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-datetime/src/test/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-dateutil/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-dateutil/src/test/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-groovydoc/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-groovydoc/src/test/groovy" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-groovydoc/src/test/resources" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-jaxb/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-jmx/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-jmx/src/test/groovy" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-jmx/src/test/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-json/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-jsr223/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-jsr223/src/spec/test" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-jsr223/src/test/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-macro/src/main/groovy" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-macro/src/test/groovy" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-nio/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-servlet/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-servlet/src/test/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-sql/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-swing/src/main/groovy" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-swing/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-swing/src/test/groovy" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-templates/src/main/groovy" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-templates/src/test/groovy" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-templates/src/test/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-test-junit5/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-test/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-testng/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-xml/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-xml/src/test/groovy" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/groovy-yaml/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/parser-antlr4/src/main/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/performance/src/jmh/groovy" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/performance/src/test/java" />
+        <root url="file://D:/Programmi/groovy-sdk/src/subprojects/stress/src/test/java" />
+      </SOURCES>
+      <jarDirectory url="file://D:/Programmi/groovy-sdk/lib" recursive="false" />
+    </library>
     <library name="scala-sdk-2.13.3" type="Scala">
       <properties>
         <language-level>Scala_2_13</language-level>
