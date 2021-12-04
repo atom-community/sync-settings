@@ -6,6 +6,7 @@
     <option name="show" value="true" />
     <option name="timeoutMinutes" value="10" />
     <option name="timeoutResetTimeEnabled" value="false" />
+    <option name="idle" value="IDLE" />
     <option name="applicationDetailsCustom" value="" />
     <option name="applicationStateCustom" value="" />
     <option name="applicationIconLargeTextCustom" value="" />
@@ -30,7 +31,7 @@
     <option name="fileHideVcsIgnored" value="false" />
     <option name="applicationType" value="IDE" />
     <option name="theme" value="classic" />
-    <option name="applicationLastUpdateNotification" value="1.7.1" />
+    <option name="applicationLastUpdateNotification" value="1.8.0" />
   </component>
   <component name="DiscordIntegrationApplicationSettings" hideReadOnlyFiles="false" hideAfterPeriodOfInactivity="false" />
 </application>
