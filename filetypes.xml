@@ -3,6 +3,7 @@
     <ignoreFiles list="*.pyc;*.pyo;*.rbc;*.yarb;.DS_Store;.git;.hg;.svn;CVS;__pycache__;_svn;vssver.scc;vssver2.scc" />
     <extensionMap>
       <mapping pattern="gradlew" type="AUTO_DETECTED" />
+      <mapping pattern="accesstransformer.cfg" type="Access Transformers" />
       <mapping pattern="flint_and_ignatius.json" type="JSON" />
       <mapping pattern="generator_powered" type="JSON" />
       <mapping pattern="pack.mcmeta" type="JSON" />
