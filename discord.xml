@@ -30,7 +30,7 @@
     <option name="filePrefixEnabled" value="true" />
     <option name="fileHideVcsIgnored" value="false" />
     <option name="applicationType" value="IDE" />
-    <option name="theme" value="classic" />
+    <option name="theme" value="flat" />
     <option name="applicationLastUpdateNotification" value="1.8.0" />
   </component>
   <component name="DiscordIntegrationApplicationSettings" hideReadOnlyFiles="false" hideAfterPeriodOfInactivity="false" />
