@@ -1,3 +1,10 @@
+## [5.2.16](https://github.com/atom-community/sync-settings/compare/v5.2.15...v5.2.16) (2022-04-17)
+
+
+### Bug Fixes
+
+* **deps:** update dependencies ([9f5a63d](https://github.com/atom-community/sync-settings/commit/9f5a63d2d43ad58fdfaddf1e93c405df082a6c4f))
+
 ## [5.2.15](https://github.com/atom-community/sync-settings/compare/v5.2.14...v5.2.15) (2021-08-25)
 
 
