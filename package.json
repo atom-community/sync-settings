@@ -59,13 +59,13 @@
   },
   "devDependencies": {
     "@semantic-release/apm-config": "^9.0.1",
-    "atom-jasmine3-test-runner": "^5.2.8",
-    "eslint": "^8.0.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-react": "^7.26.1",
-    "semantic-release": "^18.0.0"
+    "atom-jasmine3-test-runner": "^5.2.12",
+    "eslint": "^8.13.0",
+    "eslint-config-standard": "^17.0.0-1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^14.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.29.4",
+    "semantic-release": "^19.0.2"
   }
 }

@@ -1120,7 +1120,7 @@ describe('syncSettings', () => {
 
 	describe('delete', () => {
 		it('confirms and calls delete', async () => {
-			// eslint-disable-next-line node/no-callback-literal
+			// eslint-disable-next-line n/no-callback-literal
 			spyOn(atom, 'confirm').and.callFake((opts, cb) => cb(0))
 			spyOn(backupLocation, 'delete').and.callThrough()
 
@@ -1131,7 +1131,7 @@ describe('syncSettings', () => {
 		})
 
 		it('cancel does not call delete', async () => {
-			// eslint-disable-next-line node/no-callback-literal
+			// eslint-disable-next-line n/no-callback-literal
 			spyOn(atom, 'confirm').and.callFake((opts, cb) => cb(1))
 			spyOn(backupLocation, 'delete').and.callThrough()
 
