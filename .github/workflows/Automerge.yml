@@ -18,22 +18,28 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const pr = await github.rest.pulls.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.payload.workflow_run.pull_requests[0].number,
-            });
-            if (!pr.data.title.startsWith('chore(deps-dev):')) {
-              console.log('Not Merged 🚫');
-              console.log(`Title '${pr.data.title}' does not start with 'chore(deps-dev):'`);
-            } else if (pr.data.user.login !== 'dependabot[bot]') {
-              console.log('Not Merged 🚫');
-              console.log(`User '${pr.data.user.login}' does not equal 'dependabot[bot]'`);
-            } else {
-              await github.rest.pulls.merge({
+            if (context.payload.workflow_run.pull_requests.length > 0) {
+              const pr = await github.rest.pulls.get({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: context.payload.workflow_run.pull_requests[0].number,
               });
-              console.log('Merged 🎉');
+              if (!pr.data.title.startsWith('chore(deps-dev):')) {
+                console.log('Not Merged 🚫');
+                console.log(`Title '${pr.data.title}' does not start with 'chore(deps-dev):'`);
+              } else if (pr.data.user.login !== 'dependabot[bot]') {
+                console.log('Not Merged 🚫');
+                console.log(`User '${pr.data.user.login}' does not equal 'dependabot[bot]'`);
+              } else {
+                await github.rest.pulls.merge({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: context.payload.workflow_run.pull_requests[0].number,
+                });
+                console.log('Merged 🎉');
+              }
+            } else {
+              console.log('Not Merged 🚫');
+              console.log('No PR');
+              console.log(context.payload.workflow_run);
             }
