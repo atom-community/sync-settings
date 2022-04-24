@@ -40,6 +40,5 @@ jobs:
               }
             } else {
               console.log('Not Merged 🚫');
-              console.log('No PR');
-              console.log(context.payload.workflow_run);
+              console.log('PR is not open');
             }
